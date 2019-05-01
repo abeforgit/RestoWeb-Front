@@ -1,4 +1,6 @@
+/* tslint:disable:no-implicit-dependencies */
 import { shallowMount } from '@vue/test-utils';
+// tslint:disable-next-line:no-submodule-imports
 import HelloWorld from '@/components/HelloWorld.vue';
 
 describe('HelloWorld.vue', () => {

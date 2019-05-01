@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+import Home from '@/views/Home.vue';
 import isMockFunction = jest.isMockFunction;
 
 Vue.use(Router);
@@ -27,16 +27,16 @@ export default new Router({
     {
       path: '/restos/:id',
       name: 'restos_info',
-      component: () => import('./views/RestosInfo.vue')
+      component: () => import('./views/RestosInfo.vue'),
     },
     {
       path: '/menus',
       name: 'menus',
-      component: () => import('./views/Menus.vue')
+      component: () => import('./views/Menus.vue'),
     },
     {
       path: '/*',
-      component: () => import('./views/NotFound.vue')
-    }
+      component: () => import('./views/NotFound.vue'),
+    },
   ],
 });

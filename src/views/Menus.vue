@@ -1,13 +1,9 @@
-<template>
-    
-</template>
+<template></template>
 
-<script>
-    export default {
-        name: "Menus"
-    }
+<script lang="ts">
+export default {
+  name: 'Menus',
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
