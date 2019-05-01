@@ -1,0 +1,98 @@
+<template>
+      <div id="app">
+        <Navbar></Navbar>
+        <router-view/>
+      </div>
+</template>
+
+<style>
+    @font-face {
+        font-family: 'PannoTextMedium';
+        src: url(assets/fonts/UGentPannoText-Medium.otf) format('otf'),
+             url(assets/fonts/UGentPannoText-Medium.ttf) format('ttf'),
+             url(assets/fonts/ugentpannotext-medium-web.eot) format('eot'),
+             url(assets/fonts/ugentpannotext-medium-web.ttf) format('ttf'),
+             url(assets/fonts/ugentpannotext-medium-web.woff) format('woff');
+    }
+
+    @font-face {
+        font-family: PannoTextLight;
+        src: url(assets/fonts/UGentPannoText-SemiLight.otf) format('otf'),
+             url(assets/fonts/UGentPannoText-SemiLight.ttf) format('ttf'),
+             url(assets/fonts/ugentpannotext-semilight-web.eot) format('eot'),
+             url(assets/fonts/ugentpannotext-semilight-web.ttf) format('ttf'),
+             url(assets/fonts/ugentpannotext-semilight-web.woff) format('woff');
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: PannoTextMedium, sans-serif;
+        margin: 10px 0;
+        font-weight: 500;
+    }
+
+    h1, h2 {
+        color: #1E64C8;
+        text-transform: none;
+        line-height: 1;
+    }
+
+    h1 {
+        font-size: 50px;
+        margin-bottom: 13px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    ul li a, ol li a {
+        border-bottom: 1px solid transparent;
+    }
+
+    ul li a, ol li a {
+        border-bottom: 1px solid transparent;
+        color: #1E64C8;
+        text-decoration: none;
+        word-break: break-word;
+        transition: border-color .15s ease-in-out;
+        background-color: transparent;
+    }
+
+    ul li, ol li {
+        margin-bottom: 8px;
+        position: relative;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    ul li:before {
+        content: "→";
+        font-family: "PannoTextMedium", Arial, sans-serif;
+        font-size: 16px;
+        color: inherit;
+        margin-right: 6px;
+        position: absolute;
+        top: 2px;
+        left: -18px;
+    }
+
+    #app {
+        font-family: "PannoTextLight", Arial, sans-serif;
+        font-size: 17px;
+        line-height: 1.23529412;
+        color: #333;
+    }
+</style>
+
+<script>
+  import Navbar from "./components/Navbar";
+  const URL = 'https://groep22.webdev.ilabt.imec.be';
+
+  export default {
+    components: {
+      Navbar
+    }
+  }
+</script>
