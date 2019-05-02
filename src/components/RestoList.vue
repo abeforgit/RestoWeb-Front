@@ -13,7 +13,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import restoState from '@/store/modules/restos';
+import restoState from '@/store/modules/restos.ts';
 
 @Component
 export default class RestoList extends Vue {
