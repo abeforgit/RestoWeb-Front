@@ -14,6 +14,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import config from '@/config';
 import { Resto } from '@/APITypes';
 
 @Component
@@ -22,7 +23,12 @@ export default class RestoList extends Vue {
 
   private async created() {
     try {
-      const response = await axios.get('http://localhost:5000/restos');
+      console.log(config.URL);
+      const response = await axios({
+        method: 'GET',
+        baseURL: config.URL,
+        url: 'restos',
+      });
       this.restos = response.data.restos;
     } catch (e) {
       console.log('Unable to fetch restos');

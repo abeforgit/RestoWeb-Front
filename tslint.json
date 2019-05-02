@@ -20,6 +20,7 @@
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "interface-name": false,
-    "no-console": false
+    "no-console": false,
+    "linebreak-style": false
   }
 }

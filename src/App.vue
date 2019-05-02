@@ -98,7 +98,6 @@ ul li:before {
 <script>
 import Navbar from './components/Navbar';
 
-const URL = 'https://groep22.webdev.ilabt.imec.be';
 
 export default {
   components: {

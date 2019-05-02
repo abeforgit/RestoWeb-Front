@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import axios from 'axios';
-import URL from '../App.vue';
+import config from '@/config';
 import Component from 'vue-class-component';
 import Vue from 'vue';
 import { Resto } from '@/APITypes';
@@ -23,9 +23,14 @@ import { Resto } from '@/APITypes';
 export default class RestosInfo extends Vue {
   public info?: Resto;
 
-  private async mounted() {
+  public async mounted() {
+    console.log(process.env.VUE_APP_API_URL);
     try {
-      const response = await axios.get('http://localhost:5000/restos/1');
+      const response = await axios({
+        method: 'GET',
+        baseURL: config.URL,
+        url: 'restos',
+      });
       this.info = response.data;
     } catch (e) {
       console.log('Unable to fetch restos');
