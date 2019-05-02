@@ -4,7 +4,7 @@
     <h2>Info per locatie</h2>
     <ul>
       <li v-for="resto in restos">
-        <router-link to="/">{{ resto.name }}</router-link>
+        <RestoListItem :resto="resto"></RestoListItem>
       </li>
     </ul>
   </div>
@@ -16,14 +16,16 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import config from '@/config';
 import { Resto } from '@/APITypes';
+import RestoListItem from '@/components/RestoListItem.vue';
 
-@Component
+@Component({
+  components: { RestoListItem },
+})
 export default class RestoList extends Vue {
   public restos: Resto[] = [];
 
-  private async created() {
+  private async mounted() {
     try {
-      console.log(config.URL);
       const response = await axios({
         method: 'GET',
         baseURL: config.URL,

@@ -1,0 +1,24 @@
+<template>
+    <div id="resto_location">
+        <h2>Location</h2>
+        <p>
+            {{ location.zip_code }} {{ location.city }} <br>
+            {{ location.address}} <br>
+            {{ location.campus }}
+        </p>
+    </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import { Prop } from 'vue-property-decorator';
+import Component from 'vue-class-component';
+
+@Component
+export default class RestosInfo extends Vue {
+  @Prop()
+  public location: Location;
+}
+</script>
+
+<style scoped></style>
