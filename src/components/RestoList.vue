@@ -3,7 +3,7 @@
     <h1>Studentenrestaurants</h1>
     <h2>Info per locatie</h2>
     <ul>
-      <li v-for="resto in restos">
+      <li v-for="resto in restos" :key="resto.url">
         <router-link to="/">{{ resto.name }}</router-link>
       </li>
     </ul>
