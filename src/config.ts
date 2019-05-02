@@ -1,3 +1,3 @@
 export default {
-  URL: process.env.API_URL,
+  URL: process.env.VUE_APP_API_URL,
 };

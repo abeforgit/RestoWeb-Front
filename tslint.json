@@ -21,6 +21,6 @@
     "ordered-imports": false,
     "interface-name": false,
     "no-console": false,
-    "linebreak-style": false
+    "linebreak-style":  [true, "LF"]
   }
 }
