@@ -10,26 +10,18 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import axios from 'axios';
-import config from '@/config';
-import { Dish } from '@/APITypes';
 import DishItem from '@/components/DishItem.vue';
+import dishStore from '@/store/modules/dishes';
+
 @Component({
   components: { DishItem },
 })
 export default class Dishes extends Vue {
-  public dishes: Dish[] = [];
+  get dishes() {
+    return dishStore.dishes;
+  }
   private async created() {
-    try {
-      const response = await axios({
-        method: 'GET',
-        baseURL: config.URL,
-        url: 'dishes',
-      });
-      this.dishes = response.data.dishes;
-    } catch (e) {
-      console.log('Unable to fetch dishes');
-    }
+    await dishStore.fetchDishes();
   }
 }
 </script>

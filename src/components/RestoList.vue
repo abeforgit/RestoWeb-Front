@@ -11,28 +11,18 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import config from '@/config';
-import { Resto } from '@/APITypes';
+import restoState from '@/store/modules/restos';
 
 @Component
 export default class RestoList extends Vue {
-  public restos: Resto[] = [];
+  get restos() {
+    return restoState.restos;
+  }
 
   private async created() {
-    try {
-      console.log(config.URL);
-      const response = await axios({
-        method: 'GET',
-        baseURL: config.URL,
-        url: 'restos',
-      });
-      this.restos = response.data.restos;
-    } catch (e) {
-      console.log('Unable to fetch restos');
-    }
+    await restoState.fetchRestos();
   }
 }
 </script>
