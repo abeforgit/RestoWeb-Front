@@ -26,3 +26,7 @@ export interface RestoInfo {
   schedules: Schedule[];
   index: string;
 }
+
+export interface Dish {
+  name: string;
+}

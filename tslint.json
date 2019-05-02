@@ -17,10 +17,11 @@
       true,
       "./.prettierrc"
     ],
-    "object-literal-sort-keys": false,
+
     "ordered-imports": false,
     "interface-name": false,
     "no-console": false,
-    "linebreak-style":  [true, "LF"]
+    "linebreak-style":  [true, "LF"],
+    "object-literal-sort-keys": false
   }
 }

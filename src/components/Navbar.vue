@@ -11,6 +11,7 @@
         <b-navbar-nav>
           <b-nav-item to="/about">About</b-nav-item>
           <b-nav-item to="/restos">Restos</b-nav-item>
+          <b-nav-item to="/dishes">Dishes</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
