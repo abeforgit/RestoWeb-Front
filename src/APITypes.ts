@@ -9,3 +9,7 @@ export interface Location {
   address: string;
   campus: string;
 }
+
+export interface Dish {
+  name: string;
+}
