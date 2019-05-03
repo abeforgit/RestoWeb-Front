@@ -20,6 +20,7 @@ export default class Dishes extends Vue {
   get dishes() {
     return dishStore.dishes;
   }
+
   private async created() {
     await dishStore.fetchDishes();
   }

@@ -17,7 +17,7 @@ export default class RestoListItem extends Vue {
   public restoPath: string;
 
   @Prop()
-  public resto: Resto;
+  public resto!: Resto;
 
   public created() {
     const regex = '(https?://)([^:^/]*)(:\\d*)?(.*)?';

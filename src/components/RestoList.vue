@@ -13,8 +13,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import config from '@/config';
-import { Resto } from '@/APITypes';
 import RestoListItem from '@/components/RestoListItem.vue';
 import restoState from '@/store/modules/restos';
 
