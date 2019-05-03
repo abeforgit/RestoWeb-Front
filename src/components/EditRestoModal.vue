@@ -1,7 +1,5 @@
 <template>
-    <b-form>
-
-    </b-form>
+  <b-form> </b-form>
 </template>
 
 <script lang="ts">
