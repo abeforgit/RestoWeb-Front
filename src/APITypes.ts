@@ -28,5 +28,9 @@ export interface RestoInfo {
 }
 
 export interface Dish {
+  url: string;
   name: string;
+  price: number;
+  type: string;
+  diet: string;
 }

@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-list-group>
-      <DishItem v-for="dish in dishes" :item="dish" />
+      <DishItem v-for="dish in dishes" :item="dish" :key="dish.url" />
     </b-list-group>
-    <b-button>New</b-button>
+    <b-button v-on:click="createDish">New</b-button>
   </div>
 </template>
 
@@ -20,7 +20,9 @@ export default class Dishes extends Vue {
   get dishes() {
     return dishStore.dishes;
   }
-
+  public async createDish() {
+    await dishStore.createDish({ name: 'Test' });
+  }
   private async created() {
     await dishStore.fetchDishes();
   }

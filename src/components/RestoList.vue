@@ -3,10 +3,14 @@
     <h1>Studentenrestaurants</h1>
     <h2>Info per locatie</h2>
     <ul>
-      <li v-for="resto in restos">
+      <li v-for="resto in restos" :key="resto.url">
         <RestoListItem :resto="resto"></RestoListItem>
       </li>
     </ul>
+    <b-button v-on:click="toggleModal">Add Resto</b-button>
+    <b-modal id="restoModal" v-model="modalActive">
+      <EditRestoModal />
+    </b-modal>
   </div>
 </template>
 
@@ -20,12 +24,19 @@ import restoState from '@/store/modules/restos';
   components: { RestoListItem },
 })
 export default class RestoList extends Vue {
+  private toggle: boolean = false;
   get restos() {
     return restoState.restos;
+  }
+  get modalActive() {
+    return this.toggle;
   }
 
   private async created() {
     await restoState.fetchRestos();
+  }
+  private toggleModal() {
+    this.toggle = !this.toggle;
   }
 }
 </script>

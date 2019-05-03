@@ -1,12 +1,12 @@
 <template>
-    <div id="resto_location">
-        <h2>Location</h2>
-        <p>
-            {{ location.zip_code }} {{ location.city }} <br>
-            {{ location.address}} <br>
-            {{ location.campus }}
-        </p>
-    </div>
+  <div id="resto_location">
+    <h2>Location</h2>
+    <p>
+      {{ location.zip_code }} {{ location.city }} <br />
+      {{ location.address }} <br />
+      {{ location.campus }}
+    </p>
+  </div>
 </template>
 
 <script lang="ts">
