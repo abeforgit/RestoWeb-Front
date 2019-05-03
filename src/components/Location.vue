@@ -16,8 +16,8 @@ import Component from 'vue-class-component';
 
 @Component
 export default class RestosInfo extends Vue {
-  @Prop()
-  public location: Location;
+  @Prop({ required: true })
+  private location!: Location;
 }
 </script>
 

@@ -14,13 +14,16 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-        <b-form-select
+      <b-form-group
+        id="input-group-3"
+        label="Description: "
+        label-for="input-3"
+      >
+        <b-form-input
           id="input-3"
-          v-model="form.food"
-          :options="foods"
+          v-model="form.description"
           required
-        ></b-form-select>
+        ></b-form-input>
       </b-form-group>
     </b-form>
   </div>
@@ -32,8 +35,8 @@ import Component from 'vue-class-component';
 import { NewResto } from '@/store/modules/restos.ts';
 
 @Component
-export default class AddRestoForm extends Vue {
-  public form: NewResto = {
+export default class EditRestoForm extends Vue {
+  private form: NewResto = {
     name: '',
     description: '',
     location: {

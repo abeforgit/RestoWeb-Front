@@ -19,7 +19,7 @@ import Schedules from '@/components/Schedules.vue';
   components: { Schedules, Location },
 })
 export default class RestosInfo extends Vue {
-  public info?: RestoInfo = null;
+  public info?: RestoInfo;
 
   public async mounted() {
     try {

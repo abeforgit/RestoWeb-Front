@@ -9,7 +9,7 @@
     </ul>
     <b-button v-on:click="toggleModal">Add Resto</b-button>
     <b-modal id="restoModal" v-model="modalActive">
-      <EditRestoModal />
+      <EditRestoForm />
     </b-modal>
   </div>
 </template>
@@ -19,9 +19,10 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import RestoListItem from '@/components/RestoListItem.vue';
 import restoState from '@/store/modules/restos';
+import EditRestoForm from '@/components/EditRestoForm.vue';
 
 @Component({
-  components: { RestoListItem },
+  components: { EditRestoForm, RestoListItem },
 })
 export default class RestoList extends Vue {
   private toggle: boolean = false;
@@ -31,12 +32,15 @@ export default class RestoList extends Vue {
   get modalActive() {
     return this.toggle;
   }
-
-  private async created() {
-    await restoState.fetchRestos();
+  set modalActive(flag: boolean) {
+    this.toggle = flag;
   }
-  private toggleModal() {
+
+  public toggleModal() {
     this.toggle = !this.toggle;
+  }
+  public async created() {
+    await restoState.fetchRestos();
   }
 }
 </script>

@@ -1,7 +1,6 @@
 <template>
   <div>
     <RestoList></RestoList>
-    <AddRestoForm></AddRestoForm>
     <b-button v-on:click="createResto">Add</b-button>
   </div>
 </template>
@@ -10,11 +9,11 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import restoStore, { NewResto } from '@/store/modules/restos.ts';
-import AddRestoForm from '@/components/AddRestoForm.vue';
+import EditRestoForm from '@/components/EditRestoForm.vue';
 import RestoList from '@/components/RestoList.vue';
 
 @Component({
-  components: { AddRestoForm, RestoList },
+  components: { AddRestoForm: EditRestoForm, RestoList },
 })
 export default class Restos extends Vue {
   private async createResto() {

@@ -14,16 +14,16 @@ import { Prop } from 'vue-property-decorator';
 
 @Component
 export default class RestoListItem extends Vue {
-  public restoPath: string;
+  private restoPath: string | null = null;
 
   @Prop()
-  public resto!: Resto;
+  private resto!: Resto;
 
-  public created() {
+  private created() {
     const regex = '(https?://)([^:^/]*)(:\\d*)?(.*)?';
     const matched = this.resto.url.match(regex);
 
-    this.restoPath = matched[4];
+    this.restoPath = matched ? matched[4] : null;
   }
 }
 </script>
