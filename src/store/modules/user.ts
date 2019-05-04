@@ -39,7 +39,7 @@ const loginUser = async (
 ) => {
   try {
     const response = await axios({
-      method: 'POSt',
+      method: 'POST',
       baseURL: config.URL,
       url: 'login',
       data: payload,
