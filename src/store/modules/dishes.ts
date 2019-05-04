@@ -3,6 +3,7 @@ import { RootState } from '@/store/store';
 import axios from 'axios';
 import config from '@/config';
 import { Dish } from '@/APITypes';
+
 export interface DishState {
   dishes: Dish[];
 }
@@ -58,6 +59,7 @@ const createDish = async (
     console.log('could not create dish');
   }
 };
+
 const dishes = {
   get dishes() {
     return dishesGetter();

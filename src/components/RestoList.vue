@@ -19,6 +19,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import restoState from '@/store/modules/restos.ts';
 import EditRestoModal from '@/components/EditRestoModal.vue';
+
 @Component({
   components: { EditRestoModal },
 })

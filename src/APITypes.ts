@@ -17,3 +17,8 @@ export interface Dish {
   type: string;
   diet: string;
 }
+
+export interface Menu {
+  date: string;
+  dishes: Dish[];
+}
