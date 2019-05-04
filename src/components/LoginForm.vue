@@ -39,7 +39,9 @@ export default class LoginForm extends Vue {
     password: '',
   };
 
-  public async onSubmit(): void {
+  public async onSubmit(evt: Event): Promise<void> {
+    evt.preventDefault();
+    alert(JSON.stringify(this.form));
     await userState.loginUser(this.form);
   }
 }

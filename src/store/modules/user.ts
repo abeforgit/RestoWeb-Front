@@ -5,15 +5,11 @@ import { RootState } from '@/store/store';
 import config from '@/config';
 
 export interface UserState {
-  user: User;
+  user: User | null;
 }
 
 const initialState: UserState = {
-  user: {
-    username: '',
-    password: '',
-    admin: false,
-  },
+  user: null,
 };
 
 const moduleBuilder = getStoreBuilder<RootState>().module('user', initialState);

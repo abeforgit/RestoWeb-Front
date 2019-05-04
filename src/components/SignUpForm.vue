@@ -11,7 +11,7 @@
 
     <b-form-group>
       <b-form-input
-        v-model="password"
+        v-model="form.password"
         type="password"
         placeholder="Password"
         required
@@ -20,7 +20,7 @@
 
     <b-form-group>
       <b-form-input
-        v-model="passwordRepeat"
+        v-model="form.passwordRepeat"
         type="password"
         placeholder="Password"
         required
@@ -38,21 +38,35 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import userState from '@/store/modules/user.ts';
 
+interface SignupFormData {
+  username: string;
+  password: string;
+  passwordRepeat: string;
+}
 @Component
 export default class SignUpForm extends Vue {
-  public password: string;
-  public passwordRepeat: string;
-
-  public form = {
+  private formData: SignupFormData = {
     username: '',
     password: '',
+    passwordRepeat: '',
   };
 
-  public async onSubmit(): void {
-    if (this.password === this.passwordRepeat) {
-      this.form.password = this.password;
+  get form() {
+    return this.formData;
+  }
+  set form(form: SignupFormData) {
+    this.formData = form;
+  }
 
-      await userState.createUser(this.form);
+  public async onSubmit(evt: Event): Promise<void> {
+    evt.preventDefault();
+    if (this.formData.password === this.formData.passwordRepeat) {
+      const { username, password } = this.formData;
+
+      await userState.createUser({
+        username,
+        password,
+      });
     }
   }
 }

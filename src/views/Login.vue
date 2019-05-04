@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import LoginForm from '@/components/LoginForm';
+import LoginForm from '@/components/LoginForm.vue';
 import Component from 'vue-class-component';
 
 @Component({
