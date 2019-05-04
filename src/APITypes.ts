@@ -23,3 +23,8 @@ export interface User {
   password: string;
   admin: boolean;
 }
+
+export interface NewUser {
+  username: string;
+  password: string;
+}
