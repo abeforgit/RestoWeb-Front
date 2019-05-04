@@ -8,8 +8,14 @@
       </li>
     </ul>
     <b-button v-on:click="toggleModal">Add Resto</b-button>
-    <b-modal id="restoModal" v-model="modalActive">
-      <EditRestoForm />
+    <b-modal
+      id="restoModal"
+      v-model="modalActive"
+      cancel-disabled="true"
+      ok-disabled="true"
+    >
+      <EditRestoForm formId="edit-form" />
+      <b-button form="edit-form" type="submit">OK</b-button>
     </b-modal>
   </div>
 </template>
