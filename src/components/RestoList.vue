@@ -4,7 +4,7 @@
     <h2>Info per locatie</h2>
     <ul>
       <li v-for="resto in restos" :key="resto.url">
-        <router-link to="/">{{ resto.name }}</router-link>
+        <router-link :to="{ name: 'home' }">{{ resto.name }}</router-link>
       </li>
     </ul>
     <b-button v-on:click="toggleModal">Add Resto</b-button>
