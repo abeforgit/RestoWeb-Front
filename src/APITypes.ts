@@ -34,3 +34,14 @@ export interface Dish {
   type: string;
   diet: string;
 }
+
+export interface User {
+  username: string;
+  password: string;
+  admin: boolean;
+}
+
+export interface NewUser {
+  username: string;
+  password: string;
+}
