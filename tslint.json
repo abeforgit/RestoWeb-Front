@@ -14,8 +14,7 @@
   ],
   "rules": {
     "prettier": [
-      true,
-      "./.prettierrc"
+      true
     ],
 
     "ordered-imports": false,
