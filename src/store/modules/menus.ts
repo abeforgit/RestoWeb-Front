@@ -29,7 +29,7 @@ const pageDataGetter = moduleBuilder.read(
 const setMenus = (state: MenuState, payload: Menu[]) => {
   state.menus = payload;
 };
-const setPageDate = (state: MenuState, payload: MenuPage) => {
+const setPageData = (state: MenuState, payload: MenuPage) => {
   state.pageData = payload;
 };
 
@@ -48,7 +48,7 @@ const fetchMenus = async (
       },
     });
     setMenus(context.state, response.data.menus);
-    setPageDate(context.state, response.data.meta.page);
+    setPageData(context.state, response.data.meta.page);
   } catch (e) {
     console.log('could not fetch menus');
   }

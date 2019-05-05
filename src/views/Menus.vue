@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-pagination
+      v-if="pageData != null"
       v-model="page"
       @change="fetchMenus"
       :total-rows="pageData.total_menus"
@@ -20,7 +21,7 @@ import MenuItem from '@/components/MenuItem.vue';
 @Component({
   components: { MenuItem },
 })
-export default class Dishes extends Vue {
+export default class Menus extends Vue {
   public page: number = 1;
 
   get menus() {
