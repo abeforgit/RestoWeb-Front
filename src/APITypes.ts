@@ -22,3 +22,10 @@ export interface Menu {
   date: string;
   dishes: Dish[];
 }
+
+export interface MenuPage {
+  number: number;
+  limit: number;
+  total_pages: number;
+  total_menus: number;
+}

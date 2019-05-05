@@ -25,6 +25,7 @@ import EditRestoModal from '@/components/EditRestoModal.vue';
 })
 export default class RestoList extends Vue {
   private toggle: boolean = false;
+
   get restos() {
     return restoState.restos;
   }
