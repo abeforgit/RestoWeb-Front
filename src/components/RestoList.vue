@@ -7,16 +7,8 @@
         <RestoListItem :resto="resto"></RestoListItem>
       </li>
     </ul>
-    <b-button v-on:click="toggleModal">Add Resto</b-button>
-    <b-modal
-      id="restoModal"
-      v-model="modalActive"
-      cancel-disabled="true"
-      ok-disabled="true"
-    >
-      <EditRestoForm formId="edit-form" />
-      <b-button form="edit-form" type="submit">OK</b-button>
-    </b-modal>
+    <b-button v-b-modal="'RestoModal'">Add Resto</b-button>
+    <EditRestoModal id="RestoModal" />
   </div>
 </template>
 
@@ -26,25 +18,16 @@ import Component from 'vue-class-component';
 import RestoListItem from '@/components/RestoListItem.vue';
 import restoState from '@/store/modules/restos';
 import EditRestoForm from '@/components/EditRestoForm.vue';
+import EditRestoModal from '@/components/EditRestoModal.vue';
 
 @Component({
-  components: { EditRestoForm, RestoListItem },
+  components: { EditRestoModal, EditRestoForm, RestoListItem },
 })
 export default class RestoList extends Vue {
-  private toggle: boolean = false;
   get restos() {
     return restoState.restos;
   }
-  get modalActive() {
-    return this.toggle;
-  }
-  set modalActive(flag: boolean) {
-    this.toggle = flag;
-  }
 
-  public toggleModal() {
-    this.toggle = !this.toggle;
-  }
   public async created() {
     await restoState.fetchRestos();
   }
