@@ -1,4 +1,4 @@
-import { Resto } from '@/APITypes';
+import { Resto, Location } from '@/APITypes';
 import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
 import axios from 'axios';
@@ -45,11 +45,35 @@ const fetchRestos = async (
   }
 };
 
+export interface NewResto {
+  name: string;
+  description: string;
+  location: Location;
+}
+
+const createResto = async (
+  context: BareActionContext<RestoState, RootState>,
+  payload: NewResto
+) => {
+  try {
+    await axios({
+      method: 'POST',
+      baseURL: config.URL,
+      url: 'restos',
+      data: payload,
+    });
+    await fetchRestos(context);
+  } catch (e) {
+    console.log('could not add resto');
+  }
+};
+
 const restos = {
   get restos() {
     return restosGetter();
   },
   fetchRestos: moduleBuilder.dispatch(fetchRestos),
+  createResto: moduleBuilder.dispatch(createResto),
 };
 
 export default restos;

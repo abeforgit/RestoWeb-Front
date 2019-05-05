@@ -22,7 +22,7 @@ import { Dish } from '@/APITypes';
 @Component
 export default class DishItem extends Vue {
   @Prop()
-  public item!: Dish;
+  private item!: Dish;
 }
 </script>
 
