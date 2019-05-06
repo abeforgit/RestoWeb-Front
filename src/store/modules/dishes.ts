@@ -41,6 +41,9 @@ const fetchDishes = async (
 };
 export interface NewDish {
   name: string;
+  diet: string;
+  type: string;
+  price: number;
 }
 
 const createDish = async (
