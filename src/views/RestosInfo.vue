@@ -5,13 +5,13 @@
     <p>{{ info.description }}</p>
     <Schedules :schedules="info.schedules" />
 
-    <h2>Menu</h2>
-    {{ latestMenu }}
     <b-button v-b-modal="'EditModal'">Edit</b-button>
     <MenuDetails :menu="testMenu" />
     <FormModal id="EditModal">
       <EditRestoForm :resto="info" />
     </FormModal>
+    <h2>Menu</h2>
+    {{ latestMenu }}
   </div>
 </template>
 
@@ -21,6 +21,7 @@ import Vue from 'vue';
 import restoStore from '@/store/modules/restos';
 import menuStore from '@/store/modules/menus';
 import { MenuDetail } from '@/APITypes';
+import { RestoInfo, MenuDetail } from '@/APITypes';
 import Location from '@/components/Location.vue';
 import Schedules from '@/components/Schedules.vue';
 import FormModal from '@/components/FormModal.vue';
@@ -78,7 +79,7 @@ export default class RestosInfo extends Vue {
 
   private async created() {
     await restoStore.fetchCurrentResto(this.$route.params.id);
-    // await menuStore.fetchLatestMenu(this.$route.params.id);
+    await menuStore.fetchLatestMenu(this.$route.params.id);
   }
 }
 </script>
