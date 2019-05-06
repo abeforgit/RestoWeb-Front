@@ -24,7 +24,7 @@ import MenuItem from '@/components/MenuItem.vue';
 export default class Menus extends Vue {
   public page: number = 1;
 
-  private restoMenusPath!: string = null;
+  private restoMenusPath: string | null = null;
 
   get menus() {
     return menuStore.menus;

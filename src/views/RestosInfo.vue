@@ -1,15 +1,15 @@
 <template>
   <div v-if="info">
     <h1>{{ info.name }}</h1>
-    <Location :location="info.location" />
+    <Location :location="info.location"/>
     <p>{{ info.description }}</p>
-    <Schedules :schedules="info.schedules" />
+    <Schedules :schedules="info.schedules"/>
 
     <b-button v-b-modal="'EditModal'">Edit</b-button>
     <div v-if="latestMenu">
-      <MenuDetails :menu="latestMenu" />
+      <MenuDetails :menu="latestMenu"/>
       <FormModal id="EditModal">
-        <EditRestoForm :resto="info" />
+        <EditRestoForm :resto="info"/>
       </FormModal>
     </div>
   </div>
@@ -31,43 +31,7 @@ import MenuDetails from '@/components/MenuDetails.vue';
   components: { Schedules, Location, FormModal, EditRestoForm, MenuDetails },
 })
 export default class RestosInfo extends Vue {
-  public testMenu: MenuDetail = {
-    url: 'test',
-    menu: {
-      url: 'test',
-    },
-    dishes: [
-      {
-        url: 'dish1',
-        name: 'kaas',
-        price: 2,
-        type: 'nee',
-        diet: 'mooi',
-      },
-      {
-        url: 'dish2',
-        name: 'kaas',
-        price: 2,
-        type: 'nee',
-        diet: 'mooi',
-      },
-      {
-        url: 'dish3',
-        name: 'kaas',
-        price: 2,
-        type: 'nee',
-        diet: 'mooi',
-      },
-      {
-        url: 'dish4',
-        name: 'kaas',
-        price: 2,
-        type: 'nee',
-        diet: 'mooi',
-      },
-    ],
-  };
-
+  public testMenu!: MenuDetail;
   get info() {
     return restoStore.currentResto;
   }
@@ -77,8 +41,8 @@ export default class RestosInfo extends Vue {
   }
 
   private async created() {
-    await restoStore.fetchCurrentResto(this.$route.params.id);
-    await menuStore.fetchLatestMenu(this.$route.params.id);
+    await restoStore.fetchCurrentResto(parseInt(this.$route.params.id, 10));
+    await menuStore.fetchLatestMenu(parseInt(this.$route.params.id, 10));
   }
 }
 </script>

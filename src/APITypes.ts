@@ -58,7 +58,7 @@ export interface NewUser {
 export interface MenuDetail {
   url: string;
   date: string;
-  dishes: [{ url: string }];
+  dishes: Array<{ url: string }>;
   resto: { url: string };
   index: string;
 }

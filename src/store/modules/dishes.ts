@@ -46,8 +46,9 @@ const fetchDishes = async (
 
 const fetchDishList = async (
   context: BareActionContext<DishState, RootState>,
-  dishList: [{ url: string }]
+  dishList: Array<{ url: string }>
 ) => {
+  // TODO: convert to Promise.all()
   try {
     const allDishes: Dish[] = [];
     console.log(dishList);
