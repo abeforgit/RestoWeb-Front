@@ -3,6 +3,20 @@
     <b-form-group id="input-group-1" label="Name:" label-for="input-1">
       <b-form-input id="input-1" v-model="form.name" required />
     </b-form-group>
+    <b-form-group
+      id="input-group-2"
+      label="Price:"
+      label-for="input-2"
+      type="number"
+    >
+      <b-form-input id="input-2" v-model="form.price" required />
+    </b-form-group>
+    <b-form-group id="input-group-3" label="Diet:" label-for="input-3">
+      <b-form-input id="input-3" v-model="form.diet" required />
+    </b-form-group>
+    <b-form-group id="input-group-4" label="Type:" label-for="input-4">
+      <b-form-input id="input-4" v-model="form.type" required />
+    </b-form-group>
   </b-form>
 </template>
 <script lang="ts">
@@ -23,6 +37,9 @@ export default class EditDishForm extends Vue implements FormComponent {
   };
   private formData: NewDish = {
     name: '',
+    price: 0,
+    diet: '',
+    type: '',
   };
 
   public created() {
