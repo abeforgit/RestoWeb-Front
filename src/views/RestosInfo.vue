@@ -1,6 +1,6 @@
 <template>
   <div v-if="info">
-    <h1>{{ info.name }} {{ this.$route.path }}</h1>
+    <h1>{{ info.name }}</h1>
     <Location :location="info.location"/>
     <p>{{ info.description }}</p>
     <Schedules :schedules="info.schedules"/>
