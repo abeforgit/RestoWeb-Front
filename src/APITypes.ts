@@ -34,8 +34,8 @@ export interface Dish {
 }
 
 export interface Menu {
+  url: string;
   date: string;
-  dishes: Dish[];
 }
 
 export interface MenuPage {

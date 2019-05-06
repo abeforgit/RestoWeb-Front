@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { getURLPath } from '@/util';
 import Component from 'vue-class-component';
 import { Resto } from '@/APITypes';
 import { Prop } from 'vue-property-decorator';
@@ -20,10 +21,7 @@ export default class RestoListItem extends Vue {
   private resto!: Resto;
 
   private created() {
-    const regex = '(https?://)([^:^/]*)(:\\d*)?(.*)?';
-    const matched = this.resto.url.match(regex);
-
-    this.restoPath = matched ? matched[4] : null;
+    this.restoPath = getURLPath(this.resto.url);
   }
 }
 </script>

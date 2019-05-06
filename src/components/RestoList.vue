@@ -17,7 +17,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-
 import RestoListItem from '@/components/RestoListItem.vue';
 import restoState from '@/store/modules/restos';
 import EditRestoForm from '@/components/EditRestoForm.vue';
