@@ -5,6 +5,7 @@
     <p>{{ info.description }}</p>
     <Schedules :schedules="info.schedules"/>
     <b-button v-b-modal="'EditModal'">Edit</b-button>
+    <MenuDetails :menu="testMenu"/>
     <FormModal id="EditModal">
       <EditRestoForm :resto="info"/>
     </FormModal>
@@ -16,16 +17,53 @@ import axios from 'axios';
 import config from '@/config';
 import Component from 'vue-class-component';
 import Vue from 'vue';
-import { RestoInfo } from '@/APITypes';
+import { RestoInfo, MenuDetail } from '@/APITypes';
 import Location from '@/components/Location.vue';
 import Schedules from '@/components/Schedules.vue';
 import FormModal from '@/components/FormModal.vue';
 import EditRestoForm from '@/components/EditRestoForm.vue';
+import MenuDetails from '@/components/MenuDetails.vue';
 @Component({
-  components: { Schedules, Location, FormModal, EditRestoForm },
+  components: { Schedules, Location, FormModal, EditRestoForm, MenuDetails },
 })
 export default class RestosInfo extends Vue {
   public info: RestoInfo | null = null;
+  public testMenu: MenuDetail = {
+    url: 'test',
+    menu: {
+      url: 'test',
+    },
+    dishes: [
+      {
+        url: 'dish1',
+        name: 'kaas',
+        price: 2,
+        type: 'nee',
+        diet: 'mooi',
+      },
+      {
+        url: 'dish2',
+        name: 'kaas',
+        price: 2,
+        type: 'nee',
+        diet: 'mooi',
+      },
+      {
+        url: 'dish3',
+        name: 'kaas',
+        price: 2,
+        type: 'nee',
+        diet: 'mooi',
+      },
+      {
+        url: 'dish4',
+        name: 'kaas',
+        price: 2,
+        type: 'nee',
+        diet: 'mooi',
+      },
+    ],
+  };
 
   public async mounted() {
     try {

@@ -55,3 +55,10 @@ export interface NewUser {
   username: string;
   password: string;
 }
+export interface MenuDetail {
+  url: string;
+  menu: {
+    url: string;
+  };
+  dishes: Dish[];
+}
