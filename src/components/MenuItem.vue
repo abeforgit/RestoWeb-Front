@@ -1,8 +1,6 @@
 <template>
   <div id="menu_item">
-    <router-link :to="this.$route.path">
-      Menu voor {{ parsedDate }}
-    </router-link>
+    <p>Menu voor {{ parsedDate }}</p>
   </div>
 </template>
 
@@ -11,7 +9,6 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import { Menu } from '@/APITypes';
-import { getURLPath } from '@/util';
 
 @Component
 export default class MenuItem extends Vue {
@@ -21,7 +18,6 @@ export default class MenuItem extends Vue {
   private item!: Menu;
 
   private created() {
-    this.menuPath = getURLPath(this.item.url);
     this.parseDate();
   }
 
