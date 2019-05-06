@@ -4,24 +4,27 @@
     <h2>Info per locatie</h2>
     <ul>
       <li v-for="resto in restos" :key="resto.url">
-        <router-link to="/">{{ resto.name }}</router-link>
+        <RestoListItem :resto="resto"></RestoListItem>
       </li>
     </ul>
-    <b-button v-on:click="toggleModal">Add Resto</b-button>
-    <b-modal id="restoModal" v-model="modalActive">
-      <EditRestoModal />
-    </b-modal>
+    <b-button v-b-modal="'RestoModal'">Add Resto</b-button>
+    <FormModal id="RestoModal">
+      <EditRestoForm #default />
+    </FormModal>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import restoState from '@/store/modules/restos.ts';
-import EditRestoModal from '@/components/EditRestoModal.vue';
+
+import RestoListItem from '@/components/RestoListItem.vue';
+import restoState from '@/store/modules/restos';
+import EditRestoForm from '@/components/EditRestoForm.vue';
+import FormModal from '@/components/FormModal.vue';
 
 @Component({
-  components: { EditRestoModal },
+  components: { EditRestoForm, RestoListItem, FormModal },
 })
 export default class RestoList extends Vue {
   private toggle: boolean = false;
@@ -29,15 +32,9 @@ export default class RestoList extends Vue {
   get restos() {
     return restoState.restos;
   }
-  get modalActive() {
-    return this.toggle;
-  }
 
-  private async created() {
+  public async created() {
     await restoState.fetchRestos();
-  }
-  private toggleModal() {
-    this.toggle = !this.toggle;
   }
 }
 </script>

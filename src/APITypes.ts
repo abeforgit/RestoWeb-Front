@@ -10,6 +10,21 @@ export interface Location {
   campus: string;
 }
 
+export interface Schedule {
+  time_open: string;
+  time_closed: string;
+}
+
+export interface RestoInfo {
+  url: string;
+  name: string;
+  description: string;
+  location: Location;
+  menus: { url: string };
+  schedules: Schedule[];
+  index: string;
+}
+
 export interface Dish {
   url: string;
   name: string;
@@ -28,4 +43,15 @@ export interface MenuPage {
   limit: number;
   total_pages: number;
   total_menus: number;
+}
+
+export interface User {
+  username: string;
+  password: string;
+  admin: boolean;
+}
+
+export interface NewUser {
+  username: string;
+  password: string;
 }
