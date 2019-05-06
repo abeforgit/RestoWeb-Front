@@ -1,9 +1,13 @@
 <template>
   <div v-if="info">
     <h1>{{ info.name }}</h1>
-    <Location :location="info.location" />
+    <Location :location="info.location"/>
     <p>{{ info.description }}</p>
-    <Schedules :schedules="info.schedules" />
+    <Schedules :schedules="info.schedules"/>
+    <b-button v-b-modal="'EditModal'">Edit</b-button>
+    <FormModal id="EditModal">
+      <EditRestoForm :resto="info"/>
+    </FormModal>
   </div>
 </template>
 
@@ -15,8 +19,10 @@ import Vue from 'vue';
 import { RestoInfo } from '@/APITypes';
 import Location from '@/components/Location.vue';
 import Schedules from '@/components/Schedules.vue';
+import FormModal from '@/components/FormModal.vue';
+import EditRestoForm from '@/components/EditRestoForm.vue';
 @Component({
-  components: { Schedules, Location },
+  components: { Schedules, Location, FormModal, EditRestoForm },
 })
 export default class RestosInfo extends Vue {
   public info: RestoInfo | null = null;
