@@ -20,13 +20,38 @@ export interface RestoInfo {
   name: string;
   description: string;
   location: Location;
-  menus: {
-    url: string;
-  };
+  menus: { url: string };
   schedules: Schedule[];
   index: string;
 }
 
 export interface Dish {
+  url: string;
   name: string;
+  price: number;
+  type: string;
+  diet: string;
+}
+
+export interface Menu {
+  date: string;
+  dishes: Dish[];
+}
+
+export interface MenuPage {
+  number: number;
+  limit: number;
+  total_pages: number;
+  total_menus: number;
+}
+
+export interface User {
+  username: string;
+  password: string;
+  admin: boolean;
+}
+
+export interface NewUser {
+  username: string;
+  password: string;
 }

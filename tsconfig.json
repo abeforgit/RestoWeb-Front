@@ -9,8 +9,15 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+
+    ],
     "types": [
       "webpack-env",
       "jest"

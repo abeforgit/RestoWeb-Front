@@ -3,6 +3,7 @@ import { RootState } from '@/store/store';
 import axios from 'axios';
 import config from '@/config';
 import { Dish } from '@/APITypes';
+
 export interface DishState {
   dishes: Dish[];
 }
@@ -38,10 +39,32 @@ const fetchDishes = async (
     console.log('could not fetch dishes');
   }
 };
+export interface NewDish {
+  name: string;
+}
+
+const createDish = async (
+  context: BareActionContext<DishState, RootState>,
+  payload: NewDish
+) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      baseURL: config.URL,
+      url: 'dishes',
+      data: payload,
+    });
+    await fetchDishes(context);
+  } catch (e) {
+    console.log('could not create dish');
+  }
+};
+
 const dishes = {
   get dishes() {
     return dishesGetter();
   },
   fetchDishes: moduleBuilder.dispatch(fetchDishes),
+  createDish: moduleBuilder.dispatch(createDish),
 };
 export default dishes;

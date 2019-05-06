@@ -15,8 +15,8 @@ import { Schedule } from '@/APITypes';
 
 @Component
 export default class RestosInfo extends Vue {
-  @Prop()
-  public schedules: Schedule[];
+  @Prop({ required: true })
+  private schedules!: Schedule[];
 }
 </script>
 
