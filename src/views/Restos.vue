@@ -1,7 +1,6 @@
 <template>
   <div>
     <RestoList></RestoList>
-    <b-button v-on:click="createResto">Add</b-button>
   </div>
 </template>
 

@@ -20,9 +20,7 @@ export interface RestoInfo {
   name: string;
   description: string;
   location: Location;
-  menus: {
-    url: string;
-  };
+  menus: { url: string };
   schedules: Schedule[];
   index: string;
 }

@@ -20,11 +20,10 @@ import Component from 'vue-class-component';
 import RestoListItem from '@/components/RestoListItem.vue';
 import restoState from '@/store/modules/restos';
 import EditRestoForm from '@/components/EditRestoForm.vue';
-import EditRestoModal from '@/components/EditRestoModal.vue';
 import FormModal from '@/components/FormModal.vue';
 
 @Component({
-  components: { EditRestoModal, EditRestoForm, RestoListItem, FormModal },
+  components: { EditRestoForm, RestoListItem, FormModal },
 })
 export default class RestoList extends Vue {
   get restos() {

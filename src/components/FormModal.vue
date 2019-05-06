@@ -9,10 +9,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import { Modal } from 'bootstrap-vue';
-export interface FormComponent {
-  submit: () => void;
-  checkValidity: () => boolean;
-}
+import { FormComponent } from '@/UtilTypes.ts';
 @Component
 export default class FormModal extends Vue {
   public $refs!: {
@@ -21,7 +18,7 @@ export default class FormModal extends Vue {
   @Prop()
   private id!: string;
 
-  public handleOk(evt: Event) {
+  public async handleOk(evt: Event) {
     // TODO: fix possibly the most disgusting code I have ever written
     evt.preventDefault();
     if (!this.$slots.default) {
@@ -32,7 +29,7 @@ export default class FormModal extends Vue {
     if (!formElement.checkValidity()) {
       return;
     }
-    formElement.submit();
+    await formElement.submit();
     this.$refs.modal.hide();
   }
 }
