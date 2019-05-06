@@ -1,9 +1,9 @@
 <template>
   <div v-if="info">
     <h1>{{ info.name }}</h1>
-    <Location :location="info.location"/>
+    <Location :location="info.location" />
     <p>{{ info.description }}</p>
-    <Schedules :schedules="info.schedules"/>
+    <Schedules :schedules="info.schedules" />
   </div>
 </template>
 
