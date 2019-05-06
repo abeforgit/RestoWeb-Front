@@ -1,15 +1,15 @@
 <template>
   <div v-if="info">
     <h1>{{ info.name }}</h1>
-    <Location :location="info.location"/>
+    <Location :location="info.location" />
     <p>{{ info.description }}</p>
-    <Schedules :schedules="info.schedules"/>
+    <Schedules :schedules="info.schedules" />
 
     <b-button v-b-modal="'EditModal'">Edit</b-button>
     <div v-if="latestMenu">
-      <MenuDetails :menu="latestMenu"/>
+      <MenuDetails :menu="latestMenu" />
       <FormModal id="EditModal">
-        <EditRestoForm :resto="info"/>
+        <EditRestoForm :resto="info" />
       </FormModal>
     </div>
   </div>

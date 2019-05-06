@@ -1,5 +1,5 @@
 <template>
-  <div id="restolist_item">
+  <div>
     <router-link :to="restoPath">
       {{ resto.name }}
     </router-link>
