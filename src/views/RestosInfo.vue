@@ -1,14 +1,14 @@
 <template>
   <div v-if="info">
     <h1>{{ info.name }} {{ this.$route.path }}</h1>
-    <Location :location="info.location" />
+    <Location :location="info.location"/>
     <p>{{ info.description }}</p>
-    <Schedules :schedules="info.schedules" />
+    <Schedules :schedules="info.schedules"/>
 
     <b-button v-b-modal="'EditModal'">Edit</b-button>
-    <MenuDetails :menu="testMenu" />
+    <MenuDetails :menu="testMenu"/>
     <FormModal id="EditModal">
-      <EditRestoForm :resto="info" />
+      <EditRestoForm :resto="info"/>
     </FormModal>
     <h2>Menu</h2>
   </div>
@@ -68,7 +68,6 @@ export default class RestosInfo extends Vue {
     ],
   };
 
-  private info?: RestoInfo | null = null;
   private latestMenu? = null;
 
   private async created() {
