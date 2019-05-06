@@ -9,9 +9,9 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item :to="{ name: 'menus' }">Menus</b-nav-item>
           <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
           <b-nav-item :to="{ name: 'restos' }">Restos</b-nav-item>
+          <b-nav-item :to="{ name: 'menus' }">Menus</b-nav-item>
           <b-nav-item :to="{ name: 'dishes' }">Dishes</b-nav-item>
         </b-navbar-nav>
 

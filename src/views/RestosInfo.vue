@@ -1,9 +1,10 @@
 <template>
   <div v-if="info">
-    <h1>{{ info.name }}</h1>
+    <h1>{{ info.name }} {{ this.$route.path }}</h1>
     <Location :location="info.location" />
     <p>{{ info.description }}</p>
     <Schedules :schedules="info.schedules" />
+    <h2>Menu</h2>
   </div>
 </template>
 
@@ -15,18 +16,20 @@ import Vue from 'vue';
 import { RestoInfo } from '@/APITypes';
 import Location from '@/components/Location.vue';
 import Schedules from '@/components/Schedules.vue';
+
 @Component({
   components: { Schedules, Location },
 })
 export default class RestosInfo extends Vue {
-  public info: RestoInfo | null = null;
+  private info?: RestoInfo | null = null;
+  private latestMenu? = null;
 
-  public async mounted() {
+  private async created() {
     try {
       const response = await axios({
         method: 'GET',
         baseURL: config.URL,
-        url: 'restos/' + this.$route.params.id,
+        url: this.$route.path,
       });
       this.info = response.data;
     } catch (e) {

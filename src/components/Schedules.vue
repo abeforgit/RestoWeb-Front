@@ -1,9 +1,11 @@
 <template>
   <div id="schedules">
-    <h1>Schedules</h1>
-    <p v-for="schedule in schedules">
-      {{ schedule.time_open }} - {{ schedule.time_closed }}
-    </p>
+    <h2>Schedules</h2>
+    <ul>
+      <li v-for="schedule in schedules">
+        {{ schedule.time_open }} - {{ schedule.time_closed }}
+      </li>
+    </ul>
   </div>
 </template>
 
