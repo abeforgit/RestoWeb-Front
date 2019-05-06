@@ -3,7 +3,7 @@ function splitURL(url: string) {
   return url.match(regex);
 }
 
-export function getURLPath(url: string): string | null {
+export function getURLPath(url: string): string {
   const matched = splitURL(url);
-  return matched ? matched[4] : null;
+  return matched ? matched[4] : '';
 }

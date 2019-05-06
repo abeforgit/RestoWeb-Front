@@ -44,6 +44,9 @@ const fetchRestos = async (
       method: 'GET',
       baseURL: config.URL,
       url: 'restos',
+      headers: {
+        Accept: 'application/json',
+      },
     });
 
     setRestos(context.state, response.data);
@@ -61,6 +64,9 @@ const fetchCurrentResto = async (
       method: 'GET',
       baseURL: config.URL,
       url: 'restos/' + id,
+      headers: {
+        Accept: 'application/json',
+      },
     });
 
     setCurrentResto(context.state, response.data);

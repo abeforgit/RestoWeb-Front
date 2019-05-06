@@ -1,17 +1,17 @@
 <template>
   <div v-if="info">
-    <h1>{{ info.name }} {{ this.$route.path }}</h1>
+    <h1>{{ info.name }}</h1>
     <Location :location="info.location" />
     <p>{{ info.description }}</p>
     <Schedules :schedules="info.schedules" />
 
     <b-button v-b-modal="'EditModal'">Edit</b-button>
-    <MenuDetails :menu="testMenu" />
-    <FormModal id="EditModal">
-      <EditRestoForm :resto="info" />
-    </FormModal>
-    <h2>Menu</h2>
-    {{ latestMenu }}
+    <div v-if="latestMenu">
+      <MenuDetails :menu="latestMenu" />
+      <FormModal id="EditModal">
+        <EditRestoForm :resto="info" />
+      </FormModal>
+    </div>
   </div>
 </template>
 
@@ -21,7 +21,6 @@ import Vue from 'vue';
 import restoStore from '@/store/modules/restos';
 import menuStore from '@/store/modules/menus';
 import { MenuDetail } from '@/APITypes';
-import { RestoInfo, MenuDetail } from '@/APITypes';
 import Location from '@/components/Location.vue';
 import Schedules from '@/components/Schedules.vue';
 import FormModal from '@/components/FormModal.vue';

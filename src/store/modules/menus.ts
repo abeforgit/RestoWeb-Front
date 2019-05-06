@@ -3,7 +3,6 @@ import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
 import { Menu, MenuDetail, MenuPage } from '@/APITypes';
 import config from '@/config';
-import { getURLPath } from '@/util';
 
 export interface MenuState {
   menus: Menu[];
@@ -55,6 +54,9 @@ const fetchMenus = async (
       params: {
         page,
       },
+      headers: {
+        Accept: 'application/json',
+      },
     });
 
     setMenus(context.state, response.data.menus);
@@ -69,25 +71,15 @@ const fetchLatestMenu = async (
   id: number
 ) => {
   try {
-    const lmResponse = await axios({
+    const response = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: 'menus/' + id,
+      url: 'restos/' + id + '/latestmenu',
+      headers: {
+        Accept: 'application/json',
+      },
     });
-    const path = getURLPath(lmResponse.data.url);
-
-    if (path) {
-      try {
-        const lmDetailResponse = await axios({
-          method: 'GET',
-          baseURL: config.URL,
-          url: path,
-        });
-        setLatestMenu(context.state, lmDetailResponse.data);
-      } catch (e) {
-        console.log('could not fetch menudetail');
-      }
-    }
+    setLatestMenu(context.state, response.data);
   } catch (e) {
     console.log('could not fetch menu');
   }
