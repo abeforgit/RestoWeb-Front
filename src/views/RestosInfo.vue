@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="info">
     <h1>{{ info.name }}</h1>
     <Location :location="info.location" />
     <p>{{ info.description }}</p>
@@ -19,7 +19,7 @@ import Schedules from '@/components/Schedules.vue';
   components: { Schedules, Location },
 })
 export default class RestosInfo extends Vue {
-  public info?: RestoInfo;
+  public info: RestoInfo | null = null;
 
   public async mounted() {
     try {
