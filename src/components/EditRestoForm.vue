@@ -31,7 +31,7 @@
         placeholder="Enter campus"
       />
     </b-form-group>
-    <b-form-group id="input-group-6" label="Campus" label-for="input-6">
+    <b-form-group id="input-group-6" label="Zip code" label-for="input-6">
       <b-form-input
         id="input-6"
         v-model="form.location.zip_code"

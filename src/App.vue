@@ -76,7 +76,7 @@ ul {
   list-style-type: none;
 }
 
-ul li:before {
+ul.arrowlist li:before {
   content: '→';
   font-family: 'PannoTextMedium', Arial, sans-serif;
   font-size: 16px;
