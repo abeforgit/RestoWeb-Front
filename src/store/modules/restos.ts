@@ -1,8 +1,10 @@
 import { Resto, Location, RestoInfo } from '@/APITypes';
 import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
+import userState from '@/store/modules/user';
 import axios from 'axios';
 import config from '@/config';
+import user from '@/store/modules/user';
 
 export interface RestoState {
   restos: Resto[];
@@ -75,6 +77,27 @@ const fetchCurrentResto = async (
   }
 };
 
+const updateCurrentResto = async (
+  context: BareActionContext<RestoState, RootState>,
+  payload: Resto
+) => {
+  try {
+    if (!userState.auth) {
+      throw Error('Authentication');
+    }
+    const response = await axios({
+      method: 'PUT',
+      url: payload.url,
+      data: payload,
+      headers: {
+        Authorization: userState.auth.token,
+      },
+    });
+  } catch (e) {
+    console.log('could not update resto');
+  }
+};
+
 export interface NewResto {
   name: string;
   description: string;
@@ -107,6 +130,7 @@ const restos = {
   },
   fetchRestos: moduleBuilder.dispatch(fetchRestos),
   fetchCurrentResto: moduleBuilder.dispatch(fetchCurrentResto),
+  updateCurrentResto: moduleBuilder.dispatch(updateCurrentResto),
   createResto: moduleBuilder.dispatch(createResto),
 };
 

@@ -6,10 +6,12 @@ import config from '@/config';
 
 export interface UserState {
   user: User | null;
+  auth: { token: string } | null;
 }
 
 const initialState: UserState = {
   user: null,
+  auth: null,
 };
 
 const moduleBuilder = getStoreBuilder<RootState>().module('user', initialState);
@@ -17,6 +19,7 @@ const moduleBuilder = getStoreBuilder<RootState>().module('user', initialState);
 // getters
 
 const userGetter = moduleBuilder.read(state => state.user, 'getUser');
+const authGetter = moduleBuilder.read(state => state.auth, 'getAuth');
 
 // mutations
 
@@ -40,6 +43,7 @@ const loginUser = async (
         'Content-Type': 'application/json',
       },
     });
+    context.state.auth = response.data;
   } catch (e) {
     console.log('could not fetch restos');
   }
@@ -67,6 +71,9 @@ const createUser = async (
 const user = {
   get user() {
     return userGetter();
+  },
+  get auth() {
+    return authGetter();
   },
   loginUser: moduleBuilder.dispatch(loginUser),
   createUser: moduleBuilder.dispatch(createUser),

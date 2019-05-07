@@ -7,10 +7,12 @@
         <RestoListItem :resto="resto"></RestoListItem>
       </li>
     </ul>
-    <b-button v-b-modal="'RestoModal'">Add Resto</b-button>
-    <FormModal id="RestoModal">
-      <EditRestoForm #default />
-    </FormModal>
+    <div v-if="auth">
+      <b-button v-b-modal="'RestoModal'">Add Resto</b-button>
+      <FormModal id="RestoModal">
+        <EditRestoForm #default/>
+      </FormModal>
+    </div>
   </div>
 </template>
 
@@ -19,6 +21,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import RestoListItem from '@/components/RestoListItem.vue';
 import restoState from '@/store/modules/restos';
+import userStore from '@/store/modules/user';
 import EditRestoForm from '@/components/EditRestoForm.vue';
 import FormModal from '@/components/FormModal.vue';
 
@@ -30,6 +33,9 @@ export default class RestoList extends Vue {
 
   get restos() {
     return restoState.restos;
+  }
+  get auth() {
+    return userStore.auth;
   }
 
   public async created() {

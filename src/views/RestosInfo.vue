@@ -1,16 +1,18 @@
 <template>
   <div v-if="info">
     <h1>{{ info.name }}</h1>
-    <Location :location="info.location" />
+    <Location :location="info.location"/>
     <p>{{ info.description }}</p>
-    <Schedules :schedules="info.schedules" />
+    <Schedules :schedules="info.schedules"/>
 
-    <b-button v-b-modal="'EditModal'">Edit</b-button>
-    <div v-if="latestMenu">
-      <MenuDetails :menu="latestMenu" />
-      <FormModal id="EditModal">
-        <EditRestoForm :resto="info" />
-      </FormModal>
+    <MenuDetails :menu="latestMenu"/>
+    <div v-if="auth">
+      <b-button v-b-modal="'EditModal'">Edit</b-button>
+      <div v-if="latestMenu">
+        <FormModal id="EditModal">
+          <EditRestoForm :resto="info"/>
+        </FormModal>
+      </div>
     </div>
   </div>
 </template>
@@ -26,6 +28,7 @@ import Schedules from '@/components/Schedules.vue';
 import FormModal from '@/components/FormModal.vue';
 import EditRestoForm from '@/components/EditRestoForm.vue';
 import MenuDetails from '@/components/MenuDetails.vue';
+import userStore from '@/store/modules/user';
 
 @Component({
   components: { Schedules, Location, FormModal, EditRestoForm, MenuDetails },
@@ -38,6 +41,9 @@ export default class RestosInfo extends Vue {
 
   get latestMenu() {
     return menuStore.latestMenu;
+  }
+  get auth() {
+    return userStore.auth;
   }
 
   private async created() {

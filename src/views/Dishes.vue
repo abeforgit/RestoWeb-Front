@@ -1,12 +1,14 @@
 <template>
   <div>
     <b-list-group>
-      <DishItem v-for="dish in dishes" :item="dish" :key="dish.url" />
+      <DishItem v-for="dish in dishes" :item="dish" :key="dish.url"/>
     </b-list-group>
-    <FormModal id="editModal">
-      <EditDishForm #default />
-    </FormModal>
-    <b-button v-b-modal="'editModal'">Add Dish</b-button>
+    <div v-if="auth">
+      <FormModal id="editModal">
+        <EditDishForm #default/>
+      </FormModal>
+      <b-button v-b-modal="'editModal'">Add Dish</b-button>
+    </div>
   </div>
 </template>
 
@@ -15,6 +17,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import DishItem from '@/components/DishItem.vue';
 import dishStore from '@/store/modules/dishes';
+import userStore from '@/store/modules/user';
 import FormModal from '@/components/FormModal.vue';
 import EditDishForm from '@/components/EditDishForm.vue';
 
@@ -24,6 +27,9 @@ import EditDishForm from '@/components/EditDishForm.vue';
 export default class Dishes extends Vue {
   get dishes() {
     return dishStore.dishes;
+  }
+  get auth() {
+    return userStore.auth;
   }
   private async created() {
     await dishStore.fetchDishes();

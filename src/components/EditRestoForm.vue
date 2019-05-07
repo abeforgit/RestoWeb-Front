@@ -1,7 +1,7 @@
 <template>
   <b-form @submit.stop.prevent="onSubmit" ref="form">
     <b-form-group id="input-group-1" label="Name:" label-for="input-1">
-      <b-form-input id="input-1" v-model="form.name" required />
+      <b-form-input id="input-1" v-model="form.name" required/>
     </b-form-group>
 
     <b-form-group id="input-group-2" label="Description" label-for="input-2">
@@ -21,12 +21,7 @@
       />
     </b-form-group>
     <b-form-group id="input-group-4" label="City" label-for="input-4">
-      <b-form-input
-        id="input-4"
-        v-model="form.location.city"
-        required
-        placeholder="Enter city"
-      />
+      <b-form-input id="input-4" v-model="form.location.city" required placeholder="Enter city"/>
     </b-form-group>
     <b-form-group id="input-group-5" label="Campus" label-for="input-5">
       <b-form-input
@@ -52,13 +47,13 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import { FormComponent } from '@/UtilTypes.ts';
-import { Resto } from '../APITypes';
+import { Resto, RestoInfo } from '../APITypes';
 import restoStore, { NewResto } from '@/store/modules/restos.ts';
-
+import userState from '@/store/modules/user.ts';
 @Component
 export default class EditRestoForm extends Vue implements FormComponent {
   @Prop()
-  public resto?: NewResto;
+  public resto?: RestoInfo;
   public $refs!: {
     form: HTMLFormElement;
   };
@@ -73,8 +68,16 @@ export default class EditRestoForm extends Vue implements FormComponent {
     },
   };
   public created() {
+    if (!userState.auth) {
+      console.log('NOT LOGGED IN');
+    }
     if (this.resto) {
-      this.formData = this.resto;
+      const { name, description, location } = this.resto;
+      this.formData = {
+        name,
+        description,
+        location,
+      };
     }
   }
   get form() {
@@ -85,7 +88,14 @@ export default class EditRestoForm extends Vue implements FormComponent {
     this.formData = data;
   }
   public async submit() {
-    await restoStore.createResto(this.formData);
+    if (!this.resto) {
+      await restoStore.createResto(this.formData);
+    } else {
+      await restoStore.updateCurrentResto({
+        url: this.resto.url,
+        ...this.formData,
+      });
+    }
   }
   public checkValidity() {
     return this.$refs.form.checkValidity();
