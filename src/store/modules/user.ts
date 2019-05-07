@@ -37,7 +37,7 @@ const loginUser = async (
       url: 'login',
       data: payload,
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     });
   } catch (e) {
@@ -56,7 +56,7 @@ const createUser = async (
       url: 'signup',
       data: payload,
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     });
   } catch (e) {

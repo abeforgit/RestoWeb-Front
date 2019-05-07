@@ -8,6 +8,7 @@ import { UserState } from '@/store/modules/user';
 import './modules/restos';
 import './modules/dishes';
 import './modules/menus';
+import './modules/user';
 
 Vue.use(Vuex);
 
