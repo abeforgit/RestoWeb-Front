@@ -2,7 +2,7 @@
   <div>
     <h1>Studentenrestaurants</h1>
     <h2>Info per locatie</h2>
-    <ul>
+    <ul class="arrowlist">
       <li v-for="resto in restos" :key="resto.url">
         <RestoListItem :resto="resto"></RestoListItem>
       </li>
