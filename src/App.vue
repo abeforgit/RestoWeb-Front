@@ -33,6 +33,12 @@
   padding: 40px;
 }
 
+@media (max-width: 991px) {
+  #credentials {
+    padding: 20px;
+  }
+}
+
 h1,
 h2,
 h3,
