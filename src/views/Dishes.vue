@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-list-group>
-      <DishItem v-for="dish in dishes" :item="dish" :key="dish.url"/>
+      <DishItem v-for="dish in dishes" :item="dish" :key="dish.url" />
     </b-list-group>
     <div v-if="auth">
       <FormModal id="editModal">
-        <EditDishForm #default/>
+        <EditDishForm #default />
       </FormModal>
       <b-button v-b-modal="'editModal'">Add Dish</b-button>
     </div>

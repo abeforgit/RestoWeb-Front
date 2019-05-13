@@ -13,7 +13,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
-import { Dish } from '../APITypes';
+import { Dish } from '@/APITypes';
 
 @Component
 export default class DishDetails extends Vue {

@@ -10,7 +10,7 @@
     <div v-if="auth">
       <b-button v-b-modal="'RestoModal'">Add Resto</b-button>
       <FormModal id="RestoModal">
-        <EditRestoForm #default/>
+        <EditRestoForm #default />
       </FormModal>
     </div>
   </div>

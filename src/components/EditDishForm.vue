@@ -24,7 +24,6 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import { FormComponent } from '@/UtilTypes.ts';
-import { NewResto } from '../store/modules/restos';
 import dishStore, { NewDish } from '@/store/modules/dishes.ts';
 
 @Component

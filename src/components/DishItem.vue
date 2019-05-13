@@ -11,7 +11,7 @@
       </b-row>
     </b-card>
     <FormModal v-if="auth" :id="item.url">
-      <EditDishForm :dish="item"/>
+      <EditDishForm :dish="item" />
     </FormModal>
   </b-list-group-item>
 </template>
@@ -31,6 +31,7 @@ import userStore from '@/store/modules/user';
 export default class DishItem extends Vue {
   @Prop()
   private item!: Dish;
+
   get auth() {
     return userStore.auth;
   }

@@ -3,7 +3,6 @@ import { RootState } from '@/store/store';
 import axios from 'axios';
 import config from '@/config';
 import { Dish } from '@/APITypes';
-import { getURLPath } from '@/util';
 
 export interface DishState {
   dishes: Dish[];
@@ -16,11 +15,9 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 );
 
 // getters
-
 const dishesGetter = moduleBuilder.read(state => state.dishes, 'getDishes');
 
 // mutations
-
 const setDishes = (state: DishState, payload: Dish[]) => {
   state.dishes = payload;
 };
@@ -53,12 +50,10 @@ const fetchDishList = async (
     const allDishes: Dish[] = [];
     console.log(dishList);
     for (const dish of dishList) {
-      const path = getURLPath(dish.url);
       try {
         const response = await axios({
           method: 'GET',
-          baseURL: config.URL,
-          url: path,
+          baseURL: dish.url,
           headers: {
             Accept: 'application/json',
           },
