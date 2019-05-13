@@ -4,7 +4,6 @@ import { RootState } from '@/store/store';
 import userState from '@/store/modules/user';
 import axios from 'axios';
 import config from '@/config';
-import user from '@/store/modules/user';
 
 export interface RestoState {
   restos: Resto[];

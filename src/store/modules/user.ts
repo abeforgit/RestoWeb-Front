@@ -28,7 +28,6 @@ const setUser = (state: UserState, payload: { user: User }) => {
 };
 
 // actions
-
 const loginUser = async (
   context: BareActionContext<UserState, RootState>,
   payload: NewUser
@@ -43,6 +42,7 @@ const loginUser = async (
         'Content-Type': 'application/json',
       },
     });
+
     context.state.auth = response.data;
   } catch (e) {
     console.log('could not fetch restos');
