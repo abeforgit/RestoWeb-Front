@@ -1,7 +1,7 @@
 <template>
   <div id="resto_location">
     <h2>Location</h2>
-    <p>
+    <p v:if="location">
       {{ location.zip_code }} {{ location.city }} <br />
       {{ location.address }} <br />
       {{ location.campus }}

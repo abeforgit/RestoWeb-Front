@@ -12,7 +12,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
-import { MenuDetail } from '@/APITypes';
+import { MenuInfo } from '@/APITypes';
 import dishStore from '@/store/modules/dishes';
 import DishDetails from '@/components/DishDetails.vue';
 
@@ -23,7 +23,7 @@ import DishDetails from '@/components/DishDetails.vue';
 })
 export default class MenuDetails extends Vue {
   @Prop()
-  public menu!: MenuDetail;
+  public menu!: MenuInfo;
 
   get dishes() {
     return dishStore.dishes;

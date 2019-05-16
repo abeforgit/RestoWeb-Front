@@ -4,15 +4,12 @@
     <Location :location="info.location" />
     <p>{{ info.description }}</p>
     <Schedules :schedules="info.schedules" />
-
-    <MenuDetails :menu="latestMenu" />
+    <MenuDetails v-if="latestMenu" :menu="latestMenu" />
     <div v-if="auth">
       <b-button v-b-modal="'EditModal'">Edit</b-button>
-      <div v-if="latestMenu">
-        <FormModal id="EditModal">
-          <EditRestoForm :resto="info" />
-        </FormModal>
-      </div>
+      <FormModal v-if="latestMenu" id="EditModal">
+        <EditRestoForm :resto="info" />
+      </FormModal>
     </div>
   </div>
 </template>
@@ -22,7 +19,7 @@ import Component from 'vue-class-component';
 import Vue from 'vue';
 import restoStore from '@/store/modules/restos';
 import menuStore from '@/store/modules/menus';
-import { MenuDetail } from '@/APITypes';
+import { MenuInfo } from '@/APITypes';
 import Location from '@/components/Location.vue';
 import Schedules from '@/components/Schedules.vue';
 import FormModal from '@/components/FormModal.vue';
@@ -34,7 +31,6 @@ import userStore from '@/store/modules/user';
   components: { Schedules, Location, FormModal, EditRestoForm, MenuDetails },
 })
 export default class RestosInfo extends Vue {
-  public testMenu!: MenuDetail;
   get info() {
     return restoStore.currentResto;
   }
@@ -47,8 +43,8 @@ export default class RestosInfo extends Vue {
   }
 
   private async created() {
-    await restoStore.fetchCurrentResto(parseInt(this.$route.params.id, 10));
-    await menuStore.fetchLatestMenu(parseInt(this.$route.params.id, 10));
+    await restoStore.fetchCurrentResto(this.$route.params.id);
+    await menuStore.fetchLatestMenu(this.$route.params.id);
   }
 }
 </script>

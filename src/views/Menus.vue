@@ -1,13 +1,10 @@
 <template>
   <div>
-    <b-pagination
-      v-if="pageData != null"
-      v-model="page"
-      @change="fetchMenus"
-      :total-rows="pageData.total_menus"
-      :per-page="pageData.limit"
-      aria-controls="my-table"
-    ></b-pagination>
+    <div v-if="pageData">
+      <p>Pagina {{ page }} van {{ pageData.total_pages }}</p>
+      <b-button :disabled="page <= 1" v-on:click="changePage(false)">Vorige</b-button>
+      <b-button :disabled="page >= pageData.total_pages" v-on:click="changePage(true)">Volgende</b-button>
+    </div>
     <MenuItem v-for="item in menus" :item="item" :key="item.url"></MenuItem>
   </div>
 </template>
@@ -24,16 +21,31 @@ import MenuItem from '@/components/MenuItem.vue';
 export default class Menus extends Vue {
   public page: number = 1;
 
-  get menus() {
+  private get menus() {
     return menuStore.menus;
   }
 
-  get pageData() {
+  private get pageData() {
     return menuStore.pageData;
   }
 
   public async created() {
     await this.fetchMenus();
+  }
+
+  public changePage(next: boolean) {
+    if (this.pageData !== null) {
+      if (next) {
+        if (this.page < this.pageData.total_pages) {
+          this.page++;
+        }
+      } else {
+        if (this.page > 1) {
+          this.page--;
+        }
+      }
+      menuStore.fetchMenus(this.page);
+    }
   }
 
   public async fetchMenus() {

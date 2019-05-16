@@ -1,16 +1,20 @@
 import axios from 'axios';
 import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
-import { Menu, MenuDetail, MenuPage } from '@/APITypes';
+import { Menu, MenuInfo, MenuPage } from '@/APITypes';
 import config from '@/config';
 
 export interface MenuState {
   menus: Menu[];
   pageData: MenuPage | null;
-  latestMenu: MenuDetail | null;
+  latestMenu: MenuInfo | null;
 }
 
-const initialState: MenuState = { menus: [], pageData: null, latestMenu: null };
+const initialState: MenuState = {
+  menus: [],
+  pageData: null,
+  latestMenu: null,
+};
 
 const moduleBuilder = getStoreBuilder<RootState>().module(
   'menus',
@@ -18,7 +22,6 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 );
 
 // getters
-
 const menusGetter = moduleBuilder.read(state => state.menus, 'getMenus');
 const pageDataGetter = moduleBuilder.read(
   state => state.pageData,
@@ -37,7 +40,7 @@ const setMenus = (state: MenuState, payload: Menu[]) => {
 const setPageData = (state: MenuState, payload: MenuPage) => {
   state.pageData = payload;
 };
-const setLatestMenu = (state: MenuState, payload: MenuDetail) => {
+const setLatestMenu = (state: MenuState, payload: MenuInfo) => {
   state.latestMenu = payload;
 };
 
@@ -68,7 +71,7 @@ const fetchMenus = async (
 
 const fetchLatestMenu = async (
   context: BareActionContext<MenuState, RootState>,
-  id: number
+  id: string
 ) => {
   try {
     const response = await axios({
@@ -79,6 +82,8 @@ const fetchLatestMenu = async (
         Accept: 'application/json',
       },
     });
+
+    console.log(response.data);
     setLatestMenu(context.state, response.data);
   } catch (e) {
     console.log('could not fetch menu');
