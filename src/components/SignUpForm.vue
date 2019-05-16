@@ -1,36 +1,46 @@
 <template>
-  <b-form @submit="onSubmit">
-    <b-form-group>
-      <b-form-input
-        v-model="form.username"
-        type="text"
-        placeholder="Username"
-        required
-      ></b-form-input>
-    </b-form-group>
+  <div class="signup_form">
+    <div id="credentials">
+      <b-card id="credentials_card">
+        <h1>Sign up</h1>
+        <b-form @submit="onSubmit">
+          <b-form-group label="Gebruikersnaam" label-for="username">
+            <b-form-input
+              v-model="form.username"
+              id="username"
+              type="text"
+              placeholder="Gebruikersnaam"
+              required
+            ></b-form-input>
+          </b-form-group>
 
-    <b-form-group>
-      <b-form-input
-        v-model="form.password"
-        type="password"
-        placeholder="Password"
-        required
-      ></b-form-input>
-    </b-form-group>
+          <b-form-group label="Wachtwoord" label-for="password">
+            <b-form-input
+              v-model="form.password"
+              id="password"
+              type="password"
+              placeholder="Wachtwoord"
+              required
+            ></b-form-input>
+          </b-form-group>
 
-    <b-form-group>
-      <b-form-input
-        v-model="form.passwordRepeat"
-        type="password"
-        placeholder="Password"
-        required
-      ></b-form-input>
-    </b-form-group>
+          <b-form-group label="Herhaal wachtwoord" label-for="password_repeat">
+            <b-form-input
+              v-model="form.passwordRepeat"
+              id="password_repeat"
+              type="password"
+              placeholder="Herhaal wachtwoord"
+              required
+            ></b-form-input>
+          </b-form-group>
 
-    <div class="text-center">
-      <b-button type="submit" variant="primary">Sign up</b-button>
+          <div class="text-center">
+            <b-button type="submit" variant="primary">Sign up</b-button>
+          </div>
+        </b-form>
+      </b-card>
     </div>
-  </b-form>
+  </div>
 </template>
 
 <script lang="ts">

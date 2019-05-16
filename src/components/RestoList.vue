@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="restolist">
     <h1>Studentenrestaurants</h1>
     <h2>Info per locatie</h2>
     <ul class="arrowlist">
@@ -34,6 +34,7 @@ export default class RestoList extends Vue {
   get restos() {
     return restoState.restos;
   }
+
   get auth() {
     return userStore.auth;
   }
