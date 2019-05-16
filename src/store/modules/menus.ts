@@ -6,12 +6,14 @@ import config from '@/config';
 
 export interface MenuState {
   menus: Menu[];
+  currentMenu: MenuInfo | null;
   pageData: MenuPage | null;
   latestMenu: MenuInfo | null;
 }
 
 const initialState: MenuState = {
   menus: [],
+  currentMenu: null,
   pageData: null,
   latestMenu: null,
 };
@@ -23,6 +25,10 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 
 // getters
 const menusGetter = moduleBuilder.read(state => state.menus, 'getMenus');
+const currentMenuGetter = moduleBuilder.read(
+  state => state.currentMenu,
+  'getCurrentMenuState'
+);
 const pageDataGetter = moduleBuilder.read(
   state => state.pageData,
   'getPageData'
@@ -36,6 +42,9 @@ const latestMenuGetter = moduleBuilder.read(
 
 const setMenus = (state: MenuState, payload: Menu[]) => {
   state.menus = payload;
+};
+const setCurrentMenu = (state: MenuState, payload: MenuInfo) => {
+  state.currentMenu = payload;
 };
 const setPageData = (state: MenuState, payload: MenuPage) => {
   state.pageData = payload;
@@ -83,7 +92,6 @@ const fetchLatestMenu = async (
       },
     });
 
-    console.log(response.data);
     setLatestMenu(context.state, response.data);
   } catch (e) {
     console.log('could not fetch menu');

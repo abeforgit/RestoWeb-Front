@@ -30,6 +30,11 @@ export default new Router({
       component: () => import('./views/Menus.vue'),
     },
     {
+      path: '/menus/:id',
+      name: 'menus_info',
+      component: () => import('./views/MenusInfo.vue'),
+    },
+    {
       path: '/dishes',
       name: 'dishes',
       component: () => import('./views/Dishes.vue'),

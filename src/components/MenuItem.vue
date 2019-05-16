@@ -1,6 +1,6 @@
 <template>
   <div id="menu_item">
-    <p>Menu voor {{ parsedDate }}</p>
+    <a :href="item.url">Menu voor {{ parsedDate }}</a>
   </div>
 </template>
 
