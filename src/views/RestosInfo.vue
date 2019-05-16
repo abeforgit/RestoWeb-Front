@@ -46,7 +46,7 @@ export default class RestosInfo extends Vue {
     return userStore.auth;
   }
 
-  private async created() {
+  private async beforeCreate() {
     await restoStore.fetchCurrentResto(parseInt(this.$route.params.id, 10));
     await menuStore.fetchLatestMenu(parseInt(this.$route.params.id, 10));
   }

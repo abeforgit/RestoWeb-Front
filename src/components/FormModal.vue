@@ -8,12 +8,12 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
-import { Modal } from 'bootstrap-vue';
+import { BModal } from 'bootstrap-vue';
 import { FormComponent } from '@/UtilTypes.ts';
 @Component
 export default class FormModal extends Vue {
   public $refs!: {
-    modal: Modal;
+    modal: BModal;
   };
   @Prop()
   private id!: string;

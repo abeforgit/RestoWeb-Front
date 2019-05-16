@@ -37,7 +37,7 @@ const setMenus = (state: MenuState, payload: Menu[]) => {
 const setPageData = (state: MenuState, payload: MenuPage) => {
   state.pageData = payload;
 };
-const setLatestMenu = (state: MenuState, payload: MenuDetail) => {
+const setLatestMenu = (state: MenuState, payload: MenuDetail | null) => {
   state.latestMenu = payload;
 };
 
@@ -81,6 +81,7 @@ const fetchLatestMenu = async (
     });
     setLatestMenu(context.state, response.data);
   } catch (e) {
+    setLatestMenu(context.state, null);
     console.log('could not fetch menu');
   }
 };
