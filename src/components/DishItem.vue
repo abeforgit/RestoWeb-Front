@@ -11,7 +11,7 @@
       </b-row>
     </b-card>
     <FormModal v-if="auth" :id="item.url">
-      <EditDishForm :dish="item"/>
+      <EditDishForm :dish="item" />
     </FormModal>
   </b-list-group-item>
 </template>

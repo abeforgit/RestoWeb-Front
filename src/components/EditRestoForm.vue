@@ -1,7 +1,7 @@
 <template>
   <b-form @submit.stop.prevent="onSubmit" ref="form">
     <b-form-group id="input-group-1" label="Name:" label-for="input-1">
-      <b-form-input id="input-1" v-model="form.name" required/>
+      <b-form-input id="input-1" v-model="form.name" required />
     </b-form-group>
 
     <b-form-group id="input-group-2" label="Description" label-for="input-2">
@@ -21,7 +21,12 @@
       />
     </b-form-group>
     <b-form-group id="input-group-4" label="City" label-for="input-4">
-      <b-form-input id="input-4" v-model="form.location.city" required placeholder="Enter city"/>
+      <b-form-input
+        id="input-4"
+        v-model="form.location.city"
+        required
+        placeholder="Enter city"
+      />
     </b-form-group>
     <b-form-group id="input-group-5" label="Campus" label-for="input-5">
       <b-form-input
