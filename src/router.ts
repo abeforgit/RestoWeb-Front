@@ -1,9 +1,17 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/Home.vue';
-import isMockFunction = jest.isMockFunction;
 
 Vue.use(Router);
+
+export function getRoute(url: string): string {
+  const regex = /:\/\/[^\/]*(\/.*$)/;
+  const matches = regex.exec(url);
+  if (!matches || matches.length < 2) {
+    throw new Error("Couldn't parse route");
+  }
+  return matches[1];
+}
 
 export default new Router({
   mode: 'history',

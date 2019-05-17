@@ -19,7 +19,7 @@ import Component from 'vue-class-component';
 import Vue from 'vue';
 import restoStore from '@/store/modules/restos';
 import menuStore from '@/store/modules/menus';
-import { MenuInfo } from '@/APITypes';
+import { MenuDetail } from '@/APITypes';
 import Location from '@/components/Location.vue';
 import Schedules from '@/components/Schedules.vue';
 import FormModal from '@/components/FormModal.vue';
@@ -42,9 +42,9 @@ export default class RestosInfo extends Vue {
     return userStore.auth;
   }
 
-  private async created() {
-    await restoStore.fetchCurrentResto(this.$route.params.id);
-    await menuStore.fetchLatestMenu(this.$route.params.id);
+  private async beforeCreate() {
+    await restoStore.fetchCurrentResto(parseInt(this.$route.params.id, 10));
+    await menuStore.fetchLatestMenu(parseInt(this.$route.params.id, 10));
   }
 }
 </script>

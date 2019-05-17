@@ -30,7 +30,7 @@ export interface Menu {
   date: string;
 }
 
-export interface MenuInfo {
+export interface MenuDetail {
   url: string;
   date: string;
   dishes: Array<{ url: string }>;

@@ -57,7 +57,7 @@ const fetchRestos = async (
 
 const fetchCurrentResto = async (
   context: BareActionContext<RestoState, RootState>,
-  id: string
+  id: number
 ) => {
   try {
     const response = await axios({
