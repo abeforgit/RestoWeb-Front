@@ -53,6 +53,11 @@ export default new Router({
       component: () => import('./views/SignUp.vue'),
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('./views/Profile.vue'),
+    },
+    {
       path: '/*',
       component: () => import('./views/NotFound.vue'),
     },

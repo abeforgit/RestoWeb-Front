@@ -9,6 +9,9 @@
           <b-nav-item :to="{ name: 'restos' }">Resto's</b-nav-item>
           <b-nav-item :to="{ name: 'menus' }">Menu's</b-nav-item>
           <b-nav-item :to="{ name: 'dishes' }">Gerechten</b-nav-item>
+          <b-nav-item v-if="loggedIn" :to="{ name: 'profile' }">
+            Profiel
+          </b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
