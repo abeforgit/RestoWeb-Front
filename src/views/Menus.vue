@@ -36,30 +36,11 @@ export default class Menus extends Vue {
   }
 
   public async created() {
-    await this.fetchMenus(this.page);
-  }
-
-  public changePage(next: boolean) {
-    if (this.pageData !== null) {
-      if (next) {
-        if (this.page < this.pageData.total_pages) {
-          this.page++;
-        }
-      } else {
-        if (this.page > 1) {
-          this.page--;
-        }
-      }
-      menuStore.fetchMenus(this.page);
-    }
-  }
-
-  public async fetchMenus(page: number) {
     await menuStore.fetchMenus(this.page);
   }
 
-  @Watch('page') public onPageChanged(oldPage: number, newPage: number) {
-    this.fetchMenus(newPage);
+  @Watch('page') public async onPageChanged(newPage: number, oldPage: number) {
+    await menuStore.fetchMenus(newPage);
   }
 }
 </script>
