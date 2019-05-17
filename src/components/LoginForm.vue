@@ -2,7 +2,7 @@
   <div class="login_form">
     <div id="credentials">
       <b-card id="credentials_card">
-        <h1>Login</h1>
+        <h1>Log in</h1>
         <b-form @submit.stop.prevent="onSubmit">
           <b-form-group label="Gebruikersnaam" label-for="username">
             <b-form-input
@@ -25,9 +25,9 @@
           </b-form-group>
 
           <div class="text-center">
-            <b-button type="submit" variant="primary">Sign In</b-button>
+            <b-button type="submit" variant="primary">Log In</b-button>
             <b-button variant="link" :to="{ name: 'signup' }">
-              Create an account
+              Maak een account
             </b-button>
           </div>
         </b-form>

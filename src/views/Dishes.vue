@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Gerechtenlijst</h1>
     <b-list-group>
       <DishItem v-for="dish in dishes" :item="dish" :key="dish.url" />
     </b-list-group>

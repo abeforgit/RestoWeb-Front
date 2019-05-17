@@ -8,7 +8,7 @@
       </li>
     </ul>
     <div v-if="auth">
-      <b-button v-b-modal="'RestoModal'">Add Resto</b-button>
+      <b-button v-b-modal="'RestoModal'">Voeg resto toe</b-button>
       <FormModal id="RestoModal">
         <EditRestoForm #default />
       </FormModal>

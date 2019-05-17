@@ -1,11 +1,16 @@
 <template>
   <div>
+    <h1>Menulijst</h1>
     <div v-if="pageData">
-      <p>Pagina {{ page }} van {{ pageData.total_pages }}</p>
-      <b-button :disabled="page <= 1" v-on:click="changePage(false)">Vorige</b-button>
-      <b-button :disabled="page >= pageData.total_pages" v-on:click="changePage(true)">Volgende</b-button>
-    </div>
-    <MenuItem v-for="item in menus" :item="item" :key="item.url"></MenuItem>
+      <b-pagination 
+        :total-rows="pageData.total_menus" 
+        v-model="page"
+        :per-page="pageData.limit">
+      </b-pagination>
+      <b-list-group>
+        <b-list-group-item v-for="menu in menus" :key="menu.url"><MenuItem :item="menu"/></b-list-group-item>
+      </b-list-group>
+     </div>
   </div>
 </template>
 
@@ -14,12 +19,13 @@ import Vue from 'vue';
 import menuStore from '@/store/modules/menus';
 import Component from 'vue-class-component';
 import MenuItem from '@/components/MenuItem.vue';
+import { Watch } from 'vue-property-decorator';
 
 @Component({
   components: { MenuItem },
 })
 export default class Menus extends Vue {
-  public page: number = 1;
+  private page: number = 1;
 
   private get menus() {
     return menuStore.menus;
@@ -30,7 +36,7 @@ export default class Menus extends Vue {
   }
 
   public async created() {
-    await this.fetchMenus();
+    await this.fetchMenus(this.page);
   }
 
   public changePage(next: boolean) {
@@ -48,8 +54,12 @@ export default class Menus extends Vue {
     }
   }
 
-  public async fetchMenus() {
+  public async fetchMenus(page: number) {
     await menuStore.fetchMenus(this.page);
+  }
+
+  @Watch('page') public onPageChanged(oldPage: number, newPage: number) {
+    this.fetchMenus(newPage);
   }
 }
 </script>

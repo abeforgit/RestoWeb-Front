@@ -1,6 +1,6 @@
 <template>
   <div id="schedules">
-    <h2>Schedules</h2>
+    <h2>Openingsuren</h2>
     <ul>
       <li v-for="schedule in schedules">
         {{ schedule.time_open }} - {{ schedule.time_closed }}
