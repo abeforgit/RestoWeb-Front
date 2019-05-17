@@ -12,10 +12,13 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
-          <b-navbar-nav>
+          <template v-if="!loggedIn">
             <b-nav-item :to="{ name: 'login' }">Sign in</b-nav-item>
             <b-nav-item :to="{ name: 'signup' }">Sign up</b-nav-item>
-          </b-navbar-nav>
+          </template>
+          <template v-else>
+            <b-nav-item v-on:click="logout">Logout</b-nav-item>
+          </template>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -25,9 +28,19 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import userState from '@/store/modules/user';
 
 @Component
-export default class Navbar extends Vue {}
+export default class Navbar extends Vue {
+  get loggedIn() {
+    console.log(userState.auth);
+    return userState.auth != null;
+  }
+
+  public async logout() {
+    userState.logout();
+  }
+}
 </script>
 
 <style scoped></style>

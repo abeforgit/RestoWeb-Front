@@ -68,6 +68,10 @@ const createUser = async (
   }
 };
 
+const logout = async (context: BareActionContext<UserState, RootState>) => {
+  context.state.auth = null;
+};
+
 const user = {
   get user() {
     return userGetter();
@@ -77,6 +81,7 @@ const user = {
   },
   loginUser: moduleBuilder.dispatch(loginUser),
   createUser: moduleBuilder.dispatch(createUser),
+  logout: moduleBuilder.dispatch(logout),
 };
 
 export default user;
