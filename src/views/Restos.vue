@@ -14,28 +14,11 @@ import RestoList from '@/components/RestoList.vue';
 @Component({
   components: { AddRestoForm: EditRestoForm, RestoList },
 })
-export default class Restos extends Vue {
-  private async createResto() {
-    const example: NewResto = {
-      description: 'test',
-      name: 'test',
-      location: {
-        campus: 'test',
-        city: 'yoink',
-        address: 'yeeeeet',
-        zip_code: 'angery',
-      },
-    };
-
-    await restoStore.createResto({
-      newResto: example,
-    });
-  }
-}
+export default class Restos extends Vue {}
 </script>
 
 <style scoped>
-  .restos {
-    padding: 20px;
-  }
+.restos {
+  padding: 20px;
+}
 </style>

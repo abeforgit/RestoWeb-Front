@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dishes">
     <h1>Gerechtenlijst</h1>
     <b-list-group>
       <DishItem v-for="dish in dishes" :item="dish" :key="dish.url" />
@@ -32,7 +32,7 @@ export default class Dishes extends Vue {
   get auth() {
     return userStore.auth;
   }
-  private async created() {
+  private async beforeCreate() {
     await dishStore.fetchDishes();
   }
 }
