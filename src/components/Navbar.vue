@@ -29,16 +29,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import userState from '@/store/modules/user';
+import userStore from '@/store/modules/user';
 
 @Component
 export default class Navbar extends Vue {
   get loggedIn() {
-    return userState.auth != null;
+    return userStore.auth != null;
   }
 
   public async logout() {
-    userState.logout();
+    userStore.logout();
     this.$router.push({ name: 'home' });
   }
 }

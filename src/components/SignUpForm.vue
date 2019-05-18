@@ -46,7 +46,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import userState from '@/store/modules/user.ts';
+import userStore from '@/store/modules/user.ts';
 
 interface SignupFormData {
   username: string;
@@ -73,7 +73,7 @@ export default class SignUpForm extends Vue {
     if (this.formData.password === this.formData.passwordRepeat) {
       const { username, password } = this.formData;
 
-      await userState.createUser({
+      await userStore.createUser({
         username,
         password,
       });

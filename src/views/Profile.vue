@@ -8,12 +8,12 @@
 <script lang="ts">
 import Component from 'vue-class-component';
 import Vue from 'vue';
-import userState from '@/store/modules/user';
+import userStore from '@/store/modules/user';
 
 @Component
 export default class Profile extends Vue {
   get user() {
-    return userState.user;
+    return userStore.user;
   }
 }
 </script>
