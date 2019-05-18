@@ -1,4 +1,4 @@
-import { NewUser, User } from '@/APITypes';
+import { APIStatus, NewUser, User } from '@/APITypes';
 import axios from 'axios';
 import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
@@ -7,11 +7,20 @@ import config from '@/config';
 export interface UserState {
   user: User | null;
   auth: { token: string } | null;
+  status: UserAPIStatus;
+}
+export interface UserAPIStatus {
+  createUser: APIStatus;
+  test: APIStatus;
 }
 
 const initialState: UserState = {
   user: null,
   auth: null,
+  status: {
+    createUser: 'NONE',
+    test: 'NONE',
+  },
 };
 
 const moduleBuilder = getStoreBuilder<RootState>().module('user', initialState);
@@ -28,6 +37,7 @@ const isAdminGetter = moduleBuilder.read(
   state => state.user && state.user.admin,
   'getIsAdmin'
 );
+const statusGetter = moduleBuilder.read(state => state.status, 'getStatus');
 
 // mutations
 
@@ -42,6 +52,12 @@ const authSetter = moduleBuilder.commit(
     state.auth = payload;
   },
   'setAuth'
+);
+const statusSetter = moduleBuilder.commit(
+  (state: UserState, payload: { [P in keyof UserAPIStatus]?: APIStatus }) => {
+    state.status = { ...state.status, ...payload };
+  },
+  'setStatus'
 );
 
 // actions
@@ -84,8 +100,9 @@ const createUser = async (
         'Content-Type': 'application/json',
       },
     });
+    userStore.status = { createUser: 'OK' };
   } catch (e) {
-    console.log('could not create user');
+    userStore.status = { createUser: 'ERROR' };
   }
 };
 
@@ -127,6 +144,12 @@ const userStore = {
   },
   set auth(payload: { token: string } | null) {
     authSetter(payload);
+  },
+  get status() {
+    return statusGetter();
+  },
+  set status(payload: { [P in keyof UserAPIStatus]?: APIStatus }) {
+    statusSetter(payload);
   },
   loginUser: moduleBuilder.dispatch(loginUser),
   createUser: moduleBuilder.dispatch(createUser),

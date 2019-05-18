@@ -62,3 +62,4 @@ export interface NewUser {
   username: string;
   password: string;
 }
+export type APIStatus = 'OK' | 'FETCHING' | 'ERROR' | 'NONE';
