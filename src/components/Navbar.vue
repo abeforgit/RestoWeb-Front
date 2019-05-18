@@ -8,12 +8,18 @@
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'restos' }">Resto's</b-nav-item>
           <b-nav-item :to="{ name: 'dishes' }">Gerechten</b-nav-item>
+          <b-nav-item v-if="loggedIn" :to="{ name: 'profile' }">
+            Profiel
+          </b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
-          <b-navbar-nav>
+          <template v-if="!loggedIn">
             <b-nav-item :to="{ name: 'login' }">Log in</b-nav-item>
-          </b-navbar-nav>
+          </template>
+          <template v-else>
+            <b-nav-item v-on:click="logout">Logout</b-nav-item>
+          </template>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -23,9 +29,20 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import userState from '@/store/modules/user';
 
 @Component
-export default class Navbar extends Vue {}
+export default class Navbar extends Vue {
+  get loggedIn() {
+    console.log(userState.auth);
+    return userState.auth != null;
+  }
+
+  public async logout() {
+    userState.logout();
+    this.$router.push({ name: 'home' });
+  }
+}
 </script>
 
 <style scoped></style>
