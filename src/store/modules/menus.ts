@@ -141,7 +141,7 @@ const fetchCurrentMenu = async (
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: '/menus/' + payload.menuId,
+      url: 'menus/' + payload.menuId,
       headers: {
         Accept: 'application/json',
       },
@@ -150,7 +150,6 @@ const fetchCurrentMenu = async (
     setCurrentMenu(context.state, response.data);
   } catch (e) {
     setCurrentMenu(context.state, null);
-    console.log('could not fetch menu');
   }
 };
 
@@ -171,7 +170,6 @@ const fetchLatestMenu = async (
     setLatestMenu(context.state, response.data);
   } catch (e) {
     setLatestMenu(context.state, null);
-    console.log('could not fetch menu');
   }
 };
 

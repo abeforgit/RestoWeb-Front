@@ -34,6 +34,7 @@ export default class MenuDetails extends Vue {
   public menu!: MenuDetail;
 
   public async created() {
+    console.log(this.menu);
     await dishStore.fetchDishList({
       dishList: this.menu.dishes,
     });
