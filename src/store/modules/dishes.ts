@@ -30,7 +30,6 @@ const fetchDishes = async (
   context: BareActionContext<DishState, RootState>
 ) => {
   try {
-    console.log('fetchDishes()');
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
@@ -53,7 +52,6 @@ const fetchDishList = async (
   // TODO: convert to Promise.all()
   try {
     const allDishes: Dish[] = [];
-    console.log('fetchDishList');
     for (const dish of payload.dishList) {
       try {
         const response = await axios({
