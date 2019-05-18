@@ -18,15 +18,19 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 const dishesGetter = moduleBuilder.read(state => state.dishes, 'getDishes');
 
 // mutations
-const setDishes = (state: DishState, payload: Dish[]) => {
-  state.dishes = payload;
-};
+const dishesSetter = moduleBuilder.commit(
+  (state: DishState, payload: Dish[]) => {
+    state.dishes = payload;
+  },
+  'setDishes'
+);
 
 // actions
 const fetchDishes = async (
   context: BareActionContext<DishState, RootState>
 ) => {
   try {
+    console.log('fetchDishes()');
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
@@ -35,9 +39,10 @@ const fetchDishes = async (
         Accept: 'application/json',
       },
     });
-    setDishes(context.state, response.data.dishes);
+
+    dishStore.dishes = response.data.dishes;
   } catch (e) {
-    console.log('could not fetch dishes');
+    dishStore.dishes = [];
   }
 };
 
@@ -48,6 +53,7 @@ const fetchDishList = async (
   // TODO: convert to Promise.all()
   try {
     const allDishes: Dish[] = [];
+    console.log('fetchDishList');
     for (const dish of payload.dishList) {
       try {
         const response = await axios({
@@ -62,7 +68,7 @@ const fetchDishList = async (
         console.log('could not fetch dishes');
       }
     }
-    setDishes(context.state, allDishes);
+    dishStore.dishes = allDishes;
   } catch (e) {
     console.log('could not fetch dishes');
   }
@@ -93,12 +99,15 @@ const createDish = async (
   }
 };
 
-const dishes = {
+const dishStore = {
   get dishes() {
     return dishesGetter();
+  },
+  set dishes(payload: Dish[]) {
+    dishesSetter(payload);
   },
   fetchDishes: moduleBuilder.dispatch(fetchDishes),
   fetchDishList: moduleBuilder.dispatch(fetchDishList),
   createDish: moduleBuilder.dispatch(createDish),
 };
-export default dishes;
+export default dishStore;

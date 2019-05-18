@@ -31,7 +31,7 @@ export default class Menus extends Vue {
   private page: number = 1;
 
   private get menus() {
-    return menuStore.restosMenus;
+    return menuStore.restoMenus;
   }
 
   private get pageData() {
@@ -39,14 +39,14 @@ export default class Menus extends Vue {
   }
 
   public async created() {
-    await menuStore.fetchRestosMenus({
+    await menuStore.fetchRestoMenus({
       page: this.page,
       restoId: parseInt(this.$route.params.id, 10),
     });
   }
 
   @Watch('page') public async onPageChanged(newPage: number, oldPage: number) {
-    await menuStore.fetchRestosMenus({
+    await menuStore.fetchRestoMenus({
       page: newPage,
       restoId: parseInt(this.$route.params.id, 10),
     });
