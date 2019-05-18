@@ -49,7 +49,7 @@ const loginUser = async (
       admin: response.data.is_admin,
     };
   } catch (e) {
-    console.log('could not fetch restos');
+    console.log('could not login');
   }
 };
 

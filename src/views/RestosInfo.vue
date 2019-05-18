@@ -1,18 +1,31 @@
 <template>
-  <div v-if="info">
+  <div class="resto_info" v-if="info">
     <h1>{{ info.name }}</h1>
     <Location :location="info.location" />
     <p>{{ info.description }}</p>
-    <Schedules :schedules="info.schedules" />
+    <hr />
 
-    <MenuDetails :menu="latestMenu" />
+    <Schedules :schedules="info.schedules" />
+    <hr />
+
+    <h2>Menu's</h2>
+    <h3>Meest recent menu</h3>
+    <div v-if="latestMenu">
+      <MenuDetails v-if="latestMenu" :menu="latestMenu" />
+    </div>
+    <div v-else>
+      <p>Geen recent menu gevonden.</p>
+    </div>
+    <h3>Overige menu's</h3>
+    <router-link :to="`/restos/` + this.$route.params.id + `/menus`"
+      >Toon lijst</router-link
+    >
+
     <div v-if="auth">
-      <b-button v-b-modal="'EditModal'">Edit</b-button>
-      <div v-if="latestMenu">
-        <FormModal id="EditModal">
-          <EditRestoForm :resto="info" />
-        </FormModal>
-      </div>
+      <b-button v-b-modal="'EditModal'">Wijzig</b-button>
+      <FormModal v-if="latestMenu" id="EditModal">
+        <EditRestoForm :resto="info" />
+      </FormModal>
     </div>
   </div>
 </template>
@@ -34,7 +47,6 @@ import userStore from '@/store/modules/user';
   components: { Schedules, Location, FormModal, EditRestoForm, MenuDetails },
 })
 export default class RestosInfo extends Vue {
-  public testMenu!: MenuDetail;
   get info() {
     return restoStore.currentResto;
   }
@@ -47,10 +59,18 @@ export default class RestosInfo extends Vue {
   }
 
   private async beforeCreate() {
-    await restoStore.fetchCurrentResto(parseInt(this.$route.params.id, 10));
-    await menuStore.fetchLatestMenu(parseInt(this.$route.params.id, 10));
+    await restoStore.fetchCurrentResto({
+      restoId: parseInt(this.$route.params.id, 10),
+    });
+    await menuStore.fetchLatestMenu({
+      restoId: parseInt(this.$route.params.id, 10),
+    });
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.resto_info {
+  padding: 20px;
+}
+</style>

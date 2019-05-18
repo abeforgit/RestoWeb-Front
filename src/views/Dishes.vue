@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Gerechtenlijst</h1>
     <b-list-group>
       <DishItem v-for="dish in dishes" :item="dish" :key="dish.url" />
     </b-list-group>
@@ -7,7 +8,7 @@
       <FormModal id="editModal">
         <EditDishForm #default />
       </FormModal>
-      <b-button v-b-modal="'editModal'">Add Dish</b-button>
+      <b-button v-b-modal="'editModal'">Voeg gerecht toe</b-button>
     </div>
   </div>
 </template>

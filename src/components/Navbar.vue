@@ -1,13 +1,12 @@
 <template>
   <div id="navbar">
     <b-navbar toggleable="md" type="light" variant="light">
-      <b-navbar-brand :to="{ name: 'home' }">RW</b-navbar-brand>
+      <b-navbar-brand :to="{ name: 'home' }">RESTOWEB</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'restos' }">Resto's</b-nav-item>
-          <b-nav-item :to="{ name: 'menus' }">Menu's</b-nav-item>
           <b-nav-item :to="{ name: 'dishes' }">Gerechten</b-nav-item>
           <b-nav-item v-if="loggedIn" :to="{ name: 'profile' }">
             Profiel
@@ -16,8 +15,7 @@
 
         <b-navbar-nav class="ml-auto">
           <template v-if="!loggedIn">
-            <b-nav-item :to="{ name: 'login' }">Sign in</b-nav-item>
-            <b-nav-item :to="{ name: 'signup' }">Sign up</b-nav-item>
+            <b-nav-item :to="{ name: 'login' }">Log in</b-nav-item>
           </template>
           <template v-else>
             <b-nav-item v-on:click="logout">Logout</b-nav-item>
