@@ -21,7 +21,6 @@ export default class MenusInfo extends Vue {
   }
 
   private async beforeCreate() {
-    console.log('fetching current menu');
     await menuStore.fetchCurrentMenu({
       menuId: parseInt(this.$route.params.id, 10),
     });
