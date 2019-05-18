@@ -23,9 +23,18 @@ const authGetter = moduleBuilder.read(state => state.auth, 'getAuth');
 
 // mutations
 
-const setUser = (state: UserState, payload: { user: User }) => {
-  state.user = payload.user;
-};
+const userSetter = moduleBuilder.commit(
+  (state: UserState, payload: User | null) => {
+    state.user = payload;
+  },
+  'setUser'
+);
+const authSetter = moduleBuilder.commit(
+  (state: UserState, payload: { token: string } | null) => {
+    state.auth = payload;
+  },
+  'setAuth'
+);
 
 // actions
 const loginUser = async (
@@ -43,8 +52,8 @@ const loginUser = async (
       },
     });
 
-    context.state.auth = { token: response.data.token };
-    context.state.user = {
+    userState.auth = { token: response.data.token };
+    userState.user = {
       username: response.data.username,
       admin: response.data.is_admin,
     };
@@ -73,19 +82,25 @@ const createUser = async (
 };
 
 const logout = async (context: BareActionContext<UserState, RootState>) => {
-  context.state.auth = null;
+  userState.user = null;
 };
 
-const user = {
+const userState = {
   get user() {
     return userGetter();
   },
   get auth() {
     return authGetter();
   },
+  set user(payload: User | null) {
+    userSetter(payload);
+  },
+  set auth(payload: { token: string } | null) {
+    authSetter(payload);
+  },
   loginUser: moduleBuilder.dispatch(loginUser),
   createUser: moduleBuilder.dispatch(createUser),
   logout: moduleBuilder.dispatch(logout),
 };
 
-export default user;
+export default userState;

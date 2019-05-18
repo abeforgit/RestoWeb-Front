@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BareActionContext, getStoreBuilder } from 'vuex-typex';
-import { RootState } from '@/store/store';
+import { RootState } from '@/store/store.ts';
 import { Menu, MenuDetail, MenuPage } from '@/APITypes';
 import config from '@/config';
 
