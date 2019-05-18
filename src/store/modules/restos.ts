@@ -28,9 +28,8 @@ const currentRestoGetter = moduleBuilder.read(
 );
 
 // mutations
-
-const setRestos = (state: RestoState, payload: { restos: Resto[] }) => {
-  state.restos = payload.restos;
+const setRestos = (state: RestoState, payload: Resto[]) => {
+  state.restos = payload;
 };
 const setCurrentResto = (state: RestoState, payload: RestoInfo) => {
   state.currentResto = payload;
@@ -50,7 +49,7 @@ const fetchRestos = async (
       },
     });
 
-    setRestos(context.state, response.data);
+    setRestos(context.state, response.data.restos);
   } catch (e) {
     console.log('could not fetch restos');
   }
@@ -58,13 +57,13 @@ const fetchRestos = async (
 
 const fetchCurrentResto = async (
   context: BareActionContext<RestoState, RootState>,
-  id: number
+  payload: { restoId: number }
 ) => {
   try {
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: 'restos/' + id,
+      url: 'restos/' + payload.restoId,
       headers: {
         Accept: 'application/json',
       },
@@ -78,7 +77,7 @@ const fetchCurrentResto = async (
 
 const updateCurrentResto = async (
   context: BareActionContext<RestoState, RootState>,
-  payload: Resto
+  payload: { resto: Resto }
 ) => {
   try {
     if (!userState.auth) {
@@ -86,7 +85,7 @@ const updateCurrentResto = async (
     }
     const response = await axios({
       method: 'PUT',
-      url: payload.url,
+      url: payload.resto.url,
       data: payload,
       headers: {
         Authorization: userState.auth.token,
@@ -105,7 +104,7 @@ export interface NewResto {
 
 const createResto = async (
   context: BareActionContext<RestoState, RootState>,
-  payload: NewResto
+  payload: { newResto: NewResto }
 ) => {
   try {
     await axios({
