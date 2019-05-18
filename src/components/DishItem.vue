@@ -7,9 +7,10 @@
         </b-col>
         <b-col md="auto">
           <star-rating
-                  v-if="authorized"
-                       v-bind:star-size="30"
-                       @rating-selected="setRating" />
+            v-if="authorized"
+            v-bind:star-size="30"
+            @rating-selected="setRating"
+          />
         </b-col>
         <b-col md="auto">
           <b-button v-if="isAdmin" v-b-modal="item.url">Wijzig</b-button>
@@ -58,6 +59,5 @@ export default class DishItem extends Vue {
     });
   }
 }
-</script
-<style scoped>
-</style>
+</script>
+<style scoped></style>
