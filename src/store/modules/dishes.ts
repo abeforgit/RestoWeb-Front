@@ -18,9 +18,12 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 const dishesGetter = moduleBuilder.read(state => state.dishes, 'getDishes');
 
 // mutations
-const setDishes = (state: DishState, payload: Dish[]) => {
-  state.dishes = payload;
-};
+const dishesSetter = moduleBuilder.commit(
+  (state: DishState, payload: Dish[]) => {
+    state.dishes = payload;
+  },
+  'setDishes'
+);
 
 // actions
 const fetchDishes = async (
@@ -35,9 +38,10 @@ const fetchDishes = async (
         Accept: 'application/json',
       },
     });
-    setDishes(context.state, response.data.dishes);
+
+    dishStore.dishes = response.data.dishes;
   } catch (e) {
-    console.log('could not fetch dishes');
+    dishStore.dishes = [];
   }
 };
 
@@ -62,7 +66,7 @@ const fetchDishList = async (
         console.log('could not fetch dishes');
       }
     }
-    setDishes(context.state, allDishes);
+    dishStore.dishes = allDishes;
   } catch (e) {
     console.log('could not fetch dishes');
   }
@@ -93,12 +97,15 @@ const createDish = async (
   }
 };
 
-const dishes = {
+const dishStore = {
   get dishes() {
     return dishesGetter();
+  },
+  set dishes(payload: Dish[]) {
+    dishesSetter(payload);
   },
   fetchDishes: moduleBuilder.dispatch(fetchDishes),
   fetchDishList: moduleBuilder.dispatch(fetchDishList),
   createDish: moduleBuilder.dispatch(createDish),
 };
-export default dishes;
+export default dishStore;

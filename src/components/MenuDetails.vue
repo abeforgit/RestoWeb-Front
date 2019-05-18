@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
+import { Prop, Watch } from 'vue-property-decorator';
 import { MenuDetail } from '@/APITypes';
 import dishStore from '@/store/modules/dishes';
 import DishDetails from '@/components/DishDetails.vue';
@@ -33,9 +33,12 @@ export default class MenuDetails extends Vue {
   @Prop()
   public menu!: MenuDetail;
 
-  public async created() {
+  @Watch('menu') public async onMenuChanged(
+    newMenu: MenuDetail,
+    oldMenu: MenuDetail
+  ) {
     await dishStore.fetchDishList({
-      dishList: this.menu.dishes,
+      dishList: newMenu.dishes,
     });
   }
 }

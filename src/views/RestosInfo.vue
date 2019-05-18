@@ -3,10 +3,10 @@
     <h1>{{ info.name }}</h1>
     <Location :location="info.location" />
     <p>{{ info.description }}</p>
-    <hr>
+    <hr />
 
     <Schedules :schedules="info.schedules" />
-    <hr>
+    <hr />
 
     <h2>Menu's</h2>
     <h3>Meest recent menu</h3>
@@ -17,8 +17,10 @@
       <p>Geen recent menu gevonden.</p>
     </div>
     <h3>Overige menu's</h3>
-    <router-link :to="`/restos/` + this.$route.params.id + `/menus`">Toon lijst</router-link>
-    
+    <router-link :to="`/restos/` + this.$route.params.id + `/menus`"
+      >Toon lijst</router-link
+    >
+
     <div v-if="auth">
       <b-button v-b-modal="'EditModal'">Wijzig</b-button>
       <FormModal v-if="latestMenu" id="EditModal">
@@ -68,7 +70,7 @@ export default class RestosInfo extends Vue {
 </script>
 
 <style scoped>
-  .resto_info {
-    padding: 20px;
-  }
+.resto_info {
+  padding: 20px;
+}
 </style>
