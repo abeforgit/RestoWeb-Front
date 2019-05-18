@@ -102,6 +102,7 @@ const addRating = async (
   payload: {
     dishPath: string;
     rating: number;
+    token: string;
   }
 ) => {
   try {
@@ -111,6 +112,9 @@ const addRating = async (
       url: payload.dishPath + '/ratings',
       data: {
         rating: payload.rating,
+      },
+      headers: {
+        Authorization: `Token ${payload.token}`,
       },
     });
   } catch (e) {
