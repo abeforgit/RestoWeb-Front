@@ -20,6 +20,14 @@ const moduleBuilder = getStoreBuilder<RootState>().module('user', initialState);
 
 const userGetter = moduleBuilder.read(state => state.user, 'getUser');
 const authGetter = moduleBuilder.read(state => state.auth, 'getAuth');
+const isLoggedGetter = moduleBuilder.read(
+  state => state.user && state.auth && state.auth.token,
+  'getIsLoggedIn'
+);
+const isAdminGetter = moduleBuilder.read(
+  state => state.user && state.user.admin,
+  'getIsAdmin'
+);
 
 // mutations
 
@@ -52,8 +60,8 @@ const loginUser = async (
       },
     });
 
-    userState.auth = { token: response.data.token };
-    userState.user = {
+    userStore.auth = { token: response.data.token };
+    userStore.user = {
       username: response.data.username,
       admin: response.data.is_admin,
     };
@@ -93,20 +101,26 @@ const logout = async (context: BareActionContext<UserState, RootState>) => {
     });
 
     if (response.status === 200) {
-      userState.user = null;
-      userState.auth = null;
+      userStore.user = null;
+      userStore.auth = null;
     }
   } catch (e) {
     console.log('could not logout');
   }
 };
 
-const userState = {
+const userStore = {
   get user() {
     return userGetter();
   },
   get auth() {
     return authGetter();
+  },
+  get isLoggedIn() {
+    return isLoggedGetter();
+  },
+  get isAdmin() {
+    return isAdminGetter();
   },
   set user(payload: User | null) {
     userSetter(payload);
@@ -119,4 +133,4 @@ const userState = {
   logout: moduleBuilder.dispatch(logout),
 };
 
-export default userState;
+export default userStore;

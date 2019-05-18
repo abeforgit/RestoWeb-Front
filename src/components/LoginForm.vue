@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import userState from '@/store/modules/user.ts';
+import userStore from '@/store/modules/user.ts';
 import Component from 'vue-class-component';
 
 @Component
@@ -49,7 +49,7 @@ export default class LoginForm extends Vue {
   };
 
   public async onSubmit(): Promise<void> {
-    await userState.loginUser(this.form);
+    await userStore.loginUser(this.form);
   }
 }
 </script>

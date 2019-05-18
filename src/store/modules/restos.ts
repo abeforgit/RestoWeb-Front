@@ -1,7 +1,7 @@
 import { Resto, Location, RestoInfo } from '@/APITypes';
 import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
-import userState from '@/store/modules/user';
+import userStore from '@/store/modules/user';
 import axios from 'axios';
 import config from '@/config';
 
@@ -80,7 +80,7 @@ const updateCurrentResto = async (
   payload: { resto: Resto }
 ) => {
   try {
-    if (!userState.auth) {
+    if (!userStore.auth) {
       throw Error('Authentication');
     }
     const response = await axios({
@@ -88,7 +88,7 @@ const updateCurrentResto = async (
       url: payload.resto.url,
       data: payload.resto,
       headers: {
-        Authorization: userState.auth.token,
+        Authorization: userStore.auth.token,
       },
     });
   } catch (e) {

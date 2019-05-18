@@ -59,7 +59,7 @@ import { Prop } from 'vue-property-decorator';
 import { FormComponent } from '@/UtilTypes.ts';
 import { Resto, RestoInfo } from '../APITypes';
 import restoStore, { NewResto } from '@/store/modules/restos.ts';
-import userState from '@/store/modules/user.ts';
+import userStore from '@/store/modules/user.ts';
 @Component
 export default class EditRestoForm extends Vue implements FormComponent {
   @Prop()
@@ -78,7 +78,7 @@ export default class EditRestoForm extends Vue implements FormComponent {
     },
   };
   public created() {
-    if (!userState.auth) {
+    if (!userStore.auth) {
       console.log('NOT LOGGED IN');
     }
     if (this.resto) {
