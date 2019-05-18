@@ -41,14 +41,14 @@ export default class Menus extends Vue {
   public async created() {
     await menuStore.fetchRestoMenus({
       page: this.page,
-      restoId: parseInt(this.$route.params.id, 10),
+      restoMenusPath: this.$route.path,
     });
   }
 
   @Watch('page') public async onPageChanged(newPage: number, oldPage: number) {
     await menuStore.fetchRestoMenus({
       page: newPage,
-      restoId: parseInt(this.$route.params.id, 10),
+      restoMenusPath: this.$route.path,
     });
   }
 }

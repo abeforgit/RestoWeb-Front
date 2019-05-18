@@ -60,10 +60,10 @@ export default class RestosInfo extends Vue {
 
   private async beforeCreate() {
     await restoStore.fetchCurrentResto({
-      restoId: parseInt(this.$route.params.id, 10),
+      restoPath: this.$route.path,
     });
     await menuStore.fetchLatestMenu({
-      restoId: parseInt(this.$route.params.id, 10),
+      restoPath: this.$route.path,
     });
   }
 }
