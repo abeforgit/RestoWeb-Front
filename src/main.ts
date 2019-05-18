@@ -8,8 +8,12 @@ import App from './App.vue';
 import router from './router';
 import store from './store/store';
 
+import StarRating from 'vue-star-rating';
+
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
+
+Vue.component('star-rating', StarRating);
 
 new Vue({
   router,
