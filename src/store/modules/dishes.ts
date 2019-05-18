@@ -97,6 +97,27 @@ const createDish = async (
   }
 };
 
+const addRating = async (
+  context: BareActionContext<DishState, RootState>,
+  payload: {
+    dishPath: string;
+    rating: number;
+  }
+) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      baseURL: config.URL,
+      url: payload.dishPath + '/ratings',
+      data: {
+        rating: payload.rating,
+      },
+    });
+  } catch (e) {
+    console.log('could not add rating');
+  }
+};
+
 const dishStore = {
   get dishes() {
     return dishesGetter();
@@ -107,5 +128,6 @@ const dishStore = {
   fetchDishes: moduleBuilder.dispatch(fetchDishes),
   fetchDishList: moduleBuilder.dispatch(fetchDishList),
   createDish: moduleBuilder.dispatch(createDish),
+  addRating: moduleBuilder.dispatch(addRating),
 };
 export default dishStore;

@@ -106,14 +106,14 @@ const fetchRestoMenus = async (
   context: BareActionContext<MenuState, RootState>,
   payload: {
     page: number;
-    restoId: number;
+    restoMenusPath: string;
   }
 ) => {
   try {
     const urlList = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: '/restos/' + payload.restoId + '/menus',
+      url: payload.restoMenusPath,
       params: {
         page: payload.page,
       },
@@ -150,13 +150,13 @@ const fetchRestoMenus = async (
 
 const fetchCurrentMenu = async (
   context: BareActionContext<MenuState, RootState>,
-  payload: { menuId: number }
+  payload: { menuPath: string }
 ) => {
   try {
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: 'menus/' + payload.menuId,
+      url: payload.menuPath,
       headers: {
         Accept: 'application/json',
       },
@@ -170,13 +170,13 @@ const fetchCurrentMenu = async (
 
 const fetchLatestMenu = async (
   context: BareActionContext<MenuState, RootState>,
-  payload: { restoId: number }
+  payload: { restoPath: string }
 ) => {
   try {
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: 'restos/' + payload.restoId + '/latestmenu',
+      url: payload.restoPath + '/latestmenu',
       headers: {
         Accept: 'application/json',
       },

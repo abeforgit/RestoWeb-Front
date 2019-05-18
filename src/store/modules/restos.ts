@@ -57,13 +57,13 @@ const fetchRestos = async (
 
 const fetchCurrentResto = async (
   context: BareActionContext<RestoState, RootState>,
-  payload: { restoId: number }
+  payload: { restoPath: string }
 ) => {
   try {
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: 'restos/' + payload.restoId,
+      url: payload.restoPath,
       headers: {
         Accept: 'application/json',
       },
@@ -86,7 +86,7 @@ const updateCurrentResto = async (
     const response = await axios({
       method: 'PUT',
       url: payload.resto.url,
-      data: payload,
+      data: payload.resto,
       headers: {
         Authorization: userState.auth.token,
       },
@@ -111,7 +111,7 @@ const createResto = async (
       method: 'POST',
       baseURL: config.URL,
       url: 'restos',
-      data: payload,
+      data: payload.newResto,
     });
     await fetchRestos(context);
   } catch (e) {

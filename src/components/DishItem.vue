@@ -29,6 +29,8 @@ import { Dish } from '@/APITypes';
 import FormModal from '@/components/FormModal.vue';
 import EditDishForm from '@/components/EditDishForm.vue';
 import userStore from '@/store/modules/user';
+import dishStore from '@/store/modules/dishes';
+import { getRoute } from '@/router';
 
 @Component({
   components: { FormModal, EditDishForm },
@@ -41,8 +43,11 @@ export default class DishItem extends Vue {
     return userStore.auth;
   }
 
-  public setRating(rating: number) {
-    console.log('test');
+  public async setRating(rating: number) {
+    await dishStore.addRating({
+      dishPath: getRoute(this.item.url),
+      rating,
+    });
   }
 }
 </script>

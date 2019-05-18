@@ -22,7 +22,7 @@ export default class MenusInfo extends Vue {
 
   private async beforeCreate() {
     await menuStore.fetchCurrentMenu({
-      menuId: parseInt(this.$route.params.id, 10),
+      menuPath: this.$route.path,
     });
   }
 }
