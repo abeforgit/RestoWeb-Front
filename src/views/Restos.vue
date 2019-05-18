@@ -18,7 +18,7 @@ export default class Restos extends Vue {}
 </script>
 
 <style scoped>
-  .restos {
-    padding: 20px;
-  }
+.restos {
+  padding: 20px;
+}
 </style>

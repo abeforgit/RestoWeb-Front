@@ -1,7 +1,7 @@
 <template>
-    <div>
-       <MenuDetails v-if="menu" :menu="menu" />
-    </div>
+  <div>
+    <MenuDetails v-if="menu" :menu="menu" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -21,6 +21,7 @@ export default class MenusInfo extends Vue {
   }
 
   private async beforeCreate() {
+    console.log('fetching current menu');
     await menuStore.fetchCurrentMenu({
       menuId: parseInt(this.$route.params.id, 10),
     });
@@ -28,6 +29,4 @@ export default class MenusInfo extends Vue {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

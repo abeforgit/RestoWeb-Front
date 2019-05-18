@@ -28,5 +28,4 @@ import Component from 'vue-class-component';
 export default class Navbar extends Vue {}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -6,7 +6,7 @@ import config from '@/config';
 
 export interface MenuState {
   menus: Menu[];
-  restosMenus: Menu[];
+  restoMenus: Menu[];
   currentMenu: MenuDetail | null;
   latestMenu: MenuDetail | null;
   pageData: MenuPage | null;
@@ -14,7 +14,7 @@ export interface MenuState {
 
 const initialState: MenuState = {
   menus: [],
-  restosMenus: [],
+  restoMenus: [],
   currentMenu: null,
   latestMenu: null,
   pageData: null,
@@ -27,9 +27,9 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 
 // getters
 const menusGetter = moduleBuilder.read(state => state.menus, 'getMenus');
-const restosMenusGetter = moduleBuilder.read(
-  state => state.restosMenus,
-  'getRestosMenus'
+const restoMenusGetter = moduleBuilder.read(
+  state => state.restoMenus,
+  'getRestoMenus'
 );
 const currentMenuGetter = moduleBuilder.read(
   state => state.currentMenu,
@@ -46,21 +46,36 @@ const pageDataGetter = moduleBuilder.read(
 
 // mutations
 
-const setMenus = (state: MenuState, payload: Menu[]) => {
-  state.menus = payload;
-};
-const setRestosMenus = (state: MenuState, payload: Menu[]) => {
-  state.restosMenus = payload;
-};
-const setCurrentMenu = (state: MenuState, payload: MenuDetail | null) => {
-  state.currentMenu = payload;
-};
-const setLatestMenu = (state: MenuState, payload: MenuDetail | null) => {
-  state.latestMenu = payload;
-};
-const setPageData = (state: MenuState, payload: MenuPage) => {
-  state.pageData = payload;
-};
+const menusSetter = moduleBuilder.commit(
+  (state: MenuState, payload: Menu[]) => {
+    state.menus = payload;
+  },
+  'setMenus'
+);
+const restoMenusSetter = moduleBuilder.commit(
+  (state: MenuState, payload: Menu[]) => {
+    state.restoMenus = payload;
+  },
+  'setRestoMenus'
+);
+const currentMenuSetter = moduleBuilder.commit(
+  (state: MenuState, payload: MenuDetail | null) => {
+    state.currentMenu = payload;
+  },
+  'setCurrentMenu'
+);
+const latestMenuSetter = moduleBuilder.commit(
+  (state: MenuState, payload: MenuDetail | null) => {
+    state.latestMenu = payload;
+  },
+  'setLatestMenu'
+);
+const pageDataSetter = moduleBuilder.commit(
+  (state: MenuState, payload: MenuPage | null) => {
+    state.pageData = payload;
+  },
+  'setPageData'
+);
 
 // actions
 const fetchMenus = async (
@@ -80,14 +95,14 @@ const fetchMenus = async (
       },
     });
 
-    setMenus(context.state, response.data.menus);
-    setPageData(context.state, response.data.meta.page);
+    menuStore.menus = response.data.menus;
+    menuStore.pageData = response.data.meta.page;
   } catch (e) {
     console.log('could not fetch menus');
   }
 };
 
-const fetchRestosMenus = async (
+const fetchRestoMenus = async (
   context: BareActionContext<MenuState, RootState>,
   payload: {
     page: number;
@@ -126,8 +141,8 @@ const fetchRestosMenus = async (
       }
     }
 
-    setRestosMenus(context.state, allMenus);
-    setPageData(context.state, urlList.data.meta.page);
+    menuStore.restoMenus = allMenus;
+    menuStore.pageData = urlList.data.meta.page;
   } catch (e) {
     console.log('could not fetch menus');
   }
@@ -147,9 +162,9 @@ const fetchCurrentMenu = async (
       },
     });
 
-    setCurrentMenu(context.state, response.data);
+    menuStore.currentMenu = response.data;
   } catch (e) {
-    setCurrentMenu(context.state, null);
+    menuStore.currentMenu = null;
   }
 };
 
@@ -167,32 +182,47 @@ const fetchLatestMenu = async (
       },
     });
 
-    setLatestMenu(context.state, response.data);
+    menuStore.latestMenu = response.data;
   } catch (e) {
-    setLatestMenu(context.state, null);
+    menuStore.latestMenu = null;
   }
 };
 
-const menus = {
+const menuStore = {
   get menus() {
     return menusGetter();
   },
-  get restosMenus() {
-    return restosMenusGetter();
+  set menus(payload: Menu[]) {
+    menusSetter(payload);
+  },
+  get restoMenus() {
+    return restoMenusGetter();
+  },
+  set restoMenus(payload: Menu[]) {
+    restoMenusSetter(payload);
   },
   get currentMenu() {
     return currentMenuGetter();
   },
+  set currentMenu(payload: MenuDetail | null) {
+    currentMenuSetter(payload);
+  },
   get latestMenu() {
     return latestMenuGetter();
+  },
+  set latestMenu(payload: MenuDetail | null) {
+    latestMenuSetter(payload);
   },
   get pageData() {
     return pageDataGetter();
   },
+  set pageData(payload: MenuPage | null) {
+    pageDataSetter(payload);
+  },
   fetchMenus: moduleBuilder.dispatch(fetchMenus),
-  fetchRestosMenus: moduleBuilder.dispatch(fetchRestosMenus),
+  fetchRestoMenus: moduleBuilder.dispatch(fetchRestoMenus),
   fetchCurrentMenu: moduleBuilder.dispatch(fetchCurrentMenu),
   fetchLatestMenu: moduleBuilder.dispatch(fetchLatestMenu),
 };
 
-export default menus;
+export default menuStore;

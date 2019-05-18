@@ -38,5 +38,4 @@ export default class Dishes extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -1,7 +1,12 @@
 <template>
   <b-form @submit.stop.prevent="onSubmit" ref="form">
     <b-form-group id="input-group-1" label="Naam" label-for="input-1">
-      <b-form-input id="input-1" v-model="form.name" required placeholder="Naam" />
+      <b-form-input
+        id="input-1"
+        v-model="form.name"
+        required
+        placeholder="Naam"
+      />
     </b-form-group>
 
     <b-form-group id="input-group-2" label="Beschrijving" label-for="input-2">

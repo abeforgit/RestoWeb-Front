@@ -35,16 +35,15 @@ export default class MenuDetails extends Vue {
   public menu!: MenuDetail;
 
   public async created() {
-    await dishStore.fetchDishList({
-      dishList: this.menu.dishes,
-    });
+    // await dishStore.fetchDishList({
+    //   dishList: this.menu.dishes,
+    // });
   }
 
   @Watch('menu') public async onMenuChanged(
     newMenu: MenuDetail,
     oldMenu: MenuDetail
   ) {
-    console.log(newMenu.dishes);
     await dishStore.fetchDishList({
       dishList: newMenu.dishes,
     });
