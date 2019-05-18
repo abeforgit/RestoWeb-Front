@@ -13,12 +13,12 @@ import './modules/user';
 Vue.use(Vuex);
 
 export interface RootState {
-  dishState: DishState;
   restoState: RestoState;
   menuState: MenuState;
+  dishState: DishState;
   userState: UserState;
 }
-const storeBuilder = getStoreBuilder<RootState>();
 
+const storeBuilder = getStoreBuilder<RootState>();
 const store = storeBuilder.vuexStore();
 export default store;

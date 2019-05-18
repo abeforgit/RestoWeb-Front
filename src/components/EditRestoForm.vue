@@ -94,11 +94,15 @@ export default class EditRestoForm extends Vue implements FormComponent {
   }
   public async submit() {
     if (!this.resto) {
-      await restoStore.createResto(this.formData);
+      await restoStore.createResto({
+        newResto: this.formData,
+      });
     } else {
       await restoStore.updateCurrentResto({
-        url: this.resto.url,
-        ...this.formData,
+        resto: {
+          url: this.resto.url,
+          ...this.formData,
+        },
       });
     }
   }

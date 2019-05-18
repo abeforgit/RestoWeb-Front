@@ -6,11 +6,19 @@ import config from '@/config';
 
 export interface MenuState {
   menus: Menu[];
-  pageData: MenuPage | null;
+  restosMenus: Menu[];
+  currentMenu: MenuDetail | null;
   latestMenu: MenuDetail | null;
+  pageData: MenuPage | null;
 }
 
-const initialState: MenuState = { menus: [], pageData: null, latestMenu: null };
+const initialState: MenuState = {
+  menus: [],
+  restosMenus: [],
+  currentMenu: null,
+  latestMenu: null,
+  pageData: null,
+};
 
 const moduleBuilder = getStoreBuilder<RootState>().module(
   'menus',
@@ -18,15 +26,22 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 );
 
 // getters
-
 const menusGetter = moduleBuilder.read(state => state.menus, 'getMenus');
-const pageDataGetter = moduleBuilder.read(
-  state => state.pageData,
-  'getPageData'
+const restosMenusGetter = moduleBuilder.read(
+  state => state.restosMenus,
+  'getRestosMenus'
+);
+const currentMenuGetter = moduleBuilder.read(
+  state => state.currentMenu,
+  'getCurrentMenuState'
 );
 const latestMenuGetter = moduleBuilder.read(
   state => state.latestMenu,
   'getLatestMenu'
+);
+const pageDataGetter = moduleBuilder.read(
+  state => state.pageData,
+  'getPageData'
 );
 
 // mutations
@@ -34,17 +49,23 @@ const latestMenuGetter = moduleBuilder.read(
 const setMenus = (state: MenuState, payload: Menu[]) => {
   state.menus = payload;
 };
-const setPageData = (state: MenuState, payload: MenuPage) => {
-  state.pageData = payload;
+const setRestosMenus = (state: MenuState, payload: Menu[]) => {
+  state.restosMenus = payload;
+};
+const setCurrentMenu = (state: MenuState, payload: MenuDetail | null) => {
+  state.currentMenu = payload;
 };
 const setLatestMenu = (state: MenuState, payload: MenuDetail | null) => {
   state.latestMenu = payload;
+};
+const setPageData = (state: MenuState, payload: MenuPage) => {
+  state.pageData = payload;
 };
 
 // actions
 const fetchMenus = async (
   context: BareActionContext<MenuState, RootState>,
-  page: number
+  payload: { page: number }
 ) => {
   try {
     const response = await axios({
@@ -52,7 +73,7 @@ const fetchMenus = async (
       baseURL: config.URL,
       url: 'menus',
       params: {
-        page,
+        page: payload.page,
       },
       headers: {
         Accept: 'application/json',
@@ -66,19 +87,87 @@ const fetchMenus = async (
   }
 };
 
-const fetchLatestMenu = async (
+const fetchRestosMenus = async (
   context: BareActionContext<MenuState, RootState>,
-  id: number
+  payload: {
+    page: number;
+    restoId: number;
+  }
+) => {
+  try {
+    const urlList = await axios({
+      method: 'GET',
+      baseURL: config.URL,
+      url: '/restos/' + payload.restoId + '/menus',
+      params: {
+        page: payload.page,
+      },
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    const allMenus: Menu[] = [];
+    for (const menu of urlList.data.menus) {
+      try {
+        const response = await axios({
+          method: 'GET',
+          baseURL: menu.url,
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+        allMenus.push({
+          url: menu.url,
+          date: response.data.date,
+        });
+      } catch (e) {
+        console.log('could not fetch menus');
+      }
+    }
+
+    setRestosMenus(context.state, allMenus);
+    setPageData(context.state, urlList.data.meta.page);
+  } catch (e) {
+    console.log('could not fetch menus');
+  }
+};
+
+const fetchCurrentMenu = async (
+  context: BareActionContext<MenuState, RootState>,
+  payload: { menuId: number }
 ) => {
   try {
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: 'restos/' + id + '/latestmenu',
+      url: '/menus/' + payload.menuId,
       headers: {
         Accept: 'application/json',
       },
     });
+
+    setCurrentMenu(context.state, response.data);
+  } catch (e) {
+    setCurrentMenu(context.state, null);
+    console.log('could not fetch menu');
+  }
+};
+
+const fetchLatestMenu = async (
+  context: BareActionContext<MenuState, RootState>,
+  payload: { restoId: number }
+) => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      baseURL: config.URL,
+      url: 'restos/' + payload.restoId + '/latestmenu',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
     setLatestMenu(context.state, response.data);
   } catch (e) {
     setLatestMenu(context.state, null);
@@ -90,13 +179,21 @@ const menus = {
   get menus() {
     return menusGetter();
   },
-  get pageData() {
-    return pageDataGetter();
+  get restosMenus() {
+    return restosMenusGetter();
+  },
+  get currentMenu() {
+    return currentMenuGetter();
   },
   get latestMenu() {
     return latestMenuGetter();
   },
+  get pageData() {
+    return pageDataGetter();
+  },
   fetchMenus: moduleBuilder.dispatch(fetchMenus),
+  fetchRestosMenus: moduleBuilder.dispatch(fetchRestosMenus),
+  fetchCurrentMenu: moduleBuilder.dispatch(fetchCurrentMenu),
   fetchLatestMenu: moduleBuilder.dispatch(fetchLatestMenu),
 };
 

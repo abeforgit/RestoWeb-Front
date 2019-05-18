@@ -53,7 +53,9 @@ export default class EditDishForm extends Vue implements FormComponent {
     this.formData = data;
   }
   public async submit() {
-    await dishStore.createDish(this.formData);
+    await dishStore.createDish({
+      newDish: this.formData,
+    });
   }
   public checkValidity() {
     return this.$refs.form.checkValidity();

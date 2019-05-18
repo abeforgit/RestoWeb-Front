@@ -45,7 +45,7 @@ const loginUser = async (
 
     context.state.auth = response.data;
   } catch (e) {
-    console.log('could not fetch restos');
+    console.log('could not login');
   }
 };
 
