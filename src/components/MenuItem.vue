@@ -1,6 +1,6 @@
 <template>
   <div id="menu_item">
-    <b-link :href="item.url">Menu voor {{ parsedDate }}</b-link>
+    <router-link :to="link">Menu voor {{ parsedDate }}</router-link>
   </div>
 </template>
 
@@ -9,6 +9,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import { Menu } from '@/APITypes';
+import { getRoute } from '@/router';
 
 @Component
 export default class MenuItem extends Vue {
@@ -17,14 +18,8 @@ export default class MenuItem extends Vue {
   @Prop()
   private item!: Menu;
 
-  private created() {
-    this.parseDate();
-  }
-
-  private parseDate(): void {
-    const date = new Date(this.item.date);
-    this.parsedDate =
-      date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear();
+  get link() {
+    return getRoute(this.item.url);
   }
 }
 </script>

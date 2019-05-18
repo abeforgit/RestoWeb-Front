@@ -8,7 +8,7 @@
       <FormModal id="editModal">
         <EditDishForm #default />
       </FormModal>
-      <b-button v-b-modal="'editModal'">Add Dish</b-button>
+      <b-button v-b-modal="'editModal'">Voeg gerecht toe</b-button>
     </div>
   </div>
 </template>

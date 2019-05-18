@@ -7,7 +7,6 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'restos' }">Resto's</b-nav-item>
-          <b-nav-item :to="{ name: 'menus' }">Menu's</b-nav-item>
           <b-nav-item :to="{ name: 'dishes' }">Gerechten</b-nav-item>
         </b-navbar-nav>
 
