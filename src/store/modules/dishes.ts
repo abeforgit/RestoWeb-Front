@@ -35,9 +35,10 @@ const fetchDishes = async (
         Accept: 'application/json',
       },
     });
+
     setDishes(context.state, response.data.dishes);
   } catch (e) {
-    console.log('could not fetch dishes');
+    setDishes(context.state, []);
   }
 };
 
@@ -57,6 +58,7 @@ const fetchDishList = async (
             Accept: 'application/json',
           },
         });
+        console.log(response.data);
         allDishes.push(response.data);
       } catch (e) {
         console.log('could not fetch dishes');

@@ -1,31 +1,31 @@
 <template>
   <b-form @submit.stop.prevent="onSubmit" ref="form">
-    <b-form-group id="input-group-1" label="Name:" label-for="input-1">
-      <b-form-input id="input-1" v-model="form.name" required />
+    <b-form-group id="input-group-1" label="Naam" label-for="input-1">
+      <b-form-input id="input-1" v-model="form.name" required placeholder="Naam" />
     </b-form-group>
 
-    <b-form-group id="input-group-2" label="Description" label-for="input-2">
+    <b-form-group id="input-group-2" label="Beschrijving" label-for="input-2">
       <b-form-input
         id="input-2"
         v-model="form.description"
         required
-        placeholder="Enter description"
+        placeholder="Beschrijving"
       />
     </b-form-group>
-    <b-form-group id="input-group-3" label="Address" label-for="input-3">
+    <b-form-group id="input-group-3" label="Adres" label-for="input-3">
       <b-form-input
         id="input-3"
         v-model="form.location.address"
         required
-        placeholder="Enter address"
+        placeholder="Adres"
       />
     </b-form-group>
-    <b-form-group id="input-group-4" label="City" label-for="input-4">
+    <b-form-group id="input-group-4" label="Stad" label-for="input-4">
       <b-form-input
         id="input-4"
         v-model="form.location.city"
         required
-        placeholder="Enter city"
+        placeholder="Stad"
       />
     </b-form-group>
     <b-form-group id="input-group-5" label="Campus" label-for="input-5">
@@ -33,15 +33,15 @@
         id="input-5"
         v-model="form.location.campus"
         required
-        placeholder="Enter campus"
+        placeholder="Campus"
       />
     </b-form-group>
-    <b-form-group id="input-group-6" label="Zip code" label-for="input-6">
+    <b-form-group id="input-group-6" label="Postcode" label-for="input-6">
       <b-form-input
         id="input-6"
         v-model="form.location.zip_code"
         required
-        placeholder="Enter zip code"
+        placeholder="Postcode"
       />
     </b-form-group>
   </b-form>
