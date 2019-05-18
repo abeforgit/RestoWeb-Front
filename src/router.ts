@@ -35,7 +35,7 @@ export default new Router({
     {
       path: '/restos/:id/menus',
       name: 'menus',
-      component: () => import('./views/Menus.vue'),
+      component: () => import('./views/RestosMenus.vue'),
     },
     {
       path: '/menus/:id',

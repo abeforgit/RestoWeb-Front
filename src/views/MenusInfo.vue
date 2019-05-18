@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MenuDetails v-if="menu" menu="menu" />
+       <MenuDetails v-if="menu" :menu="menu" />
     </div>
 </template>
 
@@ -8,15 +8,22 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import menuStore from '@/store/modules/menus';
+import MenuDetails from '@/components/MenuDetails.vue';
 
-@Component
+@Component({
+  components: {
+    MenuDetails,
+  },
+})
 export default class MenusInfo extends Vue {
   get menu() {
     return menuStore.currentMenu;
   }
 
-  private async beforeCreate() {
-    await menuStore.fetchCurrentMenu(parseInt(this.$route.params.id, 10));
+  private async created() {
+    await menuStore.fetchCurrentMenu({
+      menu_id: parseInt(this.$route.params.id, 10),
+    });
   }
 }
 </script>

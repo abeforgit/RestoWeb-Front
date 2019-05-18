@@ -48,7 +48,6 @@ const fetchDishList = async (
   // TODO: convert to Promise.all()
   try {
     const allDishes: Dish[] = [];
-    console.log(dishList);
     for (const dish of dishList) {
       try {
         const response = await axios({

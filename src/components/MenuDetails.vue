@@ -1,9 +1,8 @@
 <template>
   <div>
-    <span>{{ menu.date }}</span>
+    <span>{{ parsedDate }}</span>
     <b-card-group horizontal>
       <DishDetails :dish="dish" v-for="dish in dishes" :key="dish.url" />
-      {{ dishes }}
     </b-card-group>
   </div>
 </template>
@@ -15,6 +14,7 @@ import { Prop } from 'vue-property-decorator';
 import { MenuDetail } from '@/APITypes';
 import dishStore from '@/store/modules/dishes';
 import DishDetails from '@/components/DishDetails.vue';
+import { parseDate } from '@/util';
 
 @Component({
   components: {
@@ -22,14 +22,16 @@ import DishDetails from '@/components/DishDetails.vue';
   },
 })
 export default class MenuDetails extends Vue {
-  @Prop()
-  public menu!: MenuDetail;
-
   get dishes() {
     return dishStore.dishes;
   }
 
+  @Prop()
+  public menu!: MenuDetail;
+  private parsedDate!: string;
+
   public async created() {
+    this.parsedDate = parseDate(this.menu.date);
     await dishStore.fetchDishList(this.menu.dishes);
   }
 }

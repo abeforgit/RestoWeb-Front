@@ -1,6 +1,6 @@
 <template>
   <div id="menu_item">
-    <router-link :to="link">Menu voor {{ parsedDate }}</router-link>
+    <router-link :to="link">Menu voor</router-link>
   </div>
 </template>
 
@@ -13,8 +13,6 @@ import { getRoute } from '@/router';
 
 @Component
 export default class MenuItem extends Vue {
-  private parsedDate!: string;
-
   @Prop()
   private item!: Menu;
 
