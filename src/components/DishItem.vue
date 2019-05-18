@@ -6,11 +6,12 @@
           <b-card-text>{{ item.name }}</b-card-text>
         </b-col>
         <b-col md="auto">
-          <star-rating v-if="auth"
-                       v-bind:star-size="30" />
+          <star-rating 
+                       v-bind:star-size="30"
+                       @rating-selected="setRating" />
         </b-col>
         <b-col md="auto">
-          <b-button v-if="auth" v-b-modal="item.url">Edit</b-button>
+          <b-button v-if="auth" v-b-modal="item.url">Wijzig</b-button>
         </b-col>
       </b-row>
     </b-card>
@@ -38,6 +39,10 @@ export default class DishItem extends Vue {
 
   get auth() {
     return userStore.auth;
+  }
+
+  public setRating(rating: number) {
+    console.log('test');
   }
 }
 </script>
