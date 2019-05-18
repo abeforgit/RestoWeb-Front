@@ -50,7 +50,6 @@ export default class DishItem extends Vue {
     });
   }
 }
-</script>
-
+</script
 <style scoped>
 </style>
