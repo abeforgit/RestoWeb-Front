@@ -82,7 +82,23 @@ const createUser = async (
 };
 
 const logout = async (context: BareActionContext<UserState, RootState>) => {
-  userState.user = null;
+  try {
+    const response = await axios({
+      method: 'POST',
+      baseURL: config.URL,
+      url: 'logout',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      userState.user = null;
+      userState.auth = null;
+    }
+  } catch (e) {
+    console.log('could not logout');
+  }
 };
 
 const userState = {

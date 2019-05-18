@@ -34,7 +34,6 @@ import userState from '@/store/modules/user';
 @Component
 export default class Navbar extends Vue {
   get loggedIn() {
-    console.log(userState.auth);
     return userState.auth != null;
   }
 
