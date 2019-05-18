@@ -1,9 +1,12 @@
 <template>
-  <div v-if="info">
+  <div class="resto_info" v-if="info">
     <h1>{{ info.name }}</h1>
     <Location :location="info.location" />
     <p>{{ info.description }}</p>
+    <hr>
+
     <Schedules :schedules="info.schedules" />
+    <hr>
 
     <h2>Menu's</h2>
     <h3>Meest recent menu</h3>
@@ -54,12 +57,18 @@ export default class RestosInfo extends Vue {
   }
 
   private async beforeCreate() {
-    await restoStore.fetchCurrentResto(parseInt(this.$route.params.id, 10));
+    await restoStore.fetchCurrentResto({
+      restoId: parseInt(this.$route.params.id, 10),
+    });
     await menuStore.fetchLatestMenu({
-      resto_id: parseInt(this.$route.params.id, 10),
+      restoId: parseInt(this.$route.params.id, 10),
     });
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+  .resto_info {
+    padding: 20px;
+  }
+</style>

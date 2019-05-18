@@ -39,7 +39,7 @@ export default class RestoList extends Vue {
     return userStore.auth;
   }
 
-  public async created() {
+  public async beforeCreate() {
     await restoState.fetchRestos();
   }
 }

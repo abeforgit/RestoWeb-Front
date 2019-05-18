@@ -20,9 +20,9 @@ export default class MenusInfo extends Vue {
     return menuStore.currentMenu;
   }
 
-  private async created() {
+  private async beforeCreate() {
     await menuStore.fetchCurrentMenu({
-      menu_id: parseInt(this.$route.params.id, 10),
+      menuId: parseInt(this.$route.params.id, 10),
     });
   }
 }

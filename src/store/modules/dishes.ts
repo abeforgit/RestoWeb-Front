@@ -43,12 +43,12 @@ const fetchDishes = async (
 
 const fetchDishList = async (
   context: BareActionContext<DishState, RootState>,
-  dishList: Array<{ url: string }>
+  payload: { dishList: Array<{ url: string }> }
 ) => {
   // TODO: convert to Promise.all()
   try {
     const allDishes: Dish[] = [];
-    for (const dish of dishList) {
+    for (const dish of payload.dishList) {
       try {
         const response = await axios({
           method: 'GET',
@@ -63,8 +63,8 @@ const fetchDishList = async (
       }
     }
     setDishes(context.state, allDishes);
-  } finally {
-    console.log('finally');
+  } catch (e) {
+    console.log('could not fetch dishes');
   }
 };
 
@@ -77,15 +77,16 @@ export interface NewDish {
 
 const createDish = async (
   context: BareActionContext<DishState, RootState>,
-  payload: NewDish
+  payload: { newDish: NewDish }
 ) => {
   try {
     const response = await axios({
       method: 'POST',
       baseURL: config.URL,
       url: 'dishes',
-      data: payload,
+      data: payload.newDish,
     });
+
     await fetchDishes(context);
   } catch (e) {
     console.log('could not create dish');

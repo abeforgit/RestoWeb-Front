@@ -26,13 +26,17 @@ export default class MenuDetails extends Vue {
     return dishStore.dishes;
   }
 
+  get parsedDate() {
+    return parseDate(this.menu.date);
+  }
+
   @Prop()
   public menu!: MenuDetail;
-  private parsedDate!: string;
 
   public async created() {
-    this.parsedDate = parseDate(this.menu.date);
-    await dishStore.fetchDishList(this.menu.dishes);
+    await dishStore.fetchDishList({
+      dishList: this.menu.dishes,
+    });
   }
 }
 </script>

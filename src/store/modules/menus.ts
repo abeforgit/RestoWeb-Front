@@ -91,14 +91,14 @@ const fetchRestosMenus = async (
   context: BareActionContext<MenuState, RootState>,
   payload: {
     page: number;
-    resto_id: number;
+    restoId: number;
   }
 ) => {
   try {
-    const response = await axios({
+    const urlList = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: '/restos/' + payload.resto_id + '/menus',
+      url: '/restos/' + payload.restoId + '/menus',
       params: {
         page: payload.page,
       },
@@ -107,8 +107,27 @@ const fetchRestosMenus = async (
       },
     });
 
-    setRestosMenus(context.state, response.data.menus);
-    setPageData(context.state, response.data.meta.page);
+    const allMenus: Menu[] = [];
+    for (const menu of urlList.data.menus) {
+      try {
+        const response = await axios({
+          method: 'GET',
+          baseURL: menu.url,
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+        allMenus.push({
+          url: menu.url,
+          date: response.data.date,
+        });
+      } catch (e) {
+        console.log('could not fetch menus');
+      }
+    }
+
+    setRestosMenus(context.state, allMenus);
+    setPageData(context.state, urlList.data.meta.page);
   } catch (e) {
     console.log('could not fetch menus');
   }
@@ -116,13 +135,13 @@ const fetchRestosMenus = async (
 
 const fetchCurrentMenu = async (
   context: BareActionContext<MenuState, RootState>,
-  payload: { menu_id: number }
+  payload: { menuId: number }
 ) => {
   try {
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: '/menus/' + payload.menu_id,
+      url: '/menus/' + payload.menuId,
       headers: {
         Accept: 'application/json',
       },
@@ -137,13 +156,13 @@ const fetchCurrentMenu = async (
 
 const fetchLatestMenu = async (
   context: BareActionContext<MenuState, RootState>,
-  payload: { resto_id: number }
+  payload: { restoId: number }
 ) => {
   try {
     const response = await axios({
       method: 'GET',
       baseURL: config.URL,
-      url: 'restos/' + payload.resto_id + '/latestmenu',
+      url: 'restos/' + payload.restoId + '/latestmenu',
       headers: {
         Accept: 'application/json',
       },

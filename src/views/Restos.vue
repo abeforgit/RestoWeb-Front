@@ -27,9 +27,15 @@ export default class Restos extends Vue {
       },
     };
 
-    await restoStore.createResto(example);
+    await restoStore.createResto({
+      newResto: example,
+    });
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+  .restos {
+    padding: 20px;
+  }
+</style>
