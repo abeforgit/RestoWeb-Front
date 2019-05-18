@@ -47,7 +47,6 @@ export interface MenuPage {
 
 export interface User {
   username: string;
-  password: string;
   admin: boolean;
 }
 

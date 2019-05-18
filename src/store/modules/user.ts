@@ -43,7 +43,11 @@ const loginUser = async (
       },
     });
 
-    context.state.auth = response.data;
+    context.state.auth = { token: response.data.token };
+    context.state.user = {
+      username: response.data.username,
+      admin: response.data.is_admin,
+    };
   } catch (e) {
     console.log('could not fetch restos');
   }

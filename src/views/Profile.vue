@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ user.username }}</h1>
-    <h1 v-if="user.administrator">Administrator</h1>
+    <h1 v-if="user.admin">Administrator</h1>
   </div>
 </template>
 

@@ -42,6 +42,7 @@ export default class Navbar extends Vue {
 
   public async logout() {
     userState.logout();
+    this.$router.push({ name: 'home' });
   }
 }
 </script>
