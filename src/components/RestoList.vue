@@ -7,7 +7,7 @@
         <RestoListItem :resto="resto"></RestoListItem>
       </li>
     </ul>
-    <div v-if="auth">
+    <div v-if="isAdmin">
       <b-button v-b-modal="'RestoModal'">Voeg resto toe</b-button>
       <FormModal id="RestoModal">
         <EditRestoForm #default />
@@ -34,9 +34,8 @@ export default class RestoList extends Vue {
   get restos() {
     return restoState.restos;
   }
-
-  get auth() {
-    return userStore.auth;
+  get isAdmin() {
+    return userStore.isAdmin;
   }
 
   public async beforeCreate() {
