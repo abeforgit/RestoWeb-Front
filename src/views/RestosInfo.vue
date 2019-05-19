@@ -24,7 +24,7 @@
     <div v-if="isAdmin">
       <b-button v-b-modal="'EditModal'">Wijzig</b-button>
       <b-button v-on:click="deleteResto">Verwijder Resto</b-button>
-      <FormModal v-if="latestMenu" id="EditModal">
+      <FormModal id="EditModal">
         <EditRestoForm :resto="info" />
       </FormModal>
     </div>

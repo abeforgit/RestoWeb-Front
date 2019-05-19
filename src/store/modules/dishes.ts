@@ -81,7 +81,7 @@ export interface NewDish {
 
 const createDish = async (
   context: BareActionContext<DishState, RootState>,
-  payload: { newDish: NewDish }
+  payload: { newDish: NewDish; token: string }
 ) => {
   try {
     const response = await axios({
@@ -89,6 +89,9 @@ const createDish = async (
       baseURL: config.URL,
       url: 'dishes',
       data: payload.newDish,
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
     });
 
     await fetchDishes(context);
@@ -144,6 +147,24 @@ const addRating = async (
     console.log('could not add rating');
   }
 };
+const updateDish = async (
+  context: BareActionContext<DishState, RootState>,
+  payload: { dish: Dish; token: string }
+) => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: payload.dish.url,
+      data: { ...payload.dish },
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+    await fetchDishes(context);
+  } catch (e) {
+    console.log('could not update dish');
+  }
+};
 
 const dishStore = {
   get dishes() {
@@ -157,5 +178,6 @@ const dishStore = {
   createDish: moduleBuilder.dispatch(createDish),
   deleteDish: moduleBuilder.dispatch(deleteDish),
   addRating: moduleBuilder.dispatch(addRating),
+  updateDish: moduleBuilder.dispatch(updateDish),
 };
 export default dishStore;
