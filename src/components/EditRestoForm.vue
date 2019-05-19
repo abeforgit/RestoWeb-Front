@@ -64,9 +64,11 @@ import userStore from '@/store/modules/user.ts';
 export default class EditRestoForm extends Vue implements FormComponent {
   @Prop()
   public resto?: RestoInfo;
+
   public $refs!: {
     form: HTMLFormElement;
   };
+
   private formData: NewResto = {
     name: '',
     description: '',
@@ -77,6 +79,7 @@ export default class EditRestoForm extends Vue implements FormComponent {
       campus: '',
     },
   };
+
   public created() {
     if (!userStore.auth) {
       console.log('NOT LOGGED IN');
@@ -90,6 +93,7 @@ export default class EditRestoForm extends Vue implements FormComponent {
       };
     }
   }
+
   get form() {
     return this.formData;
   }
@@ -97,6 +101,7 @@ export default class EditRestoForm extends Vue implements FormComponent {
   set form(data: NewResto) {
     this.formData = data;
   }
+
   public async submit() {
     if (!this.resto) {
       await restoStore.createResto({
@@ -112,6 +117,7 @@ export default class EditRestoForm extends Vue implements FormComponent {
       });
     }
   }
+
   public checkValidity() {
     return this.$refs.form.checkValidity();
   }

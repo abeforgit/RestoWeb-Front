@@ -2,7 +2,7 @@
   <div>
     <span>{{ parsedDate }}</span>
     <b-card-group horizontal>
-      <DishDetails :dish="dish" v-for="dish in dishes" :key="dish.url" />
+      <DishDetails :dish="dish" v-for="dish in dishList" :key="dish.url" />
     </b-card-group>
   </div>
 </template>
@@ -22,8 +22,8 @@ import { parseDate } from '@/util';
   },
 })
 export default class MenuDetails extends Vue {
-  get dishes() {
-    return dishStore.dishes;
+  get dishList() {
+    return dishStore.dishList;
   }
 
   get parsedDate() {

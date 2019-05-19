@@ -6,9 +6,10 @@ import { Dish } from '@/APITypes';
 
 export interface DishState {
   dishes: Dish[];
+  dishList: Dish[];
 }
 
-const initialState: DishState = { dishes: [] };
+const initialState: DishState = { dishes: [], dishList: [] };
 const moduleBuilder = getStoreBuilder<RootState>().module(
   'dishes',
   initialState
@@ -16,6 +17,10 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 
 // getters
 const dishesGetter = moduleBuilder.read(state => state.dishes, 'getDishes');
+const dishListGetter = moduleBuilder.read(
+  state => state.dishList,
+  'getDishList'
+);
 
 // mutations
 const dishesSetter = moduleBuilder.commit(
@@ -23,6 +28,13 @@ const dishesSetter = moduleBuilder.commit(
     state.dishes = payload;
   },
   'setDishes'
+);
+
+const dishListSetter = moduleBuilder.commit(
+  (state: DishState, payload: Dish[]) => {
+    state.dishList = payload;
+  },
+  'setDishList'
 );
 
 // actions
@@ -39,7 +51,19 @@ const fetchDishes = async (
       },
     });
 
-    dishStore.dishes = response.data.dishes;
+    const allDishes: Dish[] = [];
+    for (const dish of response.data.dishes) {
+      const ratingResponse = await axios({
+        method: 'GET',
+        baseURL: dish.url + '/ratings',
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+      dish.ratings = ratingResponse.data.ratings;
+      allDishes.push(dish);
+    }
+    dishStore.dishes = allDishes;
   } catch (e) {
     dishStore.dishes = [];
   }
@@ -66,7 +90,7 @@ const fetchDishList = async (
         console.log('could not fetch dishes');
       }
     }
-    dishStore.dishes = allDishes;
+    dishStore.dishList = allDishes;
   } catch (e) {
     console.log('could not fetch dishes');
   }
@@ -151,6 +175,12 @@ const dishStore = {
   },
   set dishes(payload: Dish[]) {
     dishesSetter(payload);
+  },
+  get dishList() {
+    return dishListGetter();
+  },
+  set dishList(payload: Dish[]) {
+    dishListSetter(payload);
   },
   fetchDishes: moduleBuilder.dispatch(fetchDishes),
   fetchDishList: moduleBuilder.dispatch(fetchDishList),

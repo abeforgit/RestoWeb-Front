@@ -175,6 +175,56 @@ const deleteMenu = async (
   }
 };
 
+export interface NewMenu {
+  date: string;
+  dishes: Array<{ url: string }>;
+}
+
+const createRestoMenu = async (
+  context: BareActionContext<MenuState, RootState>,
+  payload: {
+    restoMenusPath: string;
+    newMenu: NewMenu;
+    token: string;
+  }
+) => {
+  try {
+    await axios({
+      method: 'POST',
+      baseURL: config.URL,
+      url: payload.restoMenusPath,
+      data: payload.newMenu,
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+  } catch (e) {
+    console.log('could not add menu');
+  }
+};
+
+const updateCurrentMenu = async (
+  context: BareActionContext<MenuState, RootState>,
+  payload: {
+    url: string;
+    menu: NewMenu;
+    token: string;
+  }
+) => {
+  try {
+    await axios({
+      method: 'POST',
+      baseURL: payload.url,
+      data: payload.menu,
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+  } catch (e) {
+    console.log('could not ups  rz menu');
+  }
+};
+
 const menuStore = {
   get restoMenus() {
     return restoMenusGetter();
@@ -204,6 +254,8 @@ const menuStore = {
   fetchCurrentMenu: moduleBuilder.dispatch(fetchCurrentMenu),
   fetchLatestMenu: moduleBuilder.dispatch(fetchLatestMenu),
   deleteMenu: moduleBuilder.dispatch(deleteMenu),
+  createRestoMenu: moduleBuilder.dispatch(createRestoMenu),
+  updateCurrentMenu: moduleBuilder.dispatch(updateCurrentMenu),
 };
 
 export default menuStore;
