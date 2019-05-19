@@ -97,6 +97,29 @@ const createDish = async (
   }
 };
 
+const deleteDish = async (
+  context: BareActionContext<DishState, RootState>,
+  payload: {
+    dishPath: string;
+    token: string;
+  }
+) => {
+  try {
+    const response = await axios({
+      method: 'DELETE',
+      baseURL: config.URL,
+      url: payload.dishPath,
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+
+    await fetchDishes(context);
+  } catch (e) {
+    console.log('could not delete dish');
+  }
+};
+
 const addRating = async (
   context: BareActionContext<DishState, RootState>,
   payload: {
@@ -132,6 +155,7 @@ const dishStore = {
   fetchDishes: moduleBuilder.dispatch(fetchDishes),
   fetchDishList: moduleBuilder.dispatch(fetchDishList),
   createDish: moduleBuilder.dispatch(createDish),
+  deleteDish: moduleBuilder.dispatch(deleteDish),
   addRating: moduleBuilder.dispatch(addRating),
 };
 export default dishStore;
