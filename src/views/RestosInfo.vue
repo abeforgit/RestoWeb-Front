@@ -23,6 +23,7 @@
 
     <div v-if="auth">
       <b-button v-b-modal="'EditModal'">Wijzig</b-button>
+      <b-button v-on:click="deleteResto">Verwijder Resto</b-button>
       <FormModal v-if="latestMenu" id="EditModal">
         <EditRestoForm :resto="info" />
       </FormModal>
@@ -65,6 +66,14 @@ export default class RestosInfo extends Vue {
     await menuStore.fetchLatestMenu({
       restoPath: this.$route.path,
     });
+  }
+
+  private async deleteResto() {
+    await restoStore.deleteCurrentResto({
+      restoPath: this.$route.path,
+      token: userStore.auth!.token,
+    });
+    this.$router.push({ name: 'restos' });
   }
 }
 </script>
