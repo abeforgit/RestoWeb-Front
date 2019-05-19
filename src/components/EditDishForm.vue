@@ -26,7 +26,7 @@ import { Prop } from 'vue-property-decorator';
 import { FormComponent } from '@/UtilTypes.ts';
 import dishStore, { NewDish } from '@/store/modules/dishes.ts';
 import userStore from '@/store/modules/user';
-import { Dish } from '@/APITypes';
+import { Dish, DishDetail } from '@/APITypes';
 
 @Component
 export default class EditDishForm extends Vue implements FormComponent {
