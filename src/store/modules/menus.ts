@@ -221,7 +221,7 @@ const updateCurrentMenu = async (
       },
     });
   } catch (e) {
-    console.log('could not ups  rz menu');
+    console.log('could not update menu');
   }
 };
 
