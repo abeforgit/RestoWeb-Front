@@ -80,6 +80,7 @@ const loginUser = async (
     userStore.user = {
       username: response.data.username,
       admin: response.data.is_admin,
+      url: response.data.url,
     };
   } catch (e) {
     console.log('could not login');

@@ -2,10 +2,11 @@ import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
 import axios from 'axios';
 import config from '@/config';
-import { Dish } from '@/APITypes';
+import { DishDetail, Rating } from '@/APITypes';
+import { mount } from '@vue/test-utils';
 
 export interface DishState {
-  dishes: Dish[];
+  dishes: DishDetail[];
 }
 
 const initialState: DishState = { dishes: [] };
@@ -19,7 +20,7 @@ const dishesGetter = moduleBuilder.read(state => state.dishes, 'getDishes');
 
 // mutations
 const dishesSetter = moduleBuilder.commit(
-  (state: DishState, payload: Dish[]) => {
+  (state: DishState, payload: DishDetail[]) => {
     state.dishes = payload;
   },
   'setDishes'
@@ -51,7 +52,7 @@ const fetchDishList = async (
 ) => {
   // TODO: convert to Promise.all()
   try {
-    const allDishes: Dish[] = [];
+    const allDishes: DishDetail[] = [];
     for (const dish of payload.dishList) {
       try {
         const response = await axios({
@@ -147,9 +148,26 @@ const addRating = async (
     console.log('could not add rating');
   }
 };
+const updateRating = async (
+  context: BareActionContext<DishState, RootState>,
+  payload: { rating: Rating; token: string }
+) => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: payload.rating.url,
+      data: { rating: payload.rating.rating },
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+  } catch (e) {
+    console.log('could not set rating');
+  }
+};
 const updateDish = async (
   context: BareActionContext<DishState, RootState>,
-  payload: { dish: Dish; token: string }
+  payload: { dish: DishDetail; token: string }
 ) => {
   try {
     const response = await axios({
@@ -170,7 +188,7 @@ const dishStore = {
   get dishes() {
     return dishesGetter();
   },
-  set dishes(payload: Dish[]) {
+  set dishes(payload: DishDetail[]) {
     dishesSetter(payload);
   },
   fetchDishes: moduleBuilder.dispatch(fetchDishes),
@@ -179,5 +197,6 @@ const dishStore = {
   deleteDish: moduleBuilder.dispatch(deleteDish),
   addRating: moduleBuilder.dispatch(addRating),
   updateDish: moduleBuilder.dispatch(updateDish),
+  updateRating: moduleBuilder.dispatch(updateRating),
 };
 export default dishStore;
