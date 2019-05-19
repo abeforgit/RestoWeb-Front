@@ -101,6 +101,7 @@ export default class EditRestoForm extends Vue implements FormComponent {
     if (!this.resto) {
       await restoStore.createResto({
         newResto: this.formData,
+        token: userStore.auth!.token,
       });
     } else {
       await restoStore.updateCurrentResto({

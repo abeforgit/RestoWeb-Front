@@ -94,6 +94,7 @@ const updateCurrentResto = async (
         Authorization: `Token ${payload.token}`,
       },
     });
+    fetchCurrentResto(context, { restoPath: payload.resto.url });
   } catch (e) {
     console.log('could not update resto');
   }
@@ -128,7 +129,7 @@ export interface NewResto {
 
 const createResto = async (
   context: BareActionContext<RestoState, RootState>,
-  payload: { newResto: NewResto }
+  payload: { newResto: NewResto; token: string }
 ) => {
   try {
     await axios({
@@ -136,6 +137,9 @@ const createResto = async (
       baseURL: config.URL,
       url: 'restos',
       data: payload.newResto,
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
     });
     await fetchRestos(context);
   } catch (e) {

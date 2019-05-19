@@ -25,11 +25,13 @@ import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import { FormComponent } from '@/UtilTypes.ts';
 import dishStore, { NewDish } from '@/store/modules/dishes.ts';
+import userStore from '@/store/modules/user';
+import { Dish } from '@/APITypes';
 
 @Component
 export default class EditDishForm extends Vue implements FormComponent {
   @Prop()
-  public dish?: NewDish;
+  public dish?: Dish;
 
   public $refs!: {
     form: HTMLFormElement;
@@ -53,9 +55,20 @@ export default class EditDishForm extends Vue implements FormComponent {
     this.formData = data;
   }
   public async submit() {
-    await dishStore.createDish({
-      newDish: this.formData,
-    });
+    if (!this.dish) {
+      await dishStore.createDish({
+        newDish: this.formData,
+        token: userStore.auth!.token,
+      });
+    } else {
+      await dishStore.updateDish({
+        dish: {
+          url: this.dish.url,
+          ...this.formData,
+        },
+        token: userStore.auth!.token,
+      });
+    }
   }
   public checkValidity() {
     return this.$refs.form.checkValidity();
