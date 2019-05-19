@@ -1,17 +1,23 @@
 <template>
-    <div>
-        <b-form @submit.stop.prevent="onSubmit" ref="form">
-            <b-form-group id="input-group-1" label="Datum" label-for="input-1">
-                <b-form-input
-                id="input-1"
-                required
-                v-model="form.date"
-                placeholder="Datum"
-                type="date"/>
-        </b-form-group>
-        <b-form-select v-model="form.dishes" :options="options" multiple :select-size="15"/>
-        </b-form>
-    </div>
+  <div>
+    <b-form @submit.stop.prevent="onSubmit" ref="form">
+      <b-form-group id="input-group-1" label="Datum" label-for="input-1">
+        <b-form-input
+          id="input-1"
+          required
+          v-model="form.date"
+          placeholder="Datum"
+          type="date"
+        />
+      </b-form-group>
+      <b-form-select
+        v-model="form.dishes"
+        :options="options"
+        multiple
+        :select-size="15"
+      />
+    </b-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -92,9 +98,15 @@ export default class EditMenuForm extends Vue implements FormComponent {
 
   public async submit() {
     if (!this.menu) {
-      // await menuStore.createRestoMenu({
-      //     newMenu: this.formData,
-      // });
+      const date: Date = new Date(this.formData.date);
+      await menuStore.createRestoMenu({
+        restoMenusPath: this.$route.path,
+        newMenu: {
+          date: date.toUTCString(),
+          dishes: this.formData.dishes,
+        },
+        token: userStore.auth!.token,
+      });
     } else {
       console.log(this.formData.date);
       // await menuStore.updateCurrentMenu({

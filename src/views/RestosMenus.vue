@@ -15,7 +15,7 @@
     </FormModal>
     <b-list-group>
       <b-list-group-item v-for="menu in menus" :key="menu.url">
-        <MenuItem :item="menu"/>
+        <MenuItem :item="menu" />
       </b-list-group-item>
     </b-list-group>
   </div>
