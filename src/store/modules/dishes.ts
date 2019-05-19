@@ -28,6 +28,7 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 
 // getters
 const dishesGetter = moduleBuilder.read(state => state.dishes, 'getDishes');
+const statusGetter = moduleBuilder.read(state => state.status, 'getStatus');
 
 // mutations
 const dishesSetter = moduleBuilder.commit(
@@ -35,6 +36,12 @@ const dishesSetter = moduleBuilder.commit(
     state.dishes = payload;
   },
   'setDishes'
+);
+const statusSetter = moduleBuilder.commit(
+  (state: DishState, payload: { [P in keyof DishAPIStatus]?: APIStatus }) => {
+    state.status = { ...state.status, ...payload };
+  },
+  'setStatus'
 );
 
 // actions
@@ -203,6 +210,12 @@ const dishStore = {
   },
   set dishes(payload: DishDetail[]) {
     dishesSetter(payload);
+  },
+  get status() {
+    return statusGetter();
+  },
+  set status(payload: { [P in keyof DishAPIStatus]?: APIStatus }) {
+    statusSetter(payload);
   },
   fetchDishes: moduleBuilder.dispatch(fetchDishes),
   fetchDishList: moduleBuilder.dispatch(fetchDishList),
