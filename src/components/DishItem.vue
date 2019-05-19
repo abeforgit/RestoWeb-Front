@@ -12,8 +12,9 @@
             @rating-selected="setRating"
           />
         </b-col>
-        <b-col md="auto">
-          <b-button v-if="isAdmin" v-b-modal="item.url">Wijzig</b-button>
+        <b-col v-if="isAdmin" md="auto">
+          <b-button v-b-modal="item.url">Wijzig</b-button>
+          <b-button v-on:click="deleteDish">Verwijder</b-button>
         </b-col>
       </b-row>
     </b-card>
@@ -55,6 +56,13 @@ export default class DishItem extends Vue {
     await dishStore.addRating({
       dishPath: getRoute(this.item.url),
       rating,
+      token: userStore.auth!.token,
+    });
+  }
+
+  public async deleteDish() {
+    await dishStore.deleteDish({
+      dishPath: getRoute(this.item.url),
       token: userStore.auth!.token,
     });
   }
