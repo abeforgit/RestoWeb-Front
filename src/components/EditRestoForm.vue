@@ -108,6 +108,7 @@ export default class EditRestoForm extends Vue implements FormComponent {
           url: this.resto.url,
           ...this.formData,
         },
+        token: userStore.auth!.token,
       });
     }
   }

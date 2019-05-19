@@ -77,7 +77,10 @@ const fetchCurrentResto = async (
 
 const updateCurrentResto = async (
   context: BareActionContext<RestoState, RootState>,
-  payload: { resto: Resto }
+  payload: {
+    resto: Resto;
+    token: string;
+  }
 ) => {
   try {
     if (!userStore.auth) {
@@ -88,11 +91,32 @@ const updateCurrentResto = async (
       url: payload.resto.url,
       data: payload.resto,
       headers: {
-        Authorization: userStore.auth.token,
+        Authorization: `Token ${payload.token}`,
       },
     });
   } catch (e) {
     console.log('could not update resto');
+  }
+};
+
+const deleteResto = async (
+  context: BareActionContext<RestoState, RootState>,
+  payload: {
+    restoPath: string;
+    token: string;
+  }
+) => {
+  try {
+    const response = await axios({
+      method: 'DELETE',
+      baseURL: config.URL,
+      url: payload.restoPath,
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+  } catch (e) {
+    console.log('could not delete resto');
   }
 };
 
@@ -129,6 +153,7 @@ const restos = {
   fetchRestos: moduleBuilder.dispatch(fetchRestos),
   fetchCurrentResto: moduleBuilder.dispatch(fetchCurrentResto),
   updateCurrentResto: moduleBuilder.dispatch(updateCurrentResto),
+  deleteCurrentResto: moduleBuilder.dispatch(deleteResto),
   createResto: moduleBuilder.dispatch(createResto),
 };
 
