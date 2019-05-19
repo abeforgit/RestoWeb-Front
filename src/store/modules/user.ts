@@ -9,6 +9,7 @@ export interface UserState {
   auth: { token: string } | null;
   status: UserAPIStatus;
 }
+
 export interface UserAPIStatus {
   createUser: APIStatus;
   test: APIStatus;
