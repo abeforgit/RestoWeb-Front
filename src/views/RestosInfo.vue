@@ -21,7 +21,7 @@
       >Toon lijst</router-link
     >
 
-    <div v-if="auth">
+    <div v-if="isAdmin">
       <b-button v-b-modal="'EditModal'">Wijzig</b-button>
       <b-button v-on:click="deleteResto">Verwijder Resto</b-button>
       <FormModal v-if="latestMenu" id="EditModal">
@@ -55,8 +55,8 @@ export default class RestosInfo extends Vue {
   get latestMenu() {
     return menuStore.latestMenu;
   }
-  get auth() {
-    return userStore.auth;
+  get isAdmin() {
+    return userStore.isAdmin;
   }
 
   private async beforeCreate() {

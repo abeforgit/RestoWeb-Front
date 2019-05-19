@@ -4,7 +4,7 @@
     <b-list-group>
       <DishItem v-for="dish in dishes" :item="dish" :key="dish.url" />
     </b-list-group>
-    <div v-if="auth">
+    <div v-if="isAdmin">
       <FormModal id="editModal">
         <EditDishForm #default />
       </FormModal>
@@ -29,8 +29,8 @@ export default class Dishes extends Vue {
   get dishes() {
     return dishStore.dishes;
   }
-  get auth() {
-    return userStore.auth;
+  get isAdmin() {
+    return userStore.isAdmin;
   }
   private async beforeCreate() {
     await dishStore.fetchDishes();
