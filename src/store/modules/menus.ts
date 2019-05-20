@@ -89,23 +89,25 @@ const fetchRestoMenus = async (
     });
 
     const allMenus: Menu[] = [];
-    for (const menu of urlList.data.menus) {
-      try {
-        const response = await axios({
-          method: 'GET',
-          baseURL: menu.url,
-          headers: {
-            Accept: 'application/json',
-          },
-        });
-        allMenus.push({
-          url: menu.url,
-          date: response.data.date,
-        });
-      } catch (e) {
-        console.log('could not fetch menus');
-      }
-    }
+    await Promise.all(
+      urlList.data.menus.map(async (menu: { url: string }) => {
+        try {
+          const response = await axios({
+            method: 'GET',
+            baseURL: menu.url,
+            headers: {
+              Accept: 'application/json',
+            },
+          });
+          allMenus.push({
+            url: menu.url,
+            date: response.data.date,
+          });
+        } catch (e) {
+          console.log('could not fetch menus');
+        }
+      })
+    );
 
     menuStore.restoMenus = allMenus;
     menuStore.pageData = urlList.data.meta.page;

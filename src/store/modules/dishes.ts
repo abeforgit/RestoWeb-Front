@@ -72,17 +72,19 @@ const fetchDishes = async (
     });
 
     const allDishes: DishDetail[] = [];
-    for (const dish of response.data.dishes) {
-      const ratingResponse = await axios({
-        method: 'GET',
-        baseURL: dish.url + '/ratings',
-        headers: {
-          Accept: 'application/json',
-        },
-      });
-      dish.ratings = ratingResponse.data.ratings;
-      allDishes.push(dish);
-    }
+    await Promise.all(
+      response.data.dishes.map(async (dish: Dish) => {
+        const res = await axios({
+          method: 'GET',
+          baseURL: dish.url + '/ratings',
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+        dish.ratings = res.data.ratings;
+        allDishes.push(dish);
+      })
+    );
 
     dishStore.dishes = allDishes;
     dishStore.status = { fetchDishes: 'OK' };
@@ -99,20 +101,23 @@ const fetchDishList = async (
   // TODO: convert to Promise.all()
   try {
     const allDishes: DishDetail[] = [];
-    for (const dish of payload.dishList) {
-      try {
-        const response = await axios({
-          method: 'GET',
-          baseURL: dish.url,
-          headers: {
-            Accept: 'application/json',
-          },
-        });
-        allDishes.push(response.data);
-      } catch (e) {
-        console.log('could not fetch dishes');
-      }
-    }
+
+    await Promise.all(
+      payload.dishList.map(async (dish: { url: string }) => {
+        try {
+          const res = await axios({
+            method: 'GET',
+            baseURL: dish.url,
+            headers: {
+              Accept: 'application/json',
+            },
+          });
+          allDishes.push(res.data);
+        } catch (e) {
+          console.log('could not fetch dishes');
+        }
+      })
+    );
     dishStore.dishList = allDishes;
   } catch (e) {
     console.log('could not fetch dishes');
