@@ -21,12 +21,12 @@
       >Toon lijst</router-link
     >
 
+    <b-button v-if="favouriteResto !== info.url" v-on:click="setFavourite"
+      >Maak favoriet</b-button
+    >
     <div v-if="isAdmin">
       <b-button v-b-modal="'EditModal'">Wijzig</b-button>
       <b-button v-on:click="deleteResto">Verwijder Resto</b-button>
-      <b-button v-if="favouriteResto !== info.url" v-on:click="setFavourite"
-        >Maak favoriet</b-button
-      >
       <FormModal id="EditModal">
         <EditRestoForm :resto="info" />
       </FormModal>
