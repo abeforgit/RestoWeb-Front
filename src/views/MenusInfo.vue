@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MenuDetails v-if="menu" :menu="menu" />
+    <MenuDetails />
     <div v-if="isAdmin">
       <b-button v-b-modal="'EditModal'">Wijzig</b-button>
       <b-button v-on:click="deleteMenu">Verwijder</b-button>
