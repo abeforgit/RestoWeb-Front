@@ -82,6 +82,7 @@ const loginUser = async (
       username: response.data.username,
       admin: response.data.is_admin,
       url: response.data.url,
+      favouriteResto: response.data.favourite_resto,
     };
   } catch (e) {
     console.log('could not login');
@@ -127,7 +128,50 @@ const logout = async (context: BareActionContext<UserState, RootState>) => {
     console.log('could not logout');
   }
 };
-
+const fetchUser = async (
+  context: BareActionContext<UserState, RootState>,
+  payload: { url: string; token: string }
+) => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: payload.url,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+    const { admin, url } = userStore.user!;
+    userStore.user = {
+      username: res.data.username,
+      favouriteResto: res.data.favourite_resto,
+      admin,
+      url,
+    };
+  } catch (e) {
+    console.log('couldnt fetch user');
+  }
+};
+const setFavouriteResto = async (
+  context: BareActionContext<UserState, RootState>,
+  payload: { userUrl: string; restoUrl: string; token: string }
+) => {
+  try {
+    const res = await axios({
+      method: 'PUT',
+      url: payload.userUrl,
+      data: {
+        favourite_resto: payload.restoUrl,
+      },
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+    await fetchUser(context, { url: payload.userUrl, token: payload.token });
+  } catch (e) {
+    console.log('could not set favourite resto');
+  }
+};
 const userStore = {
   get user() {
     return userGetter();
@@ -156,6 +200,8 @@ const userStore = {
   loginUser: moduleBuilder.dispatch(loginUser),
   createUser: moduleBuilder.dispatch(createUser),
   logout: moduleBuilder.dispatch(logout),
+  fetchUser: moduleBuilder.dispatch(fetchUser),
+  setFavouriteResto: moduleBuilder.dispatch(setFavouriteResto),
 };
 
 export default userStore;

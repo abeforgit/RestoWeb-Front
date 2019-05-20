@@ -24,6 +24,9 @@
     <div v-if="isAdmin">
       <b-button v-b-modal="'EditModal'">Wijzig</b-button>
       <b-button v-on:click="deleteResto">Verwijder Resto</b-button>
+      <b-button v-if="favouriteResto !== info.url" v-on:click="setFavourite"
+        >Maak favoriet</b-button
+      >
       <FormModal id="EditModal">
         <EditRestoForm :resto="info" />
       </FormModal>
@@ -55,9 +58,20 @@ export default class RestosInfo extends Vue {
   get latestMenu() {
     return menuStore.latestMenu;
   }
+  get favouriteResto() {
+    return userStore.user && userStore.user.favouriteResto;
+  }
 
   get isAdmin() {
     return userStore.isAdmin;
+  }
+
+  public async setFavourite() {
+    await userStore.setFavouriteResto({
+      userUrl: userStore.user!.url,
+      restoUrl: this.info!.url,
+      token: userStore.auth!.token,
+    });
   }
 
   private async beforeCreate() {
