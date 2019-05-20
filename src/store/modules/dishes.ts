@@ -217,8 +217,8 @@ const dishStore = {
   set status(payload: { [P in keyof DishAPIStatus]?: APIStatus }) {
     statusSetter(payload);
   },
-  fetchDishes: moduleBuilder.dispatch(fetchDishes),
-  fetchDishList: moduleBuilder.dispatch(fetchDishList),
+  fetchDishes: moduleBuilder.dispatch(fetchDishes, 'fetchDishes'),
+  fetchDishList: moduleBuilder.dispatch(fetchDishList, 'fetchDishList'),
   createDish: moduleBuilder.dispatch(createDish),
   deleteDish: moduleBuilder.dispatch(deleteDish),
   addRating: moduleBuilder.dispatch(addRating),
