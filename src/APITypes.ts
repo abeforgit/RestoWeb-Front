@@ -75,6 +75,7 @@ export interface User {
   url: string;
   username: string;
   admin: boolean;
+  favouriteResto: string | null;
 }
 
 export interface NewUser {

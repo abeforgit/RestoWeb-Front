@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div id="promo">
+    <div id="promo" v-if="!hasFavourite">
       <b-jumbotron>
         <h1>UGent Studentenrestaurants</h1>
         <p>
@@ -14,15 +14,35 @@
         </p>
       </b-jumbotron>
     </div>
+    <div v-else>
+      <RestosInfo />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import userStore from '@/store/modules/user';
+import restoStore from '@/store/modules/restos';
+import RestosInfo from '@/views/RestosInfo.vue';
 
-@Component
-export default class Home extends Vue {}
+@Component({
+  components: { RestosInfo },
+})
+export default class Home extends Vue {
+  public async mounted() {
+    if (this.hasFavourite) {
+      restoStore.fetchCurrentResto({
+        restoPath: userStore.user!.favouriteResto!,
+      });
+    }
+  }
+  get hasFavourite() {
+    const t = userStore.user;
+    return userStore.isLoggedIn && userStore.user!.favouriteResto;
+  }
+}
 </script>
 
 <style>
