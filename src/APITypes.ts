@@ -57,6 +57,11 @@ export interface DishDetail {
   type: string;
   diet: string;
 }
+
+export interface Rating {
+  rating: number;
+  user: string;
+}
 export interface Dish extends DishDetail {
   ratings: Rating[];
 }

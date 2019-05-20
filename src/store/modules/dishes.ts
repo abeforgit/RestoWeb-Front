@@ -2,7 +2,7 @@ import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
 import axios from 'axios';
 import config from '@/config';
-import { DishDetail, Rating, APIStatus } from '@/APITypes';
+import { DishDetail, Rating, APIStatus, Dish } from '@/APITypes';
 import { mount } from '@vue/test-utils';
 
 export interface DishState {
