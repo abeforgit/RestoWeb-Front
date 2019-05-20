@@ -6,14 +6,16 @@
           <b-card-text>{{ item.name }}</b-card-text>
         </b-col>
         <b-col md="auto">
-          <b-card-text>Gemiddelde Rating: {{ averageRating }}</b-card-text>
+          <b-card-text v-if="averageRating"
+            >Gemiddelde Rating: {{ averageRating }}</b-card-text
+          >
         </b-col>
         <b-col md="auto">
           <star-rating
             v-if="authorized"
             v-bind:star-size="30"
             @rating-selected="setRating"
-            :rating="myRating.rating"
+            :rating="myRating ? myRating.rating : null"
           />
         </b-col>
         <b-col v-if="isAdmin" md="auto">
