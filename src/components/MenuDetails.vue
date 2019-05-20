@@ -1,7 +1,7 @@
 <template>
   <div>
     <span>{{ parsedDate }}</span>
-    <b-card-group horizontal>
+    <b-card-group v-if="dishList" horizontal>
       <DishDetails :dish="dish" v-for="dish in dishList" :key="dish.url" />
     </b-card-group>
   </div>
@@ -15,6 +15,7 @@ import { MenuDetail } from '@/APITypes';
 import dishStore from '@/store/modules/dishes';
 import DishDetails from '@/components/DishDetails.vue';
 import { parseDate } from '@/util';
+import menuStore from '@/store/modules/menus';
 
 @Component({
   components: {
@@ -27,11 +28,26 @@ export default class MenuDetails extends Vue {
   }
 
   get parsedDate() {
-    return parseDate(this.menu.date);
+    if (this.menu) {
+      return parseDate(this.menu.date);
+    }
+    return null;
   }
 
-  @Prop()
-  public menu!: MenuDetail;
+  get menu() {
+    return menuStore.currentMenu;
+  }
+
+  // @Prop()
+  // public menu!: MenuDetail;
+
+  // public async mounted() {
+  //   if (this.menu) {
+  //     await dishStore.fetchDishList({
+  //       dishList: this.menu.dishes,
+  //     });
+  //   }
+  // }
 
   @Watch('menu') public async onMenuChanged(
     newMenu: MenuDetail,

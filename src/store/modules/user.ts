@@ -9,6 +9,7 @@ export interface UserState {
   auth: { token: string } | null;
   status: UserAPIStatus;
 }
+
 export interface UserAPIStatus {
   createUser: APIStatus;
   test: APIStatus;
@@ -80,6 +81,7 @@ const loginUser = async (
     userStore.user = {
       username: response.data.username,
       admin: response.data.is_admin,
+      url: response.data.url,
     };
   } catch (e) {
     console.log('could not login');

@@ -6,10 +6,14 @@
           <b-card-text>{{ item.name }}</b-card-text>
         </b-col>
         <b-col md="auto">
+          <b-card-text>Gemiddelde Rating: {{ averageRating }}</b-card-text>
+        </b-col>
+        <b-col md="auto">
           <star-rating
             v-if="authorized"
             v-bind:star-size="30"
             @rating-selected="setRating"
+            :rating="myRating.rating"
           />
         </b-col>
         <b-col v-if="isAdmin" md="auto">
@@ -28,7 +32,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
-import { Dish } from '@/APITypes';
+import { Dish, Rating } from '@/APITypes';
 import FormModal from '@/components/FormModal.vue';
 import EditDishForm from '@/components/EditDishForm.vue';
 import userStore from '@/store/modules/user';
@@ -46,18 +50,50 @@ export default class DishItem extends Vue {
     return userStore.auth;
   }
   get authorized() {
-    return userStore.auth && userStore.auth.token;
+    return userStore.isLoggedIn;
   }
   get isAdmin() {
-    return userStore.user && userStore.user.admin;
+    return userStore.isAdmin;
+  }
+  get averageRating() {
+    return (
+      this.item.ratings.reduce(
+        (prev: number, rating: Rating) => prev + rating.rating,
+        0
+      ) / this.item.ratings.length
+    );
+  }
+  get myRating(): Rating | null {
+    const result = this.item.ratings.find(
+      (r: Rating) => r.user === userStore.user!.url
+    );
+    if (result) {
+      return result;
+    } else {
+      return null;
+    }
   }
 
   public async setRating(rating: number) {
-    await dishStore.addRating({
-      dishPath: getRoute(this.item.url),
-      rating,
-      token: userStore.auth!.token,
-    });
+    console.log(rating);
+    if (this.myRating == null) {
+      await dishStore.addRating({
+        dishPath: getRoute(this.item.url),
+        rating,
+        token: userStore.auth!.token,
+      });
+    } else {
+      const { user, url } = this.myRating;
+      await dishStore.updateRating({
+        rating: {
+          rating,
+          user,
+          url,
+        },
+        token: userStore.auth!.token,
+      });
+    }
+    await dishStore.fetchDishes();
   }
 
   public async deleteDish() {

@@ -2,14 +2,27 @@ import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
 import axios from 'axios';
 import config from '@/config';
-import { Dish } from '@/APITypes';
+import { DishDetail, Rating, APIStatus } from '@/APITypes';
+import { mount } from '@vue/test-utils';
 
 export interface DishState {
-  dishes: Dish[];
-  dishList: Dish[];
+  dishes: DishDetail[];
+  dishList: DishDetail[];
+  status: DishAPIStatus;
 }
 
-const initialState: DishState = { dishes: [], dishList: [] };
+export interface DishAPIStatus {
+  fetchDishes: APIStatus;
+}
+
+const initialState: DishState = {
+  dishes: [],
+  dishList: [],
+  status: {
+    fetchDishes: 'NONE',
+  },
+};
+
 const moduleBuilder = getStoreBuilder<RootState>().module(
   'dishes',
   initialState
@@ -21,17 +34,24 @@ const dishListGetter = moduleBuilder.read(
   state => state.dishList,
   'getDishList'
 );
+const statusGetter = moduleBuilder.read(state => state.status, 'getStatus');
 
 // mutations
 const dishesSetter = moduleBuilder.commit(
-  (state: DishState, payload: Dish[]) => {
+  (state: DishState, payload: DishDetail[]) => {
     state.dishes = payload;
   },
   'setDishes'
 );
+const statusSetter = moduleBuilder.commit(
+  (state: DishState, payload: { [P in keyof DishAPIStatus]?: APIStatus }) => {
+    state.status = { ...state.status, ...payload };
+  },
+  'setStatus'
+);
 
 const dishListSetter = moduleBuilder.commit(
-  (state: DishState, payload: Dish[]) => {
+  (state: DishState, payload: DishDetail[]) => {
     state.dishList = payload;
   },
   'setDishList'
@@ -51,7 +71,7 @@ const fetchDishes = async (
       },
     });
 
-    const allDishes: Dish[] = [];
+    const allDishes: DishDetail[] = [];
     for (const dish of response.data.dishes) {
       const ratingResponse = await axios({
         method: 'GET',
@@ -63,9 +83,12 @@ const fetchDishes = async (
       dish.ratings = ratingResponse.data.ratings;
       allDishes.push(dish);
     }
+
     dishStore.dishes = allDishes;
+    dishStore.status = { fetchDishes: 'OK' };
   } catch (e) {
     dishStore.dishes = [];
+    dishStore.status = { fetchDishes: 'ERROR' };
   }
 };
 
@@ -75,7 +98,7 @@ const fetchDishList = async (
 ) => {
   // TODO: convert to Promise.all()
   try {
-    const allDishes: Dish[] = [];
+    const allDishes: DishDetail[] = [];
     for (const dish of payload.dishList) {
       try {
         const response = await axios({
@@ -105,7 +128,7 @@ export interface NewDish {
 
 const createDish = async (
   context: BareActionContext<DishState, RootState>,
-  payload: { newDish: NewDish }
+  payload: { newDish: NewDish; token: string }
 ) => {
   try {
     const response = await axios({
@@ -113,6 +136,9 @@ const createDish = async (
       baseURL: config.URL,
       url: 'dishes',
       data: payload.newDish,
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
     });
 
     await fetchDishes(context);
@@ -168,24 +194,68 @@ const addRating = async (
     console.log('could not add rating');
   }
 };
+const updateRating = async (
+  context: BareActionContext<DishState, RootState>,
+  payload: { rating: Rating; token: string }
+) => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: payload.rating.url,
+      data: { rating: payload.rating.rating },
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+  } catch (e) {
+    console.log('could not set rating');
+  }
+};
+const updateDish = async (
+  context: BareActionContext<DishState, RootState>,
+  payload: { dish: DishDetail; token: string }
+) => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: payload.dish.url,
+      data: { ...payload.dish },
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+    await fetchDishes(context);
+  } catch (e) {
+    console.log('could not update dish');
+  }
+};
 
 const dishStore = {
   get dishes() {
     return dishesGetter();
   },
-  set dishes(payload: Dish[]) {
+  set dishes(payload: DishDetail[]) {
     dishesSetter(payload);
   },
   get dishList() {
     return dishListGetter();
   },
-  set dishList(payload: Dish[]) {
+  set dishList(payload: DishDetail[]) {
     dishListSetter(payload);
   },
-  fetchDishes: moduleBuilder.dispatch(fetchDishes),
-  fetchDishList: moduleBuilder.dispatch(fetchDishList),
+
+  get status() {
+    return statusGetter();
+  },
+  set status(payload: { [P in keyof DishAPIStatus]?: APIStatus }) {
+    statusSetter(payload);
+  },
+  fetchDishes: moduleBuilder.dispatch(fetchDishes, 'fetchDishes'),
+  fetchDishList: moduleBuilder.dispatch(fetchDishList, 'fetchDishList'),
   createDish: moduleBuilder.dispatch(createDish),
   deleteDish: moduleBuilder.dispatch(deleteDish),
   addRating: moduleBuilder.dispatch(addRating),
+  updateDish: moduleBuilder.dispatch(updateDish),
+  updateRating: moduleBuilder.dispatch(updateRating),
 };
 export default dishStore;

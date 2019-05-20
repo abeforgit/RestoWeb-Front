@@ -44,8 +44,13 @@ export interface MenuPage {
   total_pages: number;
   total_menus: number;
 }
+export interface Rating {
+  url: string;
+  rating: number;
+  user: string;
+}
 
-export interface Dish {
+export interface DishDetail {
   url: string;
   name: string;
   price: number;
@@ -58,8 +63,12 @@ export interface Rating {
   rating: number;
   user: string;
 }
+export interface Dish extends DishDetail {
+  ratings: Rating[];
+}
 
 export interface User {
+  url: string;
   username: string;
   admin: boolean;
 }

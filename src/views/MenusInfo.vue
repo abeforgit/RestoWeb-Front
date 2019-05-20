@@ -36,18 +36,18 @@ export default class MenusInfo extends Vue {
     return userStore.isAdmin;
   }
 
-  public async beforeCreate() {
-    await menuStore.fetchCurrentMenu({
-      menuPath: this.$route.path,
-    });
-  }
-
   public async deleteMenu() {
     await menuStore.deleteMenu({
       menuPath: this.$route.path,
       token: userStore.auth!.token,
     });
     this.$router.go(-1);
+  }
+
+  private async beforeCreate() {
+    await menuStore.fetchCurrentMenu({
+      menuPath: this.$route.path,
+    });
   }
 }
 </script>
