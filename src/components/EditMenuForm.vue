@@ -23,7 +23,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Prop, Component, Watch } from 'vue-property-decorator';
-import { MenuDetail } from '@/APITypes';
+import { MenuDetail, DishDetail } from '@/APITypes';
 import dishStore from '@/store/modules/dishes';
 import { Dish } from '@/APITypes';
 import { FormComponent } from '@/UtilTypes';
@@ -72,7 +72,10 @@ export default class EditMenuForm extends Vue implements FormComponent {
     }
   }
 
-  @Watch('dishes') public onDishesChanged(newValue: Dish[], oldValue: Dish[]) {
+  @Watch('dishes') public onDishesChanged(
+    newValue: DishDetail[],
+    oldValue: DishDetail[]
+  ) {
     this.options = [];
     for (const dish of newValue) {
       this.options.push({
@@ -83,8 +86,8 @@ export default class EditMenuForm extends Vue implements FormComponent {
   }
 
   @Watch('dishList') public onDishListChanged(
-    newValue: Dish[],
-    oldValue: Dish[]
+    newValue: DishDetail[],
+    oldValue: DishDetail[]
   ) {
     this.formData.dishes = [];
     for (const dish of newValue) {
