@@ -56,6 +56,12 @@ export interface DishDetail {
   price: number;
   type: string;
   diet: string;
+  ratings: Rating[];
+}
+
+export interface Rating {
+  rating: number;
+  user: string;
 }
 
 export interface Rating {

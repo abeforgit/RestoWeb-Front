@@ -7,6 +7,7 @@ import { mount } from '@vue/test-utils';
 
 export interface DishState {
   dishes: DishDetail[];
+  dishList: DishDetail[];
   status: DishAPIStatus;
 }
 
@@ -16,6 +17,7 @@ export interface DishAPIStatus {
 
 const initialState: DishState = {
   dishes: [],
+  dishList: [],
   status: {
     fetchDishes: 'NONE',
   },
@@ -28,6 +30,10 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 
 // getters
 const dishesGetter = moduleBuilder.read(state => state.dishes, 'getDishes');
+const dishListGetter = moduleBuilder.read(
+  state => state.dishList,
+  'getDishList'
+);
 const statusGetter = moduleBuilder.read(state => state.status, 'getStatus');
 
 // mutations
@@ -44,6 +50,13 @@ const statusSetter = moduleBuilder.commit(
   'setStatus'
 );
 
+const dishListSetter = moduleBuilder.commit(
+  (state: DishState, payload: DishDetail[]) => {
+    state.dishList = payload;
+  },
+  'setDishList'
+);
+
 // actions
 const fetchDishes = async (
   context: BareActionContext<DishState, RootState>
@@ -58,7 +71,20 @@ const fetchDishes = async (
       },
     });
 
-    dishStore.dishes = response.data.dishes;
+    const allDishes: DishDetail[] = [];
+    for (const dish of response.data.dishes) {
+      const ratingResponse = await axios({
+        method: 'GET',
+        baseURL: dish.url + '/ratings',
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+      dish.ratings = ratingResponse.data.ratings;
+      allDishes.push(dish);
+    }
+
+    dishStore.dishes = allDishes;
     dishStore.status = { fetchDishes: 'OK' };
   } catch (e) {
     dishStore.dishes = [];
@@ -87,7 +113,7 @@ const fetchDishList = async (
         console.log('could not fetch dishes');
       }
     }
-    dishStore.dishes = allDishes;
+    dishStore.dishList = allDishes;
   } catch (e) {
     console.log('could not fetch dishes');
   }
@@ -211,6 +237,13 @@ const dishStore = {
   set dishes(payload: DishDetail[]) {
     dishesSetter(payload);
   },
+  get dishList() {
+    return dishListGetter();
+  },
+  set dishList(payload: DishDetail[]) {
+    dishListSetter(payload);
+  },
+
   get status() {
     return statusGetter();
   },

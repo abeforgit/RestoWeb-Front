@@ -19,12 +19,12 @@
         <b-col v-if="isAdmin" md="auto">
           <b-button v-b-modal="item.url">Wijzig</b-button>
           <b-button v-on:click="deleteDish">Verwijder</b-button>
+          <FormModal :id="item.url">
+            <EditDishForm :dish="item" />
+          </FormModal>
         </b-col>
       </b-row>
     </b-card>
-    <FormModal v-if="isAdmin" :id="item.url">
-      <EditDishForm :dish="item" />
-    </FormModal>
   </b-list-group-item>
 </template>
 

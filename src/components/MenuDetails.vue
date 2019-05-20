@@ -1,8 +1,8 @@
 <template>
   <div>
     <span>{{ parsedDate }}</span>
-    <b-card-group v-if="dishes" horizontal>
-      <DishDetails :dish="dish" v-for="dish in dishes" :key="dish.url" />
+    <b-card-group v-if="dishList" horizontal>
+      <DishDetails :dish="dish" v-for="dish in dishList" :key="dish.url" />
     </b-card-group>
   </div>
 </template>
@@ -23,8 +23,8 @@ import menuStore from '@/store/modules/menus';
   },
 })
 export default class MenuDetails extends Vue {
-  get dishes() {
-    return dishStore.dishes;
+  get dishList() {
+    return dishStore.dishList;
   }
 
   get parsedDate() {
@@ -33,6 +33,7 @@ export default class MenuDetails extends Vue {
     }
     return null;
   }
+
   get menu() {
     return menuStore.currentMenu;
   }

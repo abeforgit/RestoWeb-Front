@@ -5,7 +5,6 @@ import { Menu, MenuDetail, MenuPage } from '@/APITypes';
 import config from '@/config';
 
 export interface MenuState {
-  menus: Menu[];
   restoMenus: Menu[];
   currentMenu: MenuDetail | null;
   latestMenu: MenuDetail | null;
@@ -13,7 +12,6 @@ export interface MenuState {
 }
 
 const initialState: MenuState = {
-  menus: [],
   restoMenus: [],
   currentMenu: null,
   latestMenu: null,
@@ -26,7 +24,6 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 );
 
 // getters
-const menusGetter = moduleBuilder.read(state => state.menus, 'getMenus');
 const restoMenusGetter = moduleBuilder.read(
   state => state.restoMenus,
   'getRestoMenus'
@@ -45,13 +42,6 @@ const pageDataGetter = moduleBuilder.read(
 );
 
 // mutations
-
-const menusSetter = moduleBuilder.commit(
-  (state: MenuState, payload: Menu[]) => {
-    state.menus = payload;
-  },
-  'setMenus'
-);
 const restoMenusSetter = moduleBuilder.commit(
   (state: MenuState, payload: Menu[]) => {
     state.restoMenus = payload;
@@ -78,30 +68,6 @@ const pageDataSetter = moduleBuilder.commit(
 );
 
 // actions
-const fetchMenus = async (
-  context: BareActionContext<MenuState, RootState>,
-  payload: { page: number }
-) => {
-  try {
-    const response = await axios({
-      method: 'GET',
-      baseURL: config.URL,
-      url: 'menus',
-      params: {
-        page: payload.page,
-      },
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-
-    menuStore.menus = response.data.menus;
-    menuStore.pageData = response.data.meta.page;
-  } catch (e) {
-    console.log('could not fetch menus');
-  }
-};
-
 const fetchRestoMenus = async (
   context: BareActionContext<MenuState, RootState>,
   payload: {
@@ -188,13 +154,80 @@ const fetchLatestMenu = async (
   }
 };
 
+const deleteMenu = async (
+  context: BareActionContext<MenuState, RootState>,
+  payload: {
+    menuPath: string;
+    token: string;
+  }
+) => {
+  try {
+    const response = await axios({
+      method: 'DELETE',
+      baseURL: config.URL,
+      url: payload.menuPath,
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+  } catch (e) {
+    console.log('could not delete menu');
+  }
+};
+
+export interface NewMenu {
+  date: string;
+  dishes: Array<{ url: string }>;
+}
+
+const createRestoMenu = async (
+  context: BareActionContext<MenuState, RootState>,
+  payload: {
+    restoMenusPath: string;
+    newMenu: NewMenu;
+    token: string;
+  }
+) => {
+  try {
+    await axios({
+      method: 'POST',
+      baseURL: config.URL,
+      url: payload.restoMenusPath,
+      data: payload.newMenu,
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+  } catch (e) {
+    console.log('could not add menu');
+  }
+};
+
+const updateCurrentMenu = async (
+  context: BareActionContext<MenuState, RootState>,
+  payload: {
+    url: string;
+    menu: NewMenu;
+    token: string;
+  }
+) => {
+  try {
+    await axios({
+      method: 'PUT',
+      baseURL: payload.url,
+      data: {
+        ...payload.menu,
+      },
+      headers: {
+        Authorization: `Token ${payload.token}`,
+      },
+    });
+  } catch (e) {
+    console.log('could not update menu');
+  }
+};
+
 const menuStore = {
-  get menus() {
-    return menusGetter();
-  },
-  set menus(payload: Menu[]) {
-    menusSetter(payload);
-  },
   get restoMenus() {
     return restoMenusGetter();
   },
@@ -219,10 +252,12 @@ const menuStore = {
   set pageData(payload: MenuPage | null) {
     pageDataSetter(payload);
   },
-  fetchMenus: moduleBuilder.dispatch(fetchMenus),
   fetchRestoMenus: moduleBuilder.dispatch(fetchRestoMenus),
   fetchCurrentMenu: moduleBuilder.dispatch(fetchCurrentMenu),
   fetchLatestMenu: moduleBuilder.dispatch(fetchLatestMenu),
+  deleteMenu: moduleBuilder.dispatch(deleteMenu),
+  createRestoMenu: moduleBuilder.dispatch(createRestoMenu),
+  updateCurrentMenu: moduleBuilder.dispatch(updateCurrentMenu),
 };
 
 export default menuStore;

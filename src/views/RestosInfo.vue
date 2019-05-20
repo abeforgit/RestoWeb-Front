@@ -55,6 +55,7 @@ export default class RestosInfo extends Vue {
   get latestMenu() {
     return menuStore.latestMenu;
   }
+
   get isAdmin() {
     return userStore.isAdmin;
   }
