@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MenuDetails v-if="menu" :menu="menu" />
+    <MenuDetails />
   </div>
 </template>
 
@@ -16,10 +16,6 @@ import MenuDetails from '@/components/MenuDetails.vue';
   },
 })
 export default class MenusInfo extends Vue {
-  get menu() {
-    return menuStore.currentMenu;
-  }
-
   private async beforeCreate() {
     await menuStore.fetchCurrentMenu({
       menuPath: this.$route.path,

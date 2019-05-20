@@ -2,14 +2,25 @@ import { BareActionContext, getStoreBuilder } from 'vuex-typex';
 import { RootState } from '@/store/store';
 import axios from 'axios';
 import config from '@/config';
-import { DishDetail, Rating } from '@/APITypes';
+import { DishDetail, Rating, APIStatus } from '@/APITypes';
 import { mount } from '@vue/test-utils';
 
 export interface DishState {
   dishes: DishDetail[];
+  status: DishAPIStatus;
 }
 
-const initialState: DishState = { dishes: [] };
+export interface DishAPIStatus {
+  fetchDishes: APIStatus;
+}
+
+const initialState: DishState = {
+  dishes: [],
+  status: {
+    fetchDishes: 'NONE',
+  },
+};
+
 const moduleBuilder = getStoreBuilder<RootState>().module(
   'dishes',
   initialState
@@ -17,6 +28,7 @@ const moduleBuilder = getStoreBuilder<RootState>().module(
 
 // getters
 const dishesGetter = moduleBuilder.read(state => state.dishes, 'getDishes');
+const statusGetter = moduleBuilder.read(state => state.status, 'getStatus');
 
 // mutations
 const dishesSetter = moduleBuilder.commit(
@@ -24,6 +36,12 @@ const dishesSetter = moduleBuilder.commit(
     state.dishes = payload;
   },
   'setDishes'
+);
+const statusSetter = moduleBuilder.commit(
+  (state: DishState, payload: { [P in keyof DishAPIStatus]?: APIStatus }) => {
+    state.status = { ...state.status, ...payload };
+  },
+  'setStatus'
 );
 
 // actions
@@ -41,8 +59,10 @@ const fetchDishes = async (
     });
 
     dishStore.dishes = response.data.dishes;
+    dishStore.status = { fetchDishes: 'OK' };
   } catch (e) {
     dishStore.dishes = [];
+    dishStore.status = { fetchDishes: 'ERROR' };
   }
 };
 
@@ -191,8 +211,14 @@ const dishStore = {
   set dishes(payload: DishDetail[]) {
     dishesSetter(payload);
   },
-  fetchDishes: moduleBuilder.dispatch(fetchDishes),
-  fetchDishList: moduleBuilder.dispatch(fetchDishList),
+  get status() {
+    return statusGetter();
+  },
+  set status(payload: { [P in keyof DishAPIStatus]?: APIStatus }) {
+    statusSetter(payload);
+  },
+  fetchDishes: moduleBuilder.dispatch(fetchDishes, 'fetchDishes'),
+  fetchDishList: moduleBuilder.dispatch(fetchDishList, 'fetchDishList'),
   createDish: moduleBuilder.dispatch(createDish),
   deleteDish: moduleBuilder.dispatch(deleteDish),
   addRating: moduleBuilder.dispatch(addRating),
