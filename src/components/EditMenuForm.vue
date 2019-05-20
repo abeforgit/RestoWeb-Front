@@ -97,8 +97,8 @@ export default class EditMenuForm extends Vue implements FormComponent {
   }
 
   public async submit() {
+    const date: Date = new Date(this.formData.date);
     if (!this.menu) {
-      const date: Date = new Date(this.formData.date);
       await menuStore.createRestoMenu({
         restoMenusPath: this.$route.path,
         newMenu: {
@@ -108,14 +108,14 @@ export default class EditMenuForm extends Vue implements FormComponent {
         token: userStore.auth!.token,
       });
     } else {
-      console.log(this.formData.date);
-      // await menuStore.updateCurrentMenu({
-      //     url: this.menu.url,
-      //     menu: {
-      //         ...this.formData,
-      //     },
-      //     token: userStore.auth!.token,
-      // });
+      await menuStore.updateCurrentMenu({
+        url: this.menu.url,
+        menu: {
+          date: date.toUTCString(),
+          dishes: this.formData.dishes,
+        },
+        token: userStore.auth!.token,
+      });
     }
   }
 }

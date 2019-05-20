@@ -213,9 +213,11 @@ const updateCurrentMenu = async (
 ) => {
   try {
     await axios({
-      method: 'POST',
+      method: 'PUT',
       baseURL: payload.url,
-      data: payload.menu,
+      data: {
+        ...payload.menu,
+      },
       headers: {
         Authorization: `Token ${payload.token}`,
       },
